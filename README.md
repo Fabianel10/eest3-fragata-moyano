@@ -9,19 +9,28 @@ Abrir `index.html` en un navegador. El sitio es estático y no requiere instalar
 ## Estructura
 
 - `index.html`: estructura y contenido del sitio.
-- `estilo.css`: estilos responsive y animaciones.
-- `script.js`: interacciones, navegación y reproductor.
-- `img/`: imágenes del sitio.
-- `Sounds/`: recursos de audio.
-- `versiones/`: historial documentado de versiones publicadas.
+- `assets/css/estilo.css`: estilos responsive y animaciones.
+- `assets/js/script.js`: interacciones, navegación, selector de tema y reproductor.
+- `assets/images/`: imágenes e identidad visual del sitio.
+- `assets/audio/`: recursos de audio del reproductor.
+- `archive/versiones/`: historial documentado de las versiones publicadas.
+- `docs/MEJORAS.md`: hoja de ruta para organizar y profesionalizar el sitio institucional.
+- `docs/DESPLIEGUE_COLABORADORES.md`: pasos para que los colaboradores publiquen el sitio en Vercel o Netlify.
+
+## Entrega actual
+
+La versión `v1.1.0` incorpora un centro institucional con accesos rápidos, navegación desplegable,
+modo claro/oscuro, menú adaptado a pantallas pequeñas y una reorganización de los archivos del
+proyecto. La evaluación de la entrega y los próximos pasos se documentan en
+`archive/versiones/v1.1.0/README.md` y `docs/MEJORAS.md`.
 
 ## Versionado
 
-Cada entrega publicada debe tener una etiqueta Git y una carpeta dentro de `versiones/`.
+Cada entrega publicada debe tener una etiqueta Git y una carpeta dentro de `archive/versiones/`.
 
 1. Crear una rama para el cambio: `git switch -c tipo/descripcion-corta`.
 2. Realizar y probar el cambio.
-3. Actualizar `CHANGELOG.md` y crear `versiones/vX.Y.Z/README.md`.
+3. Actualizar `CHANGELOG.md` y crear `archive/versiones/vX.Y.Z/README.md`.
 4. Crear un commit descriptivo.
 5. Fusionar el cambio y crear una etiqueta: `git tag -a vX.Y.Z -m "Versión X.Y.Z"`.
 6. Publicar commits y etiquetas: `git push origin main --follow-tags`.
