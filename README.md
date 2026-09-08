@@ -33,3 +33,5 @@ Se utiliza versionado semántico:
 - `v1.0.1`: corrección pequeña.
 
 No se deben versionar contraseñas, claves ni datos personales de estudiantes.
+
+hecho por estudiantes de 7° tecipp.
