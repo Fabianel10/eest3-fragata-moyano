@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>EEST N°3 Fragata Moyano | San Fernando</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Sitio institucional de la Escuela de Educación Secundaria Técnica N°3 Fragata Moyano de San Fernando."
+    />
+    <meta name="theme-color" content="#071a2b" />
+    <link rel="stylesheet" href="estilo.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <a class="saltar-contenido" href="#contenido-principal">Saltar al contenido principal</a>
+    <div class="scroll-progress" aria-hidden="true"></div>
+    <!-- CABECERA Y NAVEGACIÓN -->
+    <header>
+      <a class="logo-container" href="#inicio" aria-label="Ir al inicio">
+        <img src="img/logo.png" alt="Escudo de la escuela" class="escudo-escuela" />
+        <div class="logo-texto">
+          <h1>EEST N°3</h1>
+          <span>Fragata Moyano</span>
+        </div>
+      </a>
+      <nav aria-label="Navegación principal">
+        <a href="#inicio" class="active">Inicio</a>
+        <a href="#institucional">La Escuela</a>
+        <a href="#especialidades">Especialidades</a>
+        <a href="#galeria">Galería</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+    </header>
+
+    <!-- SECCIÓN HERO (BANNER PRINCIPAL CON FOTO DE LA ESCUELA) -->
+    <main id="contenido-principal">
+      <section id="inicio" class="hero">
+        <div class="hero-content">
+          <p class="eyebrow hero-institucion">
+            ESCUELA DE EDUCACIÓN SECUNDARIA TÉCNICA N°3
+            <span>San Fernando</span>
+          </p>
+          <h2>Aprender haciendo.<br />Construir futuro.</h2>
+          <p>
+            Formamos profesionales capaces de transformar ideas en soluciones para un mundo que no
+            deja de evolucionar.
+          </p>
+          <div class="hero-actions">
+            <a href="#especialidades" class="btn-principal">Explorar especialidades</a>
+            <a href="#institucional" class="btn-secundario"
+              >Conocer la escuela <span aria-hidden="true">↓</span></a
+            >
+          </div>
+        </div>
+        <div class="hero-code" aria-hidden="true">
+          <span class="code-label">SISTEMA / EEST3</span>
+          <code><i>const</i> futuro = <b>crear</b>();</code>
+          <code><i>while</i> (aprendiendo) <b>avanzar</b>();</code>
+          <span class="code-cursor"></span>
+        </div>
+        <div class="hero-status">
+          <span>2026</span>
+          <p>Educación técnica<br />con mirada de futuro</p>
+        </div>
+      </section>
+
+      <section id="institucional" class="institucional">
+        <div class="section-intro">
+          <p class="eyebrow">Nuestra institución</p>
+          <h3>Una escuela que convierte el conocimiento en experiencia.</h3>
+        </div>
+        <div class="bienvenida">
+          <p>
+            Somos una institución pública comprometida con la excelencia académica y práctica.
+            Combinamos la teoría en las aulas con el trabajo intensivo en nuestros talleres y
+            laboratorios especializados, preparando a nuestros jóvenes para el mundo del trabajo y
+            la educación superior.
+          </p>
+          <div class="metricas">
+            <div><strong>01</strong><span>Formación integral</span></div>
+            <div><strong>02</strong><span>Práctica profesional</span></div>
+            <div><strong>03</strong><span>Comunidad activa</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECCIÓN DE ESPECIALIDADES (TARJETAS) -->
+      <section id="especialidades" class="container-seccion">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Trayectorias técnicas</p>
+            <h2>Nuestras especialidades</h2>
+          </div>
+          <p>
+            Elegí una formación orientada a los desafíos reales de la industria, el diseño y la
+            tecnología.
+          </p>
+        </div>
+        <div class="grid-tarjetas">
+          <!-- Tarjeta 1 -->
+          <div class="tarjeta">
+            <div class="img-placeholder">
+              <img src="img/informatica.jpg" alt="Especialidad Informática" />
+            </div>
+            <div class="tarjeta-body">
+              <span class="card-number">01</span>
+              <h4>Informática</h4>
+              <p>
+                Desarrollo de software, soporte técnico, redes y bases de datos para la era digital.
+              </p>
+            </div>
+          </div>
+          <!-- Tarjeta 2 -->
+          <div class="tarjeta">
+            <div class="img-placeholder">
+              <img src="img/madera y mueble.jpg" alt="Especialidad Madera y Mueble" />
+            </div>
+            <div class="tarjeta-body">
+              <span class="card-number">02</span>
+              <h4>Madera y Mueble</h4>
+              <p>
+                Diseño, procesos industriales y técnicas avanzadas en carpintería y producción
+                mobiliaria.
+              </p>
+            </div>
+          </div>
+          <!-- Tarjeta 3 -->
+          <div class="tarjeta">
+            <div class="img-placeholder">
+              <img src="img/mayor de obra.jpg" alt="Especialidad Maestro Mayor de Obras" />
+            </div>
+            <div class="tarjeta-body">
+              <span class="card-number">03</span>
+              <h4>Maestro Mayor de Obras</h4>
+              <p>
+                Planificación, cálculo estructural, dirección de construcciones y dibujo técnico
+                profesional.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="galeria" class="container-seccion">
+        <div class="section-heading gallery-heading">
+          <div>
+            <p class="eyebrow">Vida institucional</p>
+            <h2>Espacios que inspiran</h2>
+          </div>
+          <p>Instalaciones, talleres y experiencias que acompañan cada etapa de aprendizaje.</p>
+        </div>
+        <div class="collage-galeria">
+          <div class="galeria-item item-1">
+            <img src="img/ecuela.jpg" alt="Foto colegio 1" />
+          </div>
+          <div class="galeria-item item-2">
+            <img src="img/aura.png" alt="Foto colegio 2" />
+          </div>
+          <div class="galeria-item item-3">
+            <img src="img/constructores.jpg" alt="Foto colegio 3" />
+          </div>
+          <div class="galeria-item item-4">
+            <img src="img/cartel.png" alt="Foto colegio 4" />
+          </div>
+          <div class="galeria-item item-5">
+            <img src="img/nosequees.png" alt="Foto colegio 5" />
+          </div>
+        </div>
+        <p class="galeria-nota">
+          La escuela se encuentra en renovación continua para ofrecer espacios de aprendizaje
+          actualizados, seguros y preparados para nuevos desafíos.
+        </p>
+        <article class="actualidad-institucional">
+          <div class="video-institucional">
+            <img src="img/ecuela.jpg" alt="Escuela Técnica N°3 de San Fernando" />
+            <a
+              class="enlace-video"
+              href="https://www.facebook.com/SanFerMunicipio/videos/1706145376471595/"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Ver video de la renovación</a
+            >
+          </div>
+          <div class="actualidad-contenido">
+            <p class="eyebrow">Actualidad institucional · 29.12.2022</p>
+            <h3>La Escuela Técnica N°3 se renueva por completo</h3>
+            <p>
+              La Secretaria Eva Andreotti y la Diputada Nacional Alicia Aparicio recorrieron la obra
+              de una de las 11 instituciones incluidas en el Programa Municipal “Ayuda a Escuelas
+              Provinciales 2023”, con una inversión histórica para renovar los establecimientos
+              educativos de San Fernando.
+            </p>
+            <p>
+              La intervención beneficiará a 6.150 estudiantes, que contarán con espacios renovados
+              para aprender y desarrollar sus proyectos.
+            </p>
+          </div>
+        </article>
+      </section>
+
+      <section id="contacto" class="mapa-contacto-wrapper">
+        <div class="mapa-box">
+          <p class="eyebrow">Cómo llegar</p>
+          <h2>Estamos en San Fernando</h2>
+          <iframe
+            title="Ubicación de la Escuela Técnica N°3 Fragata Moyano en Google Maps"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3289.5495085724324!2d-58.58562728926565!3d-34.463581749997246!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bca53a27dbd769%3A0x16c88fc7dd8ea544!2sEscuela%20de%20Educaci%C3%B3n%20Secundaria%20Tecnica%20N%C2%BA3%20%22Cap.%20de%20Frag.%20Carlos%20M.%20Moyano%22!5e0!3m2!1ses-419!2sar!4v1786456157270!5m2!1ses-419!2sar"
+            width="100%"
+            height="380"
+            style="border: 0; border-radius: 10px"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="strict-origin-when-cross-origin"
+          ></iframe>
+          <div class="visita-info">
+            <div class="horarios-visita">
+              <div>
+                <span>Secretaría</span>
+                <strong>Lunes a viernes · 8:00 a 17:00</strong>
+              </div>
+              <div>
+                <span>Turnos</span>
+                <strong>Mañana, tarde y Vespertino</strong>
+              </div>
+            </div>
+            <p>Para consultas de inscripción, comunicate con la secretaría de la escuela.</p>
+            <a
+              class="btn-como-llegar"
+              href="https://www.google.com/maps/search/?api=1&query=Escuela+de+Educacion+Secundaria+Tecnica+N%C2%BA3+Fragata+Moyano+San+Fernando"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Cómo llegar</a
+            >
+          </div>
+          <section class="reproductor-musica" aria-labelledby="titulo-reproductor">
+            <div class="reproductor-encabezado">
+              <div>
+                <p class="eyebrow">Radio Técnica 3</p>
+                <h3 id="titulo-reproductor">Música para la comunidad</h3>
+              </div>
+              <span class="reproductor-estado" aria-live="polite">En pausa</span>
+            </div>
+            <p class="reproductor-tema">Himno Nacional Argentino</p>
+            <audio class="audio-reproductor" preload="metadata"></audio>
+            <div class="reproductor-progreso">
+              <input
+                class="control-progreso"
+                type="range"
+                min="0"
+                max="100"
+                value="0"
+                aria-label="Progreso de reproducción"
+              />
+              <div>
+                <time class="tiempo-actual">0:00</time><time class="duracion-tema">0:00</time>
+              </div>
+            </div>
+            <div class="reproductor-controles">
+              <button class="boton-reproductor anterior" type="button" aria-label="Tema anterior">
+                Anterior
+              </button>
+              <button class="boton-reproducir" type="button" aria-label="Reproducir">
+                Reproducir
+              </button>
+              <button class="boton-reproductor siguiente" type="button" aria-label="Tema siguiente">
+                Siguiente
+              </button>
+              <label class="control-volumen">
+                Volumen
+                <input type="range" min="0" max="1" step="0.05" value="0.8" aria-label="Volumen" />
+              </label>
+            </div>
+            <div class="lista-reproduccion" aria-label="Lista de temas"></div>
+          </section>
+        </div>
+        <div class="contacto-box">
+          <p class="eyebrow">Canales de atención</p>
+          <h2>Contacto e información</h2>
+          <div class="contacto-lista">
+            <p><strong>Dirección</strong><span>San Fernando, Provincia de Buenos Aires</span></p>
+            <p>
+              <strong>Correo electrónico</strong
+              ><a href="mailto:contacto@eest3sanfernando.edu.ar"
+                >contacto@eest3sanfernando.edu.ar</a
+              >
+            </p>
+            <p><strong>Secretaría</strong><span>Lunes a viernes</span></p>
+            <p><strong>Teléfono</strong><a href="tel:+541142526784">11 4252 6784</a></p>
+          </div>
+          <form
+            class="formulario-contacto"
+            action="mailto:contacto@eest3sanfernando.edu.ar"
+            method="post"
+            enctype="text/plain"
+          >
+            <h3>Enviá tu consulta</h3>
+            <div class="formulario-fila">
+              <label>
+                Nombre
+                <input type="text" name="nombre" autocomplete="name" required />
+              </label>
+              <label>
+                Correo electrónico
+                <input type="email" name="correo" autocomplete="email" required />
+              </label>
+            </div>
+            <label>
+              Asunto
+              <input type="text" name="asunto" required />
+            </label>
+            <label>
+              Mensaje
+              <textarea name="mensaje" rows="4" required></textarea>
+            </label>
+            <button type="submit">Enviar consulta</button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <!-- PIE DE PÁGINA -->
+    <footer>
+      <p>
+        &copy; 2026 Escuela de Educación Secundaria Técnica N°3 "Fragata Moyano" - San Fernando.
+        Todos los derechos reservados.
+      </p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

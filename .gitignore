@@ -1,0 +1,14 @@
+# Sistema operativo y editor
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Archivos temporales y de compilación
+*.log
+dist/
+build/
+
+# Credenciales y configuración privada
+.env
+.env.*
+!.env.example
