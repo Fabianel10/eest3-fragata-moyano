@@ -3,11 +3,90 @@ const revealElements = document.querySelectorAll(
 );
 const header = document.querySelector('header');
 const navLinks = document.querySelectorAll('header nav a[href^="#"]');
+const navigation = document.querySelector('.navegacion-principal');
+const menuButton = document.querySelector('.boton-menu');
+const themeButton = document.querySelector('.interruptor-tema');
+const navigationGroups = document.querySelectorAll('.grupo-navegacion');
+const navigationTriggers = document.querySelectorAll('.desplegador-navegacion');
 const sections = document.querySelectorAll('section[id]');
 const hero = document.querySelector('.hero');
 const heroContent = document.querySelector('.hero-content');
 const cards = document.querySelectorAll('.tarjeta');
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const setTheme = (isDark) => {
+  document.body.classList.toggle('tema-oscuro', isDark);
+  themeButton?.setAttribute('aria-pressed', String(isDark));
+  themeButton?.setAttribute('aria-label', isDark ? 'Activar modo claro' : 'Activar modo oscuro');
+  localStorage.setItem('tema-eest3', isDark ? 'oscuro' : 'claro');
+};
+
+if (themeButton) {
+  const savedTheme = localStorage.getItem('tema-eest3');
+  const useDarkTheme = savedTheme
+    ? savedTheme === 'oscuro'
+    : window.matchMedia('(prefers-color-scheme: dark)').matches;
+  setTheme(useDarkTheme);
+  themeButton.addEventListener('click', () => {
+    setTheme(!document.body.classList.contains('tema-oscuro'));
+  });
+}
+
+const closeMenu = () => {
+  if (!navigation || !menuButton) return;
+  navigation.classList.remove('menu-abierto');
+  menuButton.setAttribute('aria-expanded', 'false');
+};
+
+const closeSubmenus = (exceptGroup = null) => {
+  navigationGroups.forEach((group) => {
+    if (group === exceptGroup) return;
+    group.classList.remove('submenu-abierto');
+    group.querySelector('.desplegador-navegacion')?.setAttribute('aria-expanded', 'false');
+  });
+};
+
+navigationTriggers.forEach((trigger) => {
+  trigger.addEventListener('click', (event) => {
+    event.stopPropagation();
+    const group = trigger.closest('.grupo-navegacion');
+    const isOpen = group.classList.toggle('submenu-abierto');
+    trigger.setAttribute('aria-expanded', String(isOpen));
+    closeSubmenus(isOpen ? group : null);
+    if (isOpen) closeMenu();
+  });
+});
+
+if (navigation && menuButton) {
+  menuButton.addEventListener('click', (event) => {
+    event.stopPropagation();
+    const isOpen = navigation.classList.toggle('menu-abierto');
+    menuButton.setAttribute('aria-expanded', String(isOpen));
+    if (isOpen) closeSubmenus();
+  });
+
+  navigation.addEventListener('click', (event) => {
+    if (event.target.closest('a[href^="#"]')) {
+      closeMenu();
+      closeSubmenus();
+    }
+  });
+
+  document.addEventListener('click', (event) => {
+    if (!navigation.contains(event.target)) {
+      closeMenu();
+      closeSubmenus();
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      closeMenu();
+      closeSubmenus();
+      menuButton.focus();
+    }
+  });
+}
 
 revealElements.forEach((element) => {
   element.classList.add('reveal');
@@ -121,15 +200,16 @@ if (!prefersReducedMotion) {
 const playlist = [
   {
     title: 'Himno Nacional Argentino',
-    source: 'Sounds/AUD-20260901-WA0078.mp3'
+    source: 'assets/audio/AUD-20260901-WA0078.mp3'
   },
   {
     title: 'Argentina Selección, gracias Messi',
-    source: 'Sounds/Argentina%20%20%20Cancion%20de%20la%20Selecci%C3%B3n%20Argentina%202026.mp3'
+    source:
+      'assets/audio/Argentina%20%20%20Cancion%20de%20la%20Selecci%C3%B3n%20Argentina%202026.mp3'
   },
   {
     title: 'Enganchado Rock Nacional Argentino #2',
-    source: 'Sounds/Enganchado%20Rock%20Nacional%20Argentino%20%232.mp3'
+    source: 'assets/audio/Enganchado%20Rock%20Nacional%20Argentino%20%232.mp3'
   }
 ];
 const audio = document.querySelector('.audio-reproductor');

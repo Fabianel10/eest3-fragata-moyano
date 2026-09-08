@@ -9,7 +9,8 @@
       content="Sitio institucional de la Escuela de Educación Secundaria Técnica N°3 Fragata Moyano de San Fernando."
     />
     <meta name="theme-color" content="#071a2b" />
-    <link rel="stylesheet" href="estilo.css" />
+    <link rel="icon" type="image/png" href="assets/images/logo.png" />
+    <link rel="stylesheet" href="assets/css/estilo.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Space+Grotesk:wght@500;600;700&display=swap"
       rel="stylesheet"
@@ -21,19 +22,133 @@
     <!-- CABECERA Y NAVEGACIÓN -->
     <header>
       <a class="logo-container" href="#inicio" aria-label="Ir al inicio">
-        <img src="img/logo.png" alt="Escudo de la escuela" class="escudo-escuela" />
+        <img src="assets/images/logo.png" alt="Escudo de la escuela" class="escudo-escuela" />
         <div class="logo-texto">
           <h1>EEST N°3</h1>
           <span>Fragata Moyano</span>
         </div>
       </a>
-      <nav aria-label="Navegación principal">
-        <a href="#inicio" class="active">Inicio</a>
-        <a href="#institucional">La Escuela</a>
-        <a href="#especialidades">Especialidades</a>
-        <a href="#galeria">Galería</a>
-        <a href="#contacto">Contacto</a>
-      </nav>
+      <div class="navegacion-principal">
+        <button
+          class="boton-menu"
+          type="button"
+          aria-expanded="false"
+          aria-controls="panel-navegacion"
+        >
+          <span class="boton-menu-icono" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span>Explorar</span>
+        </button>
+        <nav id="panel-navegacion" aria-label="Navegación principal">
+          <div class="enlaces-navegacion">
+            <a href="#inicio" class="active">Inicio</a>
+            <div class="grupo-navegacion">
+              <button class="desplegador-navegacion" type="button" aria-expanded="false">
+                Organización <span aria-hidden="true">⌄</span>
+              </button>
+              <div class="submenu-navegacion">
+                <a href="#organizacion"
+                  ><strong>Centro institucional</strong><small>Agenda y comunidad</small></a
+                >
+                <a href="#organizacion"
+                  ><strong>Trámites</strong><small>Consultas y certificados</small></a
+                >
+              </div>
+            </div>
+            <div class="grupo-navegacion">
+              <button class="desplegador-navegacion" type="button" aria-expanded="false">
+                La Escuela <span aria-hidden="true">⌄</span>
+              </button>
+              <div class="submenu-navegacion">
+                <a href="#institucional"
+                  ><strong>Identidad institucional</strong><small>Comunidad y formación</small></a
+                >
+                <a href="#galeria"
+                  ><strong>Espacios de aprendizaje</strong><small>Talleres y actualidad</small></a
+                >
+              </div>
+            </div>
+            <div class="grupo-navegacion">
+              <button class="desplegador-navegacion" type="button" aria-expanded="false">
+                Especialidades <span aria-hidden="true">⌄</span>
+              </button>
+              <div class="submenu-navegacion">
+                <a href="#especialidades"
+                  ><strong>Informática</strong><small>Software, redes y tecnología</small></a
+                >
+                <a href="#especialidades"
+                  ><strong>Madera y Mueble</strong><small>Diseño y producción</small></a
+                >
+                <a href="#especialidades"
+                  ><strong>Maestro Mayor de Obras</strong><small>Proyecto y construcción</small></a
+                >
+              </div>
+            </div>
+            <a href="#galeria">Galería</a>
+            <a href="#contacto">Contacto</a>
+          </div>
+          <div class="panel-menu" aria-label="Explorar el sitio">
+            <div class="panel-menu-intro">
+              <p class="eyebrow">Directorio institucional</p>
+              <strong>Explorá la escuela por áreas.</strong>
+              <span
+                >Accesos organizados para conocer cada dimensión de la comunidad educativa.</span
+              >
+              <a href="#inicio" class="panel-menu-inicio"
+                >Volver al inicio <span aria-hidden="true">→</span></a
+              >
+            </div>
+            <div class="panel-menu-enlaces">
+              <section class="grupo-menu" aria-labelledby="menu-institucion">
+                <p id="menu-institucion">01 · Institución</p>
+                <a href="#institucional"
+                  ><strong>La Escuela</strong><small>Identidad, misión y comunidad</small></a
+                >
+                <a href="#organizacion"
+                  ><strong>Organización</strong><small>Agenda, trámites y acompañamiento</small></a
+                >
+              </section>
+              <section class="grupo-menu" aria-labelledby="menu-formacion">
+                <p id="menu-formacion">02 · Formación</p>
+                <a href="#especialidades"
+                  ><strong>Especialidades</strong
+                  ><small>Trayectorias técnicas de la escuela</small></a
+                >
+                <a href="#especialidades"
+                  ><strong>Informática</strong><small>Software, redes y tecnología</small></a
+                >
+                <a href="#especialidades"
+                  ><strong>Madera y Mueble</strong><small>Diseño, oficio y producción</small></a
+                >
+                <a href="#especialidades"
+                  ><strong>Maestro Mayor de Obras</strong
+                  ><small>Proyecto, cálculo y construcción</small></a
+                >
+              </section>
+              <section class="grupo-menu" aria-labelledby="menu-comunidad">
+                <p id="menu-comunidad">03 · Comunidad</p>
+                <a href="#galeria"
+                  ><strong>Vida institucional</strong
+                  ><small>Espacios, talleres y actualidad</small></a
+                >
+                <a href="#contacto"
+                  ><strong>Contacto y ubicación</strong
+                  ><small>Secretaría, consultas y cómo llegar</small></a
+                >
+              </section>
+            </div>
+          </div>
+        </nav>
+        <button
+          class="interruptor-tema"
+          type="button"
+          aria-pressed="false"
+          aria-label="Activar modo oscuro"
+        >
+          <span class="tema-claro" aria-hidden="true">Claro</span>
+          <span class="pista-interruptor" aria-hidden="true"><span></span></span>
+          <span class="tema-oscuro" aria-hidden="true">Oscuro</span>
+        </button>
+      </div>
     </header>
 
     <!-- SECCIÓN HERO (BANNER PRINCIPAL CON FOTO DE LA ESCUELA) -->
@@ -66,6 +181,52 @@
           <span>2026</span>
           <p>Educación técnica<br />con mirada de futuro</p>
         </div>
+      </section>
+
+      <section id="organizacion" class="organizacion" aria-labelledby="titulo-organizacion">
+        <div class="organizacion-intro">
+          <p class="eyebrow">Centro institucional</p>
+          <h2 id="titulo-organizacion">Toda la comunidad, mejor conectada.</h2>
+          <p>
+            Un espacio claro para centralizar la información académica y administrativa de cada
+            jornada.
+          </p>
+        </div>
+        <div class="organizacion-panel">
+          <article class="agenda-hoy">
+            <p class="eyebrow">Próxima actividad</p>
+            <p class="agenda-fecha">Calendario institucional</p>
+            <h3>Agenda y fechas importantes</h3>
+            <p>
+              Publicar aquí mesas de examen, reuniones, actos, inscripciones y entregas de
+              documentación.
+            </p>
+            <a href="#contacto" class="enlace-panel"
+              >Consultar a Secretaría <span aria-hidden="true">→</span></a
+            >
+          </article>
+          <div class="accesos-rapidos" aria-label="Accesos rápidos">
+            <a href="#contacto" class="acceso-rapido">
+              <span class="acceso-icono" aria-hidden="true">01</span>
+              <span><strong>Preinscripción</strong><small>Ingresantes y vacantes</small></span>
+            </a>
+            <a href="#contacto" class="acceso-rapido">
+              <span class="acceso-icono" aria-hidden="true">02</span>
+              <span><strong>Trámites</strong><small>Constancias y certificados</small></span>
+            </a>
+            <a href="#contacto" class="acceso-rapido">
+              <span class="acceso-icono" aria-hidden="true">03</span>
+              <span><strong>Familias</strong><small>Comunicados y reuniones</small></span>
+            </a>
+            <a href="#especialidades" class="acceso-rapido">
+              <span class="acceso-icono" aria-hidden="true">04</span>
+              <span><strong>Estudiantes</strong><small>Trayectorias y talleres</small></span>
+            </a>
+          </div>
+        </div>
+        <p class="datos-muestra">
+          Información de ejemplo: actualizar antes de su publicación institucional.
+        </p>
       </section>
 
       <section id="institucional" class="institucional">
@@ -104,7 +265,7 @@
           <!-- Tarjeta 1 -->
           <div class="tarjeta">
             <div class="img-placeholder">
-              <img src="img/informatica.jpg" alt="Especialidad Informática" />
+              <img src="assets/images/informatica.jpg" alt="Especialidad Informática" />
             </div>
             <div class="tarjeta-body">
               <span class="card-number">01</span>
@@ -117,7 +278,7 @@
           <!-- Tarjeta 2 -->
           <div class="tarjeta">
             <div class="img-placeholder">
-              <img src="img/madera y mueble.jpg" alt="Especialidad Madera y Mueble" />
+              <img src="assets/images/madera y mueble.jpg" alt="Especialidad Madera y Mueble" />
             </div>
             <div class="tarjeta-body">
               <span class="card-number">02</span>
@@ -131,7 +292,10 @@
           <!-- Tarjeta 3 -->
           <div class="tarjeta">
             <div class="img-placeholder">
-              <img src="img/mayor de obra.jpg" alt="Especialidad Maestro Mayor de Obras" />
+              <img
+                src="assets/images/mayor de obra.jpg"
+                alt="Especialidad Maestro Mayor de Obras"
+              />
             </div>
             <div class="tarjeta-body">
               <span class="card-number">03</span>
@@ -155,19 +319,19 @@
         </div>
         <div class="collage-galeria">
           <div class="galeria-item item-1">
-            <img src="img/ecuela.jpg" alt="Foto colegio 1" />
+            <img src="assets/images/ecuela.jpg" alt="Foto colegio 1" />
           </div>
           <div class="galeria-item item-2">
-            <img src="img/aura.png" alt="Foto colegio 2" />
+            <img src="assets/images/aura.png" alt="Foto colegio 2" />
           </div>
           <div class="galeria-item item-3">
-            <img src="img/constructores.jpg" alt="Foto colegio 3" />
+            <img src="assets/images/constructores.jpg" alt="Foto colegio 3" />
           </div>
           <div class="galeria-item item-4">
-            <img src="img/cartel.png" alt="Foto colegio 4" />
+            <img src="assets/images/cartel.png" alt="Foto colegio 4" />
           </div>
           <div class="galeria-item item-5">
-            <img src="img/nosequees.png" alt="Foto colegio 5" />
+            <img src="assets/images/nosequees.png" alt="Foto colegio 5" />
           </div>
         </div>
         <p class="galeria-nota">
@@ -176,7 +340,7 @@
         </p>
         <article class="actualidad-institucional">
           <div class="video-institucional">
-            <img src="img/ecuela.jpg" alt="Escuela Técnica N°3 de San Fernando" />
+            <img src="assets/images/ecuela.jpg" alt="Escuela Técnica N°3 de San Fernando" />
             <a
               class="enlace-video"
               href="https://www.facebook.com/SanFerMunicipio/videos/1706145376471595/"
@@ -330,6 +494,6 @@
       </p>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="assets/js/script.js"></script>
   </body>
 </html>
