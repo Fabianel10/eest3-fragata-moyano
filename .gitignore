@@ -8,6 +8,12 @@ Thumbs.db
 dist/
 build/
 
+# Materiales fuente que no se publican en el sitio
+*.rar
+*.doc
+*.docx
+*.pdf
+
 # Credenciales y configuración privada
 .env
 .env.*

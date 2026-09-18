@@ -1,6 +1,3 @@
-const revealElements = document.querySelectorAll(
-  '.institucional, .container-seccion, .mapa-contacto-wrapper, .tarjeta, .galeria-item, footer'
-);
 const header = document.querySelector('header');
 const navLinks = document.querySelectorAll('header nav a[href^="#"]');
 const navigation = document.querySelector('.navegacion-principal');
@@ -13,9 +10,17 @@ const hero = document.querySelector('.hero');
 const heroContent = document.querySelector('.hero-content');
 const cards = document.querySelectorAll('.tarjeta');
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const calendarContainer = document.querySelector('.calendario-proximas');
+const monthSelector = document.querySelector('.selector-meses');
+const calendarGrid = document.querySelector('.grilla-dias');
+const calendarMonthTitle = document.querySelector('.calendario-mes-titulo h3');
+const calendarMonthNumber = document.querySelector('.numero-mes');
+const calendarDetails = document.querySelector('.detalle-fechas');
+const visitCounter = document.querySelector('.numero-visitas');
 
 const setTheme = (isDark) => {
   document.body.classList.toggle('tema-oscuro', isDark);
+  document.documentElement.classList.toggle('tema-oscuro', isDark);
   themeButton?.setAttribute('aria-pressed', String(isDark));
   themeButton?.setAttribute('aria-label', isDark ? 'Activar modo claro' : 'Activar modo oscuro');
   localStorage.setItem('tema-eest3', isDark ? 'oscuro' : 'claro');
@@ -30,6 +35,109 @@ if (themeButton) {
   themeButton.addEventListener('click', () => {
     setTheme(!document.body.classList.contains('tema-oscuro'));
   });
+}
+
+const calendarEvents2026 = [
+  ['2026-01-01', 'Año Nuevo', 'feriado'],
+  ['2026-02-16', 'Carnaval', 'feriado'],
+  ['2026-02-17', 'Carnaval', 'feriado'],
+  ['2026-02-18', 'Jornada institucional docente', 'docente'],
+  ['2026-03-02', 'Inicio de clases', 'docente'],
+  ['2026-03-24', 'Día Nacional de la Memoria por la Verdad y la Justicia', 'feriado'],
+  ['2026-04-02', 'Día del Veterano y de los Caídos en la Guerra de Malvinas', 'feriado'],
+  ['2026-04-03', 'Viernes Santo', 'feriado'],
+  ['2026-05-01', 'Día del Trabajador', 'feriado'],
+  ['2026-05-25', 'Revolución de Mayo', 'feriado'],
+  ['2026-06-15', 'Paso a la Inmortalidad de Martín Miguel de Güemes', 'feriado'],
+  ['2026-06-20', 'Paso a la Inmortalidad de Manuel Belgrano', 'feriado'],
+  ['2026-07-09', 'Día de la Independencia', 'feriado'],
+  ['2026-07-20', 'Receso escolar de invierno', 'docente'],
+  ['2026-08-17', 'Paso a la Inmortalidad de José de San Martín', 'feriado'],
+  ['2026-09-11', 'Día del Maestro', 'docente'],
+  ['2026-09-21', 'Día del Estudiante', 'local'],
+  ['2026-10-12', 'Día del Respeto a la Diversidad Cultural', 'feriado'],
+  ['2026-11-20', 'Día de la Soberanía Nacional', 'feriado'],
+  ['2026-12-08', 'Inmaculada Concepción de María', 'feriado'],
+  ['2026-12-18', 'Asueto municipal de San Fernando', 'local'],
+  ['2026-12-22', 'Finalización del ciclo lectivo', 'docente'],
+  ['2026-12-25', 'Navidad', 'feriado']
+];
+
+if (calendarContainer) {
+  calendarContainer.innerHTML = calendarEvents2026
+    .filter(([date]) => date >= '2026-09-01')
+    .map(
+      ([date, description, type]) => `
+        <article class="fecha-calendario ${type}">
+          <time>${new Date(`${date}T12:00:00`).toLocaleDateString('es-AR', { day: '2-digit', month: 'short' })}</time>
+          <span>${description}</span>
+        </article>`
+    )
+    .join('');
+}
+
+const monthNames = [
+  'Enero',
+  'Febrero',
+  'Marzo',
+  'Abril',
+  'Mayo',
+  'Junio',
+  'Julio',
+  'Agosto',
+  'Septiembre',
+  'Octubre',
+  'Noviembre',
+  'Diciembre'
+];
+const renderCalendar = (month) => {
+  if (!calendarGrid || !calendarDetails || !calendarMonthTitle || !calendarMonthNumber) return;
+  const monthEvents = calendarEvents2026.filter(([date]) => Number(date.slice(5, 7)) === month + 1);
+  calendarMonthTitle.textContent = monthNames[month];
+  calendarMonthNumber.textContent = String(month + 1).padStart(2, '0');
+  const firstDay = (new Date(2026, month, 1).getDay() + 6) % 7;
+  const days = new Date(2026, month + 1, 0).getDate();
+  calendarGrid.innerHTML = Array.from({ length: firstDay }, () => '<span class="dia-vacio"></span>')
+    .concat(
+      Array.from({ length: days }, (_, index) => {
+        const day = index + 1;
+        const event = monthEvents.find(([date]) => Number(date.slice(8, 10)) === day);
+        return `<button class="dia-calendario ${event ? `tiene-evento ${event[2]}` : ''}" type="button" ${event ? `aria-label="${day}: ${event[1]}"` : `aria-label="${day} de ${monthNames[month]}"`}>${day}</button>`;
+      })
+    )
+    .join('');
+  calendarDetails.innerHTML = monthEvents.length
+    ? monthEvents
+        .map(
+          ([date, description, type]) =>
+            `<article class="detalle-fecha ${type}"><time>${date.slice(8, 10)}</time><span>${description}</span></article>`
+        )
+        .join('')
+    : '<p class="sin-fechas">Sin fechas destacadas para este mes.</p>';
+  monthSelector
+    ?.querySelectorAll('button')
+    .forEach((button, index) => button.classList.toggle('activo', index === month));
+};
+
+if (monthSelector) {
+  monthSelector.innerHTML = monthNames
+    .map(
+      (name, index) =>
+        `<button type="button" aria-label="Ver ${name}" ${index === 8 ? 'class="activo"' : ''}>${name.slice(0, 3)}</button>`
+    )
+    .join('');
+  monthSelector.addEventListener('click', (event) => {
+    const button = event.target.closest('button');
+    if (button) renderCalendar([...monthSelector.children].indexOf(button));
+  });
+  renderCalendar(8);
+}
+
+if (visitCounter) {
+  const visitKey = 'eest3-visitas-dispositivo';
+  const visits = Number.parseInt(localStorage.getItem(visitKey) || '0', 10) + 1;
+  localStorage.setItem(visitKey, String(visits));
+  visitCounter.textContent = visits.toLocaleString('es-AR');
 }
 
 const closeMenu = () => {
@@ -87,43 +195,6 @@ if (navigation && menuButton) {
     }
   });
 }
-
-revealElements.forEach((element) => {
-  element.classList.add('reveal');
-});
-
-const observer = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('is-visible');
-        observer.unobserve(entry.target);
-      }
-    });
-  },
-  {
-    threshold: 0.14,
-    rootMargin: '0px 0px -40px 0px'
-  }
-);
-
-revealElements.forEach((element, index) => {
-  element.style.transitionDelay = `${Math.min(index * 70, 420)}ms`;
-  observer.observe(element);
-});
-
-const footer = document.querySelector('footer');
-const footerObserver = new IntersectionObserver(
-  (entries) => {
-    if (entries[0].isIntersecting) {
-      footer.classList.add('is-visible');
-      footerObserver.disconnect();
-    }
-  },
-  { rootMargin: '0px 0px 180px 0px' }
-);
-
-footerObserver.observe(footer);
 
 const updateScrollState = () => {
   const scrollTop = window.scrollY;
@@ -206,10 +277,6 @@ const playlist = [
     title: 'Argentina Selección, gracias Messi',
     source:
       'assets/audio/Argentina%20%20%20Cancion%20de%20la%20Selecci%C3%B3n%20Argentina%202026.mp3'
-  },
-  {
-    title: 'Enganchado Rock Nacional Argentino #2',
-    source: 'assets/audio/Enganchado%20Rock%20Nacional%20Argentino%20%232.mp3'
   }
 ];
 const audio = document.querySelector('.audio-reproductor');

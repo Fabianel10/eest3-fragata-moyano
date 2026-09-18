@@ -19,10 +19,10 @@ Abrir `index.html` en un navegador. El sitio es estático y no requiere instalar
 
 ## Entrega actual
 
-La versión `v1.1.0` incorpora un centro institucional con accesos rápidos, navegación desplegable,
-modo claro/oscuro, menú adaptado a pantallas pequeñas y una reorganización de los archivos del
-proyecto. La evaluación de la entrega y los próximos pasos se documentan en
-`archive/versiones/v1.1.0/README.md` y `docs/MEJORAS.md`.
+La versión `v1.1.1` corrige una referencia de audio inexistente y evita incorporar al repositorio
+materiales de trabajo que no forman parte del sitio. La evaluación docente, los criterios de
+publicación y los próximos pasos se documentan en `archive/versiones/v1.1.1/README.md` y
+`docs/MEJORAS.md`.
 
 ## Versionado
 

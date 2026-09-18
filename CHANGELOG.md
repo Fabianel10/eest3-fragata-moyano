@@ -2,6 +2,24 @@
 
 Este proyecto utiliza [versionado semántico](https://semver.org/lang/es/).
 
+## [1.1.1] - 2026-09-18
+
+### Corregido
+
+- Se eliminó una pista de audio referenciada que no estaba incluida en `assets/audio/`, evitando un error al usar los controles del reproductor.
+- Se excluyeron del control de versiones los materiales fuente no destinados al sitio (`.pdf`, `.doc`, `.docx` y `.rar`).
+
+### Revisado
+
+- Se verificó la sintaxis de los scripts del sitio y las referencias locales de recursos publicados.
+- Se registró una evaluación docente con criterios para una publicación institucional responsable.
+
+### Pendiente para producción institucional
+
+- Aprobar datos de contacto, calendario, fotografías, videos, audios y textos con las autoridades responsables.
+- Reemplazar el formulario `mailto:` por un servicio de recepción seguro con responsable, consentimiento y confirmación.
+- Completar pruebas manuales de accesibilidad, navegación móvil y enlaces externos antes de difundir la URL pública.
+
 ## [1.1.0] - 2026-09-08
 
 ### Agregado

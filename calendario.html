@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Calendario institucional 2026 de la EEST N°3 Fragata Moyano."
+    />
+    <title>Calendario 2026 | EEST N°3 Fragata Moyano</title>
+    <link rel="icon" type="image/png" href="assets/images/logo.png" />
+    <link rel="stylesheet" href="assets/css/estilo.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header>
+      <a class="logo-container" href="index.html" aria-label="Volver al inicio">
+        <img src="assets/images/logo.png" alt="Escudo de la escuela" class="escudo-escuela" />
+        <div class="logo-texto">
+          <h1>EEST N°3</h1>
+          <span>Fragata Moyano</span>
+        </div>
+      </a>
+      <div class="navegacion-principal">
+        <nav aria-label="Navegación principal">
+          <div class="enlaces-navegacion">
+            <a href="index.html">Inicio</a><a href="index.html#organizacion">Organización</a
+            ><a class="active" href="calendario.html">Calendario 2026</a
+            ><a href="index.html#contacto">Contacto</a>
+          </div>
+        </nav>
+        <button
+          class="interruptor-tema"
+          type="button"
+          aria-pressed="false"
+          aria-label="Activar modo oscuro"
+        >
+          <span class="tema-claro" aria-hidden="true">Claro</span
+          ><span class="pista-interruptor" aria-hidden="true"><span></span></span
+          ><span class="tema-oscuro" aria-hidden="true">Oscuro</span>
+        </button>
+      </div>
+    </header>
+    <main>
+      <section
+        id="calendario"
+        class="calendario-completo"
+        aria-labelledby="titulo-calendario-completo"
+      >
+        <div class="calendario-completo-intro">
+          <div>
+            <p class="eyebrow">Planificación escolar</p>
+            <h2 id="titulo-calendario-completo">Calendario 2026</h2>
+          </div>
+          <p>Feriados nacionales, asuetos locales y fechas de la comunidad educativa.</p>
+        </div>
+        <div class="calendario-app">
+          <div>
+            <div class="selector-meses" aria-label="Elegí un mes"></div>
+            <div class="vista-calendario">
+              <div class="calendario-mes-titulo">
+                <span class="numero-mes" aria-hidden="true"></span>
+                <h3></h3>
+              </div>
+              <div class="dias-semana" aria-hidden="true">
+                <span>Lun</span><span>Mar</span><span>Mié</span><span>Jue</span><span>Vie</span
+                ><span>Sáb</span><span>Dom</span>
+              </div>
+              <div class="grilla-dias" aria-live="polite"></div>
+            </div>
+          </div>
+          <aside class="detalle-calendario" aria-live="polite">
+            <p class="eyebrow">Cronograma técnico</p>
+            <h3>Fechas del mes</h3>
+            <article class="destacado-calendario">
+              <img class="imagen-destacada-calendario" src="" alt="" loading="lazy" />
+              <div>
+                <p class="tipo-destacado"></p>
+                <h4 class="titulo-destacado"></h4>
+                <p class="descripcion-destacada"></p>
+              </div>
+            </article>
+            <div class="detalle-fechas"></div>
+            <div class="leyenda-calendario">
+              <span><i class="tipo-feriado"></i>Feriado nacional</span
+              ><span><i class="tipo-local"></i>Asueto local</span
+              ><span><i class="tipo-docente"></i>Jornada docente</span>
+              <span><i class="tipo-efemeride"></i>Efeméride educativa</span>
+              <span><i class="tipo-tecnica"></i>Formación técnica</span>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <p>
+        &copy; 2026 Escuela de Educación Secundaria Técnica N°3 "Fragata Moyano" - San Fernando.
+      </p>
+    </footer>
+    <script src="assets/js/calendario.js"></script>
+  </body>
+</html>
