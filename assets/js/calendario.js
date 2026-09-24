@@ -8,6 +8,8 @@ const featuredImage = document.querySelector('.imagen-destacada-calendario');
 const featuredType = document.querySelector('.tipo-destacado');
 const featuredTitle = document.querySelector('.titulo-destacado');
 const featuredDescription = document.querySelector('.descripcion-destacada');
+const selectedDateLabel = document.querySelector('.fecha-seleccionada');
+const visitCounter = document.querySelector('.numero-visitas');
 
 const setTheme = (isDark) => {
   document.body.classList.toggle('tema-oscuro', isDark);
@@ -51,7 +53,8 @@ const calendarEvents2026 = [
   ['2026-10-16', 'Día Mundial de la Alimentación', 'efemeride'],
   ['2026-11-10', 'Día de la Tradición', 'efemeride'],
   ['2026-11-15', 'Día de la Educación Técnica', 'tecnica'],
-  ['2026-11-20', 'Día de la Soberanía Nacional', 'feriado'],
+  ['2026-11-23', 'Día de la Soberanía Nacional', 'feriado'],
+  ['2026-12-07', 'Día no laborable con fines turísticos', 'turistico'],
   ['2026-12-08', 'Inmaculada Concepción de María', 'feriado'],
   ['2026-12-10', 'Día de los Derechos Humanos', 'efemeride'],
   ['2026-12-18', 'Asueto municipal de San Fernando', 'local'],
@@ -84,7 +87,9 @@ const eventDescriptions = {
   efemeride:
     'Una oportunidad para trabajar ciudadanía, memoria y compromiso comunitario desde aulas y talleres.',
   tecnica:
-    'Una fecha para visibilizar proyectos, talleres y aprendizajes de la formación técnico-profesional.'
+    'Una fecha para visibilizar proyectos, talleres y aprendizajes de la formación técnico-profesional.',
+  turistico:
+    'Día no laborable con fines turísticos. Consultá con Secretaría la organización de actividades y la asistencia.'
 };
 
 const eventImages = {
@@ -94,49 +99,77 @@ const eventImages = {
     'https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=900&q=80',
   docente:
     'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=900&q=80',
+  turistico:
+    'https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=900&q=80',
   efemeride:
     'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=900&q=80',
   tecnica:
     'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80'
 };
+const eventTypeLabels = {
+  feriado: 'Feriado nacional',
+  local: 'Asueto local',
+  docente: 'Jornada docente',
+  turistico: 'Puente turístico',
+  efemeride: 'Efeméride educativa',
+  tecnica: 'Formación técnica'
+};
+
+let selectedDate = null;
+let activeMonthEvents = [];
+
+const formatDate = (date) =>
+  new Date(`${date}T12:00:00`).toLocaleDateString('es-AR', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long'
+  });
+
+const selectDate = (date, monthEvents) => {
+  selectedDate = date;
+  const event = monthEvents.find(([eventDate]) => eventDate === date);
+
+  if (event) {
+    const [, title, type] = event;
+    featuredImage.src = eventImages[type];
+    featuredImage.alt = title;
+    featuredType.textContent = eventTypeLabels[type];
+    featuredTitle.textContent = title;
+    featuredDescription.textContent = eventDescriptions[type];
+  } else {
+    featuredImage.src =
+      'https://images.unsplash.com/photo-1498243691581-b145c3f54a5?auto=format&fit=crop&w=900&q=80';
+    featuredImage.alt = 'Espacio educativo';
+    featuredType.textContent = 'Agenda institucional';
+    featuredTitle.textContent = 'Sin actividad destacada';
+    featuredDescription.textContent =
+      'No hay una fecha institucional cargada para este día. Consultá las comunicaciones de la escuela ante actividades de curso o taller.';
+  }
+
+  if (selectedDateLabel) selectedDateLabel.textContent = formatDate(date);
+  calendarGrid.querySelectorAll('.dia-calendario').forEach((button) => {
+    button.classList.toggle('seleccionado', button.dataset.date === date);
+    button.setAttribute('aria-pressed', String(button.dataset.date === date));
+  });
+  calendarDetails.querySelectorAll('.detalle-fecha').forEach((item) => {
+    item.classList.toggle('seleccionada', item.dataset.date === date);
+  });
+};
+
 const renderCalendar = (month) => {
   const monthEvents = calendarEvents2026.filter(([date]) => Number(date.slice(5, 7)) === month + 1);
+  activeMonthEvents = monthEvents;
   calendarMonthTitle.textContent = monthNames[month];
   calendarMonthNumber.textContent = String(month + 1).padStart(2, '0');
   const firstDay = (new Date(2026, month, 1).getDay() + 6) % 7;
   const days = new Date(2026, month + 1, 0).getDate();
-  const featuredEvent = monthEvents[0];
-  if (featuredEvent) {
-    const [, description, type] = featuredEvent;
-    featuredImage.src = eventImages[type];
-    featuredImage.alt = description;
-    featuredType.textContent =
-      type === 'tecnica'
-        ? 'Formación técnica'
-        : type === 'efemeride'
-          ? 'Efeméride educativa'
-          : type === 'local'
-            ? 'Asueto local'
-            : type === 'docente'
-              ? 'Jornada docente'
-              : 'Feriado nacional';
-    featuredTitle.textContent = description;
-    featuredDescription.textContent = eventDescriptions[type];
-  } else {
-    featuredImage.src =
-      'https://images.unsplash.com/photo-1498243691581-b145c3f54a5a?auto=format&fit=crop&w=900&q=80';
-    featuredImage.alt = 'Espacio educativo';
-    featuredType.textContent = 'Agenda institucional';
-    featuredTitle.textContent = `Planificación de ${monthNames[month]}`;
-    featuredDescription.textContent =
-      'Mes disponible para programar proyectos, evaluaciones, reuniones y actividades de taller.';
-  }
   calendarGrid.innerHTML = Array.from({ length: firstDay }, () => '<span class="dia-vacio"></span>')
     .concat(
       Array.from({ length: days }, (_, index) => {
         const day = index + 1;
         const event = monthEvents.find(([date]) => Number(date.slice(8, 10)) === day);
-        return `<button class="dia-calendario ${event ? `tiene-evento ${event[2]}` : ''}" type="button" aria-label="${event ? `${day}: ${event[1]}` : `${day} de ${monthNames[month]}`}">${day}</button>`;
+        const date = `2026-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        return `<button class="dia-calendario ${event ? `tiene-evento ${event[2]}` : ''}" type="button" data-date="${date}" aria-pressed="false" aria-label="${event ? `${day}: ${event[1]}` : `${day} de ${monthNames[month]}`}">${day}</button>`;
       })
     )
     .join('');
@@ -144,10 +177,12 @@ const renderCalendar = (month) => {
     ? monthEvents
         .map(
           ([date, description, type]) =>
-            `<article class="detalle-fecha ${type}"><time>${date.slice(8, 10)}</time><span>${description}</span></article>`
+            `<button class="detalle-fecha ${type}" type="button" data-date="${date}"><time>${date.slice(8, 10)}</time><span>${description}</span></button>`
         )
         .join('')
     : '<p class="sin-fechas">Sin fechas destacadas para este mes.</p>';
+  const initialDate = monthEvents[0]?.[0] || `2026-${String(month + 1).padStart(2, '0')}-01`;
+  selectDate(initialDate, monthEvents);
   [...monthSelector.children].forEach((button, index) =>
     button.classList.toggle('activo', index === month)
   );
@@ -160,4 +195,121 @@ monthSelector.addEventListener('click', (event) => {
   const button = event.target.closest('button');
   if (button) renderCalendar([...monthSelector.children].indexOf(button));
 });
+calendarGrid.addEventListener('click', (event) => {
+  const button = event.target.closest('.dia-calendario');
+  if (button) selectDate(button.dataset.date, activeMonthEvents);
+});
+calendarDetails.addEventListener('click', (event) => {
+  const button = event.target.closest('.detalle-fecha');
+  if (button) selectDate(button.dataset.date, activeMonthEvents);
+});
 renderCalendar(8);
+
+if (visitCounter) {
+  const visitKey = 'eest3-visitas-dispositivo';
+  const visits = Number.parseInt(localStorage.getItem(visitKey) || '0', 10) + 1;
+  localStorage.setItem(visitKey, String(visits));
+  visitCounter.textContent = visits.toLocaleString('es-AR');
+}
+
+const playlist = [
+  { title: 'Himno Nacional Argentino', source: 'assets/audio/AUD-20260901-WA0078.mp3' },
+  {
+    title: 'Argentina Selección, gracias Messi',
+    source:
+      'assets/audio/Argentina%20%20%20Cancion%20de%20la%20Selecci%C3%B3n%20Argentina%202026.mp3'
+  }
+];
+const audio = document.querySelector('.audio-reproductor');
+const playButton = document.querySelector('.boton-reproducir');
+const previousButton = document.querySelector('.anterior');
+const nextButton = document.querySelector('.siguiente');
+const trackTitle = document.querySelector('.reproductor-tema');
+const playerStatus = document.querySelector('.reproductor-estado');
+const progressControl = document.querySelector('.control-progreso');
+const currentTime = document.querySelector('.tiempo-actual');
+const duration = document.querySelector('.duracion-tema');
+const volumeControl = document.querySelector('.control-volumen input');
+const playlistContainer = document.querySelector('.lista-reproduccion');
+let currentTrackIndex = 0;
+
+const formatTime = (seconds) =>
+  Number.isFinite(seconds)
+    ? `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, '0')}`
+    : '0:00';
+
+if (
+  audio &&
+  playButton &&
+  previousButton &&
+  nextButton &&
+  trackTitle &&
+  playerStatus &&
+  progressControl &&
+  currentTime &&
+  duration &&
+  volumeControl &&
+  playlistContainer
+) {
+  const renderPlaylist = () => {
+    playlistContainer.innerHTML = playlist
+      .map(
+        (track, index) =>
+          `<button class="tema-lista" type="button" data-track="${index}" aria-current="${index === currentTrackIndex}"><span>${String(index + 1).padStart(2, '0')}</span>${track.title}</button>`
+      )
+      .join('');
+  };
+  const loadTrack = (index) => {
+    currentTrackIndex = (index + playlist.length) % playlist.length;
+    audio.src = playlist[currentTrackIndex].source;
+    trackTitle.textContent = playlist[currentTrackIndex].title;
+    progressControl.value = 0;
+    currentTime.textContent = '0:00';
+    duration.textContent = '0:00';
+    renderPlaylist();
+  };
+  const playCurrentTrack = async () => {
+    try {
+      await audio.play();
+    } catch {
+      playerStatus.textContent = 'No se pudo reproducir';
+    }
+  };
+
+  playButton.addEventListener('click', () => (audio.paused ? playCurrentTrack() : audio.pause()));
+  previousButton.addEventListener('click', () => loadTrack(currentTrackIndex - 1));
+  nextButton.addEventListener('click', () => loadTrack(currentTrackIndex + 1));
+  playlistContainer.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-track]');
+    if (button) {
+      loadTrack(Number(button.dataset.track));
+      playCurrentTrack();
+    }
+  });
+  audio.addEventListener('play', () => {
+    playButton.textContent = 'Pausar';
+    playerStatus.textContent = 'Reproduciendo';
+  });
+  audio.addEventListener('pause', () => {
+    playButton.textContent = 'Reproducir';
+    playerStatus.textContent = 'En pausa';
+  });
+  audio.addEventListener(
+    'loadedmetadata',
+    () => (duration.textContent = formatTime(audio.duration))
+  );
+  audio.addEventListener('timeupdate', () => {
+    progressControl.value = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
+    currentTime.textContent = formatTime(audio.currentTime);
+  });
+  audio.addEventListener('ended', () => {
+    loadTrack(currentTrackIndex + 1);
+    playCurrentTrack();
+  });
+  progressControl.addEventListener('input', () => {
+    if (audio.duration) audio.currentTime = (progressControl.value / 100) * audio.duration;
+  });
+  volumeControl.addEventListener('input', () => (audio.volume = volumeControl.value));
+  audio.volume = volumeControl.value;
+  loadTrack(currentTrackIndex);
+}

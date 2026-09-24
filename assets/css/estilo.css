@@ -3391,6 +3391,12 @@ main {
   font-weight: 700;
 }
 
+.dia-calendario.seleccionado {
+  box-shadow: 0 0 0 3px rgba(246, 169, 0, 0.9);
+  outline: 2px solid var(--surface);
+  outline-offset: -5px;
+}
+
 .dia-calendario.feriado {
   background: var(--sky-deep);
 }
@@ -3399,6 +3405,9 @@ main {
 }
 .dia-calendario.docente {
   background: #6b5ca5;
+}
+.dia-calendario.turistico {
+  background: #d85b31;
 }
 .dia-calendario.efemeride {
   background: #278ea5;
@@ -3423,15 +3432,34 @@ main {
 }
 .detalle-fechas {
   display: grid;
-  gap: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
 }
 
 .detalle-fecha {
+  width: 100%;
+  border: 0;
   display: flex;
   align-items: center;
   gap: 12px;
   padding: 10px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  transition:
+    background 0.2s var(--smooth),
+    padding 0.2s var(--smooth);
+}
+
+.detalle-fecha:hover,
+.detalle-fecha:focus-visible,
+.detalle-fecha.seleccionada {
+  background: rgba(125, 223, 246, 0.12);
+  outline: none;
+  padding-right: 8px;
+  padding-left: 8px;
 }
 
 .detalle-fecha time {
@@ -3451,6 +3479,9 @@ main {
 }
 .detalle-fecha.docente time {
   background: #b7a8ef;
+}
+.detalle-fecha.turistico time {
+  background: #f29a75;
 }
 .detalle-fecha.efemeride time {
   background: #6cdef3;
@@ -3526,6 +3557,9 @@ main {
 .tipo-docente {
   background: #b7a8ef;
 }
+.tipo-turistico {
+  background: #f29a75;
+}
 .leyenda-calendario .tipo-efemeride {
   background: #6cdef3;
 }
@@ -3536,6 +3570,218 @@ main {
 footer .contador-visitas {
   margin-top: 7px;
   color: #d9f4ff;
+}
+
+.fecha-seleccionada {
+  margin-top: 5px;
+  color: #9deff0;
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.calendario-utilidades {
+  margin-top: 28px;
+}
+
+.calendario-utilidades .reproductor-musica {
+  margin-top: 0;
+}
+
+.galeria-pagina {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 78px 40px;
+}
+
+.galeria-pagina-intro {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 30px;
+  margin-bottom: 34px;
+}
+
+.galeria-pagina-intro h2 {
+  margin-top: 10px;
+  color: var(--navy);
+  font-size: clamp(2rem, 3vw, 2.8rem);
+}
+
+.galeria-pagina-intro > p {
+  max-width: 385px;
+  color: var(--muted);
+}
+
+.slider-galeria {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--navy);
+  box-shadow: var(--card-shadow);
+}
+
+.slider-marco {
+  position: relative;
+  min-height: min(76vh, 760px);
+  background: #06192a;
+  isolation: isolate;
+}
+
+.slider-medio,
+.slider-medio > img,
+.slider-medio > video {
+  width: 100%;
+  height: 100%;
+}
+
+.slider-medio {
+  position: absolute;
+  inset: 0;
+}
+
+.slider-medio > img,
+.slider-medio > video {
+  display: block;
+  object-fit: cover;
+  animation: revelarMedio 700ms var(--smooth) both;
+}
+
+.slider-sombra {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    rgba(3, 16, 29, 0.8) 0%,
+    rgba(3, 16, 29, 0.18) 58%,
+    rgba(3, 16, 29, 0.35) 100%
+  );
+}
+
+.slider-informacion {
+  position: absolute;
+  z-index: 2;
+  bottom: 0;
+  left: 0;
+  width: min(520px, 82%);
+  padding: 46px;
+  color: #fff;
+}
+
+.slider-tipo {
+  margin-bottom: 9px;
+  color: #9deff0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.slider-titulo {
+  color: #fff;
+  font-size: clamp(1.7rem, 3vw, 2.9rem);
+}
+
+.slider-contador {
+  margin-top: 15px;
+  color: #d9f4ff;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.slider-controles {
+  position: absolute;
+  z-index: 2;
+  right: 28px;
+  bottom: 29px;
+  display: flex;
+  gap: 9px;
+}
+
+.slider-boton {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 50%;
+  background: rgba(3, 16, 29, 0.42);
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-size: 1.45rem;
+  transition:
+    background 0.2s var(--smooth),
+    color 0.2s var(--smooth),
+    transform 0.2s var(--smooth);
+}
+
+.slider-boton:hover,
+.slider-boton:focus-visible {
+  outline: none;
+  background: var(--sky);
+  color: var(--navy);
+  transform: translateY(-2px);
+}
+
+.slider-pie {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  min-height: 64px;
+  padding: 14px 22px;
+  border-top: 1px solid rgba(125, 223, 246, 0.18);
+}
+
+.slider-estado {
+  color: #b8d5e2;
+  font-size: 0.8rem;
+}
+
+.slider-indicadores {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.indicador-slider {
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(217, 244, 255, 0.4);
+  cursor: pointer;
+  transition:
+    background 0.2s var(--smooth),
+    transform 0.2s var(--smooth);
+}
+
+.indicador-slider:hover,
+.indicador-slider:focus-visible,
+.indicador-slider.activo {
+  outline: none;
+  background: var(--sun);
+  transform: scale(1.25);
+}
+
+.galeria-pagina .reproductor-musica {
+  margin-top: 28px;
+}
+
+@keyframes revelarMedio {
+  from {
+    opacity: 0;
+    transform: scale(1.025);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 body.tema-oscuro .calendario-completo-intro h2,
@@ -3578,6 +3824,27 @@ body.tema-oscuro .fecha-calendario.local time {
     flex-direction: column;
     gap: 14px;
   }
+  .galeria-pagina {
+    padding: 58px 20px;
+  }
+  .galeria-pagina-intro {
+    align-items: start;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .slider-marco {
+    min-height: 530px;
+  }
+  .slider-informacion {
+    padding: 28px;
+  }
+  .slider-pie {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .slider-indicadores {
+    justify-content: flex-start;
+  }
   .calendario-app {
     grid-template-columns: 1fr;
   }
@@ -3603,6 +3870,17 @@ body.tema-oscuro .fecha-calendario.local time {
   }
   .dia-calendario {
     font-size: 0.75rem;
+  }
+  .slider-marco {
+    min-height: 430px;
+  }
+  .slider-informacion {
+    width: 100%;
+    padding: 22px;
+  }
+  .slider-controles {
+    right: 16px;
+    bottom: 16px;
   }
 }
 

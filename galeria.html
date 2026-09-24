@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Galería institucional de la EEST N°3 Fragata Moyano de San Fernando."
+    />
+    <title>Galería | EEST N°3 Fragata Moyano</title>
+    <link rel="icon" type="image/png" href="assets/images/logo.png" />
+    <link rel="stylesheet" href="assets/css/estilo.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <a class="saltar-contenido" href="#contenido-principal">Saltar al contenido principal</a>
+    <header>
+      <a class="logo-container" href="index.html" aria-label="Volver al inicio">
+        <img src="assets/images/logo.png" alt="Escudo de la escuela" class="escudo-escuela" />
+        <div class="logo-texto">
+          <h1>EEST N°3</h1>
+          <span>Fragata Moyano</span>
+        </div>
+      </a>
+      <div class="navegacion-principal">
+        <nav aria-label="Navegación principal">
+          <div class="enlaces-navegacion">
+            <a href="index.html">Inicio</a><a href="index.html#organizacion">Organización</a
+            ><a class="active" href="galeria.html">Galería</a
+            ><a href="calendario.html">Calendario 2026</a><a href="index.html#contacto">Contacto</a>
+          </div>
+        </nav>
+        <button
+          class="interruptor-tema"
+          type="button"
+          aria-pressed="false"
+          aria-label="Activar modo oscuro"
+        >
+          <span class="tema-claro" aria-hidden="true">Claro</span
+          ><span class="pista-interruptor" aria-hidden="true"><span></span></span
+          ><span class="tema-oscuro" aria-hidden="true">Oscuro</span>
+        </button>
+      </div>
+    </header>
+    <main id="contenido-principal">
+      <section class="galeria-pagina" aria-labelledby="titulo-galeria">
+        <div class="galeria-pagina-intro">
+          <div>
+            <p class="eyebrow">Vida institucional</p>
+            <h2 id="titulo-galeria">La escuela en movimiento.</h2>
+          </div>
+          <p>Actividades, talleres y momentos que construyen nuestra comunidad educativa.</p>
+        </div>
+        <section class="slider-galeria" aria-label="Galería multimedia institucional">
+          <div class="slider-marco">
+            <div class="slider-medio" aria-live="polite"></div>
+            <div class="slider-sombra" aria-hidden="true"></div>
+            <div class="slider-informacion">
+              <p class="slider-tipo"></p>
+              <h3 class="slider-titulo"></h3>
+              <p class="slider-contador" aria-live="polite"></p>
+            </div>
+            <div class="slider-controles" aria-label="Controles de galería">
+              <button
+                class="slider-boton slider-anterior"
+                type="button"
+                aria-label="Contenido anterior"
+                title="Contenido anterior"
+              >
+                &#8592;
+              </button>
+              <button
+                class="slider-boton slider-siguiente"
+                type="button"
+                aria-label="Contenido siguiente"
+                title="Contenido siguiente"
+              >
+                &#8594;
+              </button>
+              <button
+                class="slider-boton slider-sonido"
+                type="button"
+                aria-label="Activar música de fondo"
+                aria-pressed="false"
+                title="Activar música de fondo"
+              >
+                &#9835;
+              </button>
+            </div>
+            <audio class="audio-fondo-video" loop preload="metadata"></audio>
+          </div>
+          <div class="slider-pie">
+            <p class="slider-estado">
+              El video inicia automáticamente. Activá música con el botón de nota.
+            </p>
+            <div class="slider-indicadores" aria-label="Seleccionar contenido"></div>
+          </div>
+        </section>
+        <section class="reproductor-musica" aria-labelledby="titulo-reproductor-galeria">
+          <div class="reproductor-encabezado">
+            <div>
+              <p class="eyebrow">Radio Técnica 3</p>
+              <h3 id="titulo-reproductor-galeria">Música para la comunidad</h3>
+            </div>
+            <span class="reproductor-estado" aria-live="polite">En pausa</span>
+          </div>
+          <p class="reproductor-tema">Himno Nacional Argentino</p>
+          <audio class="audio-reproductor" preload="metadata"></audio>
+          <div class="reproductor-progreso">
+            <input
+              class="control-progreso"
+              type="range"
+              min="0"
+              max="100"
+              value="0"
+              aria-label="Progreso de reproducción"
+            />
+            <div>
+              <time class="tiempo-actual">0:00</time><time class="duracion-tema">0:00</time>
+            </div>
+          </div>
+          <div class="reproductor-controles">
+            <button class="boton-reproductor anterior" type="button" aria-label="Tema anterior">
+              Anterior
+            </button>
+            <button class="boton-reproducir" type="button" aria-label="Reproducir">
+              Reproducir
+            </button>
+            <button class="boton-reproductor siguiente" type="button" aria-label="Tema siguiente">
+              Siguiente
+            </button>
+            <label class="control-volumen"
+              >Volumen
+              <input type="range" min="0" max="1" step="0.05" value="0.8" aria-label="Volumen"
+            /></label>
+          </div>
+          <div class="lista-reproduccion" aria-label="Lista de temas"></div>
+        </section>
+      </section>
+    </main>
+    <footer>
+      <p>
+        &copy; 2026 Escuela de Educación Secundaria Técnica N°3 "Fragata Moyano" - San Fernando.
+      </p>
+      <p class="contador-visitas" aria-live="polite">
+        Visitas desde este dispositivo: <strong class="numero-visitas">0</strong>
+      </p>
+    </footer>
+    <script src="assets/js/galeria.js"></script>
+  </body>
+</html>

@@ -2,6 +2,24 @@
 
 Este proyecto utiliza [versionado semántico](https://semver.org/lang/es/).
 
+## [1.2.0] - 2026-09-24
+
+### Agregado
+
+- Galería multimedia institucional con fotografías, video, navegación por teclado, indicadores y controles de reproducción.
+- Calendario 2026 mejorado: selección de fecha, detalle accesible de cada evento y actualización del feriado nacional del 20 de noviembre.
+- Configuración de Netlify para publicar el sitio estático desde la raíz del repositorio, sin comando de compilación.
+
+### Corregido
+
+- Se declararon los finales de línea CRLF históricos para evitar falsos positivos de espacios finales durante la revisión del diff.
+
+### Pendiente para producción institucional
+
+- Obtener autorización escrita para cada fotografía, video y audio antes de difundir la galería pública.
+- Vincular el repositorio con un sitio de Netlify administrado por una cuenta institucional y comprobar la URL de producción.
+- Diseñar un área de administración con autenticación institucional y roles antes de permitir altas o ediciones de contenido.
+
 ## [1.1.1] - 2026-09-18
 
 ### Corregido

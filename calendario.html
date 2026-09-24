@@ -81,6 +81,7 @@
               <img class="imagen-destacada-calendario" src="" alt="" loading="lazy" />
               <div>
                 <p class="tipo-destacado"></p>
+                <p class="fecha-seleccionada" aria-live="polite"></p>
                 <h4 class="titulo-destacado"></h4>
                 <p class="descripcion-destacada"></p>
               </div>
@@ -90,16 +91,62 @@
               <span><i class="tipo-feriado"></i>Feriado nacional</span
               ><span><i class="tipo-local"></i>Asueto local</span
               ><span><i class="tipo-docente"></i>Jornada docente</span>
+              <span><i class="tipo-turistico"></i>Puente turístico</span>
               <span><i class="tipo-efemeride"></i>Efeméride educativa</span>
               <span><i class="tipo-tecnica"></i>Formación técnica</span>
             </div>
           </aside>
+        </div>
+        <div class="calendario-utilidades">
+          <section class="reproductor-musica" aria-labelledby="titulo-reproductor-calendario">
+            <div class="reproductor-encabezado">
+              <div>
+                <p class="eyebrow">Radio Técnica 3</p>
+                <h3 id="titulo-reproductor-calendario">Música para la comunidad</h3>
+              </div>
+              <span class="reproductor-estado" aria-live="polite">En pausa</span>
+            </div>
+            <p class="reproductor-tema">Himno Nacional Argentino</p>
+            <audio class="audio-reproductor" preload="metadata"></audio>
+            <div class="reproductor-progreso">
+              <input
+                class="control-progreso"
+                type="range"
+                min="0"
+                max="100"
+                value="0"
+                aria-label="Progreso de reproducción"
+              />
+              <div>
+                <time class="tiempo-actual">0:00</time><time class="duracion-tema">0:00</time>
+              </div>
+            </div>
+            <div class="reproductor-controles">
+              <button class="boton-reproductor anterior" type="button" aria-label="Tema anterior">
+                Anterior
+              </button>
+              <button class="boton-reproducir" type="button" aria-label="Reproducir">
+                Reproducir
+              </button>
+              <button class="boton-reproductor siguiente" type="button" aria-label="Tema siguiente">
+                Siguiente
+              </button>
+              <label class="control-volumen"
+                >Volumen
+                <input type="range" min="0" max="1" step="0.05" value="0.8" aria-label="Volumen"
+              /></label>
+            </div>
+            <div class="lista-reproduccion" aria-label="Lista de temas"></div>
+          </section>
         </div>
       </section>
     </main>
     <footer>
       <p>
         &copy; 2026 Escuela de Educación Secundaria Técnica N°3 "Fragata Moyano" - San Fernando.
+      </p>
+      <p class="contador-visitas" aria-live="polite">
+        Visitas desde este dispositivo: <strong class="numero-visitas">0</strong>
       </p>
     </footer>
     <script src="assets/js/calendario.js"></script>

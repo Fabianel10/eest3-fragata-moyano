@@ -58,3 +58,37 @@ Definir qué contenidos serán públicos y qué gestiones necesitarán acceso co
 ### Criterio de aprobación para publicación
 
 La entrega puede subirse al repositorio como versión de trabajo `v1.1.1`. La publicación pública queda condicionada a una revisión editorial, de privacidad, licencias, accesibilidad y funcionamiento en producción. Debe haber un responsable institucional del contenido y una revisión periódica de fechas, enlaces y formularios.
+
+## Evaluación docente de la entrega 1.2.0
+
+### Logros observados
+
+- La galería muestra una mejora real en la presentación del trabajo escolar: incorpora video, fotografías, avance automático, navegación con teclado, indicadores y mensajes de estado.
+- El calendario permite seleccionar un día y relacionar la fecha con su detalle, en lugar de limitarse a una visualización estática.
+- El equipo separó los recursos públicos dentro de `assets/` y agregó una configuración reproducible para el despliegue estático.
+
+### Correcciones requeridas
+
+- No difundir la galería hasta contar con autorización de imagen de estudiantes, familias y personal reconocible, y registrar quién la aprobó.
+- Cambiar títulos genéricos de fotos y videos por descripciones verificadas: actividad, fecha, curso o taller, responsable y autorización. No incluir apellidos ni datos personales.
+- Validar con Secretaría el calendario completo. Las fechas informativas deben indicar fuente oficial y fecha de actualización.
+- Reemplazar el contador local de visitas por analítica institucional con política de privacidad, o retirarlo; actualmente no mide visitas reales al sitio.
+- Sustituir los botones textuales de controles multimedia por iconos accesibles, manteniendo su etiqueta `aria-label` y su ayuda emergente.
+
+### Próximo incremento: administración segura
+
+El siguiente objetivo no es agregar un formulario de usuario y contraseña al sitio estático. Eso expondría credenciales o permitiría una protección aparente. Primero deben definir un portal separado con estas condiciones:
+
+1. Inicio de sesión mediante cuentas institucionales o un proveedor de identidad confiable; nunca contraseñas guardadas en JavaScript, HTML o Git.
+2. Roles mínimos: `administración` para gestionar usuarios y publicar; `editor` para preparar contenido; `revisor` para aprobar; `lector` para ver borradores.
+3. Flujo editorial: borrador, revisión, aprobado, publicado y archivado; toda publicación debe conservar autor, fecha y responsable que aprobó.
+4. Base de datos y almacenamiento privado para borradores y documentos; las credenciales deben vivir en variables de entorno del servidor.
+5. Registro de auditoría, cierre de sesión, recuperación de cuenta y copias de seguridad probadas.
+
+### Trabajo por equipos para avanzar
+
+- **Contenido y comunicación:** inventariar cada texto, foto, video, audio y enlace; registrar fuente, autorización, responsable y vigencia en una planilla institucional.
+- **Diseño y accesibilidad:** probar las tres páginas en móvil, teclado y lector de pantalla; corregir contraste, foco visible, alternativas de texto y subtítulos del video.
+- **Datos y calendario:** contrastar eventos, feriados, mesas, reuniones y plazos con Secretaría; mantener una única fuente de datos revisada.
+- **Desarrollo:** crear una rama por tarea, abrir Pull Request, adjuntar capturas y pruebas realizadas, y no fusionar sin revisión de otra persona.
+- **Infraestructura:** vincular Netlify con el repositorio bajo una cuenta institucional, definir responsables de acceso y validar el despliegue en la URL de producción.
