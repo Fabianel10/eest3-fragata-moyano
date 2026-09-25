@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Historia institucional de la EEST N°3 Capitán de Fragata Carlos María Moyano de San Fernando."
+    />
+    <title>Historia Institucional | EEST N°3 Fragata Moyano</title>
+    <link rel="icon" type="image/png" href="assets/images/logo.png" />
+    <link rel="stylesheet" href="assets/css/estilo.css?v=20260925-19" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://images.unsplash.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+  </head>
+  <body class="historia-pagina">
+    <a class="saltar-contenido" href="#contenido-principal">Saltar al contenido principal</a>
+    <header>
+      <a class="logo-container" href="index.html" aria-label="Volver al inicio">
+        <img src="assets/images/logo.png" alt="Escudo de la escuela" class="escudo-escuela" />
+        <div class="logo-texto">
+          <h1>EEST N°3</h1>
+          <span>Fragata Moyano</span>
+        </div>
+      </a>
+      <div class="navegacion-principal">
+        <button
+          class="boton-menu"
+          type="button"
+          aria-expanded="false"
+          aria-controls="panel-navegacion"
+        >
+          <span class="boton-menu-icono" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span>Explorar</span>
+        </button>
+        <nav id="panel-navegacion" aria-label="Navegación principal">
+          <div class="enlaces-navegacion">
+            <a href="index.html">Inicio</a>
+            <a class="active" aria-current="page" href="historia.html">Sobre nosotros</a>
+            <div class="grupo-navegacion">
+              <button class="desplegador-navegacion" type="button" aria-expanded="false">
+                La Escuela <span aria-hidden="true">⌄</span>
+              </button>
+              <div class="submenu-navegacion">
+                <a href="historia.html"
+                  ><strong>Historia institucional</strong
+                  ><small>Más de un siglo formando futuro</small></a
+                >
+                <a href="galeria.html"
+                  ><strong>Espacios de aprendizaje</strong><small>Talleres y actualidad</small></a
+                >
+              </div>
+            </div>
+            <a href="galeria.html">Galería</a>
+            <a href="calendario.html">Calendario 2026</a>
+            <a href="index.html#contacto">Contacto</a>
+          </div>
+          <div class="panel-menu" aria-label="Explorar el sitio">
+            <div class="panel-menu-intro">
+              <p class="eyebrow">Archivo vivo</p>
+              <strong>Una historia que sigue en movimiento.</strong>
+              <span>Conocé los hitos que dieron forma a nuestra comunidad educativa.</span>
+              <a href="#linea-de-tiempo" class="panel-menu-inicio"
+                >Ver línea de tiempo <span aria-hidden="true">→</span></a
+              >
+            </div>
+            <div class="panel-menu-enlaces">
+              <section class="grupo-menu" aria-labelledby="menu-historia">
+                <p id="menu-historia">01 · Institución</p>
+                <a href="#origen"
+                  ><strong>1914 · El origen</strong
+                  ><small>Una escuela para aprender y trabajar</small></a
+                >
+                <a href="#crecimiento"
+                  ><strong>1990–2000 · Crecimiento</strong
+                  ><small>Informática y edificio propio</small></a
+                >
+                <a href="#presente"
+                  ><strong>2012–hoy · Especialidades</strong
+                  ><small>Una técnica conectada con su entorno</small></a
+                >
+              </section>
+              <section class="grupo-menu" aria-labelledby="menu-recorrido">
+                <p id="menu-recorrido">02 · Recorrido</p>
+                <a href="index.html#especialidades"
+                  ><strong>Especialidades</strong><small>Trayectorias técnicas actuales</small></a
+                >
+                <a href="galeria.html"
+                  ><strong>Galería</strong><small>La escuela en movimiento</small></a
+                >
+                <a href="calendario.html"
+                  ><strong>Calendario</strong><small>Agenda institucional</small></a
+                >
+              </section>
+            </div>
+          </div>
+        </nav>
+        <button
+          class="interruptor-tema"
+          type="button"
+          aria-pressed="false"
+          aria-label="Activar modo oscuro"
+        >
+          <span class="tema-claro" aria-hidden="true">Claro</span
+          ><span class="pista-interruptor" aria-hidden="true"><span></span></span
+          ><span class="tema-oscuro" aria-hidden="true">Oscuro</span>
+        </button>
+      </div>
+    </header>
+
+    <main id="contenido-principal">
+      <section class="historia-hero" aria-labelledby="historia-titulo">
+        <div class="historia-hero-imagen" aria-hidden="true"></div>
+        <div class="historia-hero-contenido">
+          <p class="eyebrow">Desde 1914 · San Fernando</p>
+          <h2 id="historia-titulo">Una historia hecha de trabajo, conocimiento y comunidad.</h2>
+          <p>
+            Más de un siglo de transformaciones educativas, oficios y proyectos que siguen
+            impulsando a nuevas generaciones.
+          </p>
+          <a class="btn-principal" href="#linea-de-tiempo"
+            >Recorrer nuestra historia <span aria-hidden="true">↓</span></a
+          >
+        </div>
+        <p class="historia-hero-fecha" aria-label="Fundada en 1914">
+          <strong>1914</strong><span>fundación</span>
+        </p>
+      </section>
+
+      <section class="historia-manifiesto reveal" id="origen" aria-labelledby="manifiesto-titulo">
+        <p class="eyebrow">Un punto de partida</p>
+        <div>
+          <h3 id="manifiesto-titulo">Nacimos para abrir posibilidades.</h3>
+          <p>
+            El 24 de agosto de 1914 abrió sus puertas la Escuela Profesional y del Hogar de Mujeres
+            de San Fernando. Sus primeras aulas funcionaron en una casa alquilada de la entonces
+            calle San Martín, hoy Alsina, y ofrecían formación en corte y confección, lencería y
+            bordado.
+          </p>
+        </div>
+        <div class="historia-dato">
+          <strong>919</strong><span>egresadas entre 1914 y 1938</span>
+        </div>
+      </section>
+
+      <section class="historia-linea" id="linea-de-tiempo" aria-labelledby="linea-titulo">
+        <div class="historia-linea-encabezado reveal">
+          <p class="eyebrow">Línea de tiempo</p>
+          <h3 id="linea-titulo">Los momentos que nos trajeron hasta acá.</h3>
+        </div>
+        <ol>
+          <li class="hito reveal">
+            <p class="hito-fecha">1914</p>
+            <article>
+              <p class="eyebrow">Origen</p>
+              <h4>Una escuela para aprender y trabajar</h4>
+              <p>
+                La institución inicia su recorrido como Escuela Profesional y del Hogar de Mujeres
+                de San Fernando, ampliando gradualmente sus propuestas de formación.
+              </p>
+            </article>
+          </li>
+          <li class="hito reveal">
+            <p class="hito-fecha">1932—1938</p>
+            <article>
+              <p class="eyebrow">Primer crecimiento</p>
+              <h4>Una comunidad que se multiplica</h4>
+              <p>
+                La escuela abre nuevas secciones y llega a reunir 370 alumnas en un solo turno. Para
+                1938, ya habían egresado 919 estudiantes de la institución.
+              </p>
+            </article>
+          </li>
+          <li class="hito reveal">
+            <p class="hito-fecha">1961—1975</p>
+            <article>
+              <p class="eyebrow">Transformación</p>
+              <h4>El camino hacia la educación técnica</h4>
+              <p>
+                Luego de distintas denominaciones institucionales, desde 1975 adopta el nombre ENET
+                N°2 “Capitán de Fragata Carlos María Moyano”, consolidando su identidad técnica.
+              </p>
+            </article>
+          </li>
+          <li class="hito reveal" id="crecimiento">
+            <p class="hito-fecha">1990</p>
+            <article>
+              <p class="eyebrow">Innovación</p>
+              <h4>La informática abre una nueva etapa</h4>
+              <p>
+                Se incorpora computación al ciclo superior, con seis horas semanales, convirtiendo a
+                la institución en pionera local en ofrecer estos saberes a su comunidad.
+              </p>
+            </article>
+          </li>
+          <li class="hito reveal">
+            <p class="hito-fecha">1999</p>
+            <article>
+              <p class="eyebrow">Nuevas modalidades</p>
+              <h4>La formación se vincula con la producción</h4>
+              <p>
+                Se incorporan propuestas de Producción de Bienes y Servicios e Informática Personal
+                y Profesional, ampliando el puente entre la escuela, la tecnología y el mundo
+                socio-productivo.
+              </p>
+            </article>
+          </li>
+          <li class="hito reveal">
+            <p class="hito-fecha">2000</p>
+            <article>
+              <p class="eyebrow">Territorio</p>
+              <h4>Un edificio propio en Virreyes</h4>
+              <p>
+                En julio se concreta un anhelo institucional: la escuela se instala en Miguel Cané
+                4565, extendiendo su oferta educativa para recibir a más estudiantes.
+              </p>
+            </article>
+          </li>
+          <li class="hito reveal">
+            <p class="hito-fecha">2005—2011</p>
+            <article>
+              <p class="eyebrow">Más oportunidades</p>
+              <h4>Trayectorias que incluyen y evolucionan</h4>
+              <p>
+                Se suma la propuesta para personas adultas y se implementan nuevos diseños
+                curriculares técnicos, con formación general, científico-tecnológica y específica.
+              </p>
+            </article>
+          </li>
+          <li class="hito reveal" id="presente">
+            <p class="hito-fecha">2012—2016</p>
+            <article>
+              <p class="eyebrow">Especialidades</p>
+              <h4>Más trayectorias, más futuro</h4>
+              <p>
+                Se incorporan Maestro Mayor de Obras y, luego, Técnico en Industrialización de la
+                Madera y el Mueble, junto al crecimiento de Informática y la formación vinculada al
+                mundo del trabajo.
+              </p>
+            </article>
+          </li>
+        </ol>
+      </section>
+
+      <section class="historia-presente reveal" aria-labelledby="presente-titulo">
+        <div>
+          <p class="eyebrow">Hoy</p>
+          <h3 id="presente-titulo">La técnica que mira hacia adelante.</h3>
+          <p>
+            La EEST N°3 forma técnicos capaces de continuar estudios superiores, participar de su
+            comunidad y transformar desafíos reales en proyectos concretos. La cultura del trabajo,
+            el conocimiento científico-tecnológico y la colaboración siguen siendo parte de nuestra
+            identidad.
+          </p>
+        </div>
+        <img
+          class="historia-imagen-tecnica"
+          src="assets/images/0d422151-828f-40a1-b93a-d6b45be24d08.jpeg"
+          alt="Mapa visual de las áreas de formación de la EEST N°3"
+        />
+      </section>
+
+      <section class="historia-cta reveal" aria-label="Conocer la escuela hoy">
+        <p class="eyebrow">La historia continúa</p>
+        <h3>Cada proyecto suma un nuevo capítulo.</h3>
+        <div>
+          <a class="btn-principal" href="galeria.html">Ver la escuela hoy</a
+          ><a class="btn-secundario" href="index.html#contacto"
+            >Contactanos <span aria-hidden="true">→</span></a
+          >
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        &copy; 2026 Escuela de Educación Secundaria Técnica N°3 "Fragata Moyano" - San Fernando.
+      </p>
+      <p class="contador-visitas" aria-live="polite">
+        Visitas desde este dispositivo: <strong class="numero-visitas">0</strong>
+      </p>
+      <div class="redes-sociales" aria-label="Redes sociales institucionales">
+        <a
+          href="https://wa.me/541142526784"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Escribir por WhatsApp"
+          title="WhatsApp"
+          ><img src="assets/images/social/whatsapp-oficial.png" alt="" aria-hidden="true"
+        /></a>
+        <a
+          href="https://www.instagram.com/sanfermunicipio/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Ver Instagram"
+          title="Instagram"
+          ><img src="assets/images/social/instagram-oficial.png" alt="" aria-hidden="true"
+        /></a>
+        <a
+          href="https://www.facebook.com/SanFerMunicipio"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Ver Facebook"
+          title="Facebook"
+          ><img src="assets/images/social/facebook-oficial.png" alt="" aria-hidden="true"
+        /></a>
+      </div>
+    </footer>
+    <script src="assets/js/navegacion.js?v=20260925-2"></script>
+    <script src="assets/js/historia.js?v=20260925-2"></script>
+  </body>
+</html>

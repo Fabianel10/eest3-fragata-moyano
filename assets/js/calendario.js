@@ -93,18 +93,12 @@ const eventDescriptions = {
 };
 
 const eventImages = {
-  feriado:
-    'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=900&q=80',
-  local:
-    'https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=900&q=80',
-  docente:
-    'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=900&q=80',
-  turistico:
-    'https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=900&q=80',
-  efemeride:
-    'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=900&q=80',
-  tecnica:
-    'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80'
+  feriado: 'assets/images/ecolra.jpg',
+  local: 'assets/images/ecuela.jpg',
+  docente: 'assets/images/aura.png',
+  turistico: 'assets/images/constructores.jpg',
+  efemeride: 'assets/images/cartel.png',
+  tecnica: 'assets/images/informatica.jpg'
 };
 const eventTypeLabels = {
   feriado: 'Feriado nacional',
@@ -117,6 +111,13 @@ const eventTypeLabels = {
 
 let selectedDate = null;
 let activeMonthEvents = [];
+const calendarYear = 2026;
+const today = new Date();
+const isCurrentCalendarYear = today.getFullYear() === calendarYear;
+const currentMonth = isCurrentCalendarYear ? today.getMonth() : 8;
+const currentDate = isCurrentCalendarYear
+  ? `${calendarYear}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`
+  : null;
 
 const formatDate = (date) =>
   new Date(`${date}T12:00:00`).toLocaleDateString('es-AR', {
@@ -137,8 +138,7 @@ const selectDate = (date, monthEvents) => {
     featuredTitle.textContent = title;
     featuredDescription.textContent = eventDescriptions[type];
   } else {
-    featuredImage.src =
-      'https://images.unsplash.com/photo-1498243691581-b145c3f54a5?auto=format&fit=crop&w=900&q=80';
+    featuredImage.src = 'assets/images/ecuela.jpg';
     featuredImage.alt = 'Espacio educativo';
     featuredType.textContent = 'Agenda institucional';
     featuredTitle.textContent = 'Sin actividad destacada';
@@ -161,14 +161,14 @@ const renderCalendar = (month) => {
   activeMonthEvents = monthEvents;
   calendarMonthTitle.textContent = monthNames[month];
   calendarMonthNumber.textContent = String(month + 1).padStart(2, '0');
-  const firstDay = (new Date(2026, month, 1).getDay() + 6) % 7;
-  const days = new Date(2026, month + 1, 0).getDate();
+  const firstDay = (new Date(calendarYear, month, 1).getDay() + 6) % 7;
+  const days = new Date(calendarYear, month + 1, 0).getDate();
   calendarGrid.innerHTML = Array.from({ length: firstDay }, () => '<span class="dia-vacio"></span>')
     .concat(
       Array.from({ length: days }, (_, index) => {
         const day = index + 1;
         const event = monthEvents.find(([date]) => Number(date.slice(8, 10)) === day);
-        const date = `2026-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        const date = `${calendarYear}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
         return `<button class="dia-calendario ${event ? `tiene-evento ${event[2]}` : ''}" type="button" data-date="${date}" aria-pressed="false" aria-label="${event ? `${day}: ${event[1]}` : `${day} de ${monthNames[month]}`}">${day}</button>`;
       })
     )
@@ -181,7 +181,10 @@ const renderCalendar = (month) => {
         )
         .join('')
     : '<p class="sin-fechas">Sin fechas destacadas para este mes.</p>';
-  const initialDate = monthEvents[0]?.[0] || `2026-${String(month + 1).padStart(2, '0')}-01`;
+  const initialDate =
+    currentDate && month === currentMonth
+      ? currentDate
+      : monthEvents[0]?.[0] || `${calendarYear}-${String(month + 1).padStart(2, '0')}-01`;
   selectDate(initialDate, monthEvents);
   [...monthSelector.children].forEach((button, index) =>
     button.classList.toggle('activo', index === month)
@@ -203,7 +206,7 @@ calendarDetails.addEventListener('click', (event) => {
   const button = event.target.closest('.detalle-fecha');
   if (button) selectDate(button.dataset.date, activeMonthEvents);
 });
-renderCalendar(8);
+renderCalendar(currentMonth);
 
 if (visitCounter) {
   const visitKey = 'eest3-visitas-dispositivo';

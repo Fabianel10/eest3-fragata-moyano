@@ -2,6 +2,27 @@
 
 Este proyecto utiliza [versionado semántico](https://semver.org/lang/es/).
 
+## [1.3.0] - 2026-09-25
+
+### Agregado
+
+- Nueva página de Historia Institucional con línea de tiempo, contenido basado en el documento institucional y acceso desde todas las secciones del sitio.
+- Módulos de clima actual para San Fernando y selección automática de la fecha actual en el calendario 2026.
+- Galería multimedia ampliada con las 15 imágenes y videos disponibles, navegación por teclado e indicadores.
+- Recursos locales para la identidad visual: imágenes de la comunidad, diagrama de especialidades e íconos PNG de redes sociales.
+
+### Mejorado
+
+- Navegación, menú, pie de página, contraste y modo oscuro en Inicio, Galería, Calendario e Historia.
+- Diseño responsive sin desbordamiento horizontal comprobado en anchos de 320, 375, 768, 1024 y 1440 px.
+- Hero de Historia con jerarquía visual, botón separado del texto y marcador de fundación destacado en celeste.
+
+### Pendiente para producción institucional
+
+- Registrar la autorización de imagen y el responsable de cada foto, video y audio antes de difundir la URL pública.
+- Confirmar los datos de contacto, las fechas de calendario y los enlaces externos con Secretaría y equipo directivo.
+- Sustituir el contador local por una herramienta de analítica institucional con política de privacidad, o retirarlo.
+
 ## [1.2.0] - 2026-09-24
 
 ### Agregado

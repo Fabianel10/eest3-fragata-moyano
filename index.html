@@ -10,10 +10,14 @@
     />
     <meta name="theme-color" content="#071a2b" />
     <link rel="icon" type="image/png" href="assets/images/logo.png" />
-    <link rel="stylesheet" href="assets/css/estilo.css" />
+    <link rel="stylesheet" href="assets/css/estilo.css?v=20260925-19" />
     <link
       href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Space+Grotesk:wght@500;600;700&display=swap"
       rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
     />
   </head>
   <body>
@@ -41,6 +45,7 @@
         <nav id="panel-navegacion" aria-label="Navegación principal">
           <div class="enlaces-navegacion">
             <a href="#inicio" class="active">Inicio</a>
+            <a href="historia.html">Sobre nosotros</a>
             <div class="grupo-navegacion">
               <button class="desplegador-navegacion" type="button" aria-expanded="false">
                 Organización <span aria-hidden="true">⌄</span>
@@ -59,6 +64,10 @@
                 La Escuela <span aria-hidden="true">⌄</span>
               </button>
               <div class="submenu-navegacion">
+                <a href="historia.html"
+                  ><strong>Historia institucional</strong
+                  ><small>Más de un siglo formando futuro</small></a
+                >
                 <a href="#institucional"
                   ><strong>Identidad institucional</strong><small>Comunidad y formación</small></a
                 >
@@ -104,6 +113,10 @@
                 <a href="#institucional"
                   ><strong>La Escuela</strong><small>Identidad, misión y comunidad</small></a
                 >
+                <a href="historia.html"
+                  ><strong>Historia institucional</strong
+                  ><small>Hitos y memoria de la escuela</small></a
+                >
                 <a href="#organizacion"
                   ><strong>Organización</strong><small>Agenda, trámites y acompañamiento</small></a
                 >
@@ -131,8 +144,7 @@
               <section class="grupo-menu" aria-labelledby="menu-comunidad">
                 <p id="menu-comunidad">03 · Comunidad</p>
                 <a href="galeria.html"
-                  ><strong>Vida institucional</strong
-                  ><small>Espacios, talleres y actualidad</small></a
+                  ><strong>Galería</strong><small>Fotos, talleres y actualidad</small></a
                 >
                 <a href="#contacto"
                   ><strong>Contacto y ubicación</strong
@@ -198,16 +210,49 @@
         </div>
         <div class="organizacion-panel">
           <article class="agenda-hoy">
-            <p class="eyebrow">Próxima actividad</p>
-            <p class="agenda-fecha">Calendario institucional</p>
+            <p class="eyebrow">Hoy en la escuela</p>
+            <p class="agenda-fecha"><time class="fecha-actual" datetime="">Cargando fecha</time></p>
             <h3>Agenda y fechas importantes</h3>
             <p>
-              Publicar aquí mesas de examen, reuniones, actos, inscripciones y entregas de
-              documentación.
+              La fecha de hoy se destaca automáticamente en el calendario institucional para
+              consultar feriados, jornadas y actividades.
             </p>
-            <a href="#contacto" class="enlace-panel"
-              >Consultar a Secretaría <span aria-hidden="true">→</span></a
+            <a href="calendario.html" class="enlace-panel"
+              >Ver calendario del día <span aria-hidden="true">→</span></a
             >
+          </article>
+          <article class="clima-hoy" aria-labelledby="titulo-clima" aria-live="polite">
+            <div class="clima-encabezado">
+              <div>
+                <p class="eyebrow">San Fernando, Buenos Aires</p>
+                <h3 id="titulo-clima">Clima de hoy</h3>
+              </div>
+              <img
+                class="estado-clima"
+                data-weather-icon
+                src="https://openweathermap.org/img/wn/03d@2x.png"
+                alt="Condición meteorológica"
+              />
+            </div>
+            <p class="temperatura-clima">
+              <strong class="clima-temperatura">--</strong><span>°C</span>
+            </p>
+            <p class="descripcion-clima">Consultando condiciones actuales...</p>
+            <dl class="datos-clima">
+              <div>
+                <dt>Sensación</dt>
+                <dd class="clima-sensacion">--</dd>
+              </div>
+              <div>
+                <dt>Viento</dt>
+                <dd class="clima-viento">--</dd>
+              </div>
+              <div>
+                <dt>Lluvia</dt>
+                <dd class="clima-lluvia">--</dd>
+              </div>
+            </dl>
+            <p class="actualizacion-clima">Actualización diaria automática</p>
           </article>
           <div class="accesos-rapidos" aria-label="Accesos rápidos">
             <a href="#contacto" class="acceso-rapido">
@@ -264,6 +309,19 @@
             <div><strong>03</strong><span>Comunidad activa</span></div>
           </div>
         </div>
+        <aside class="historia-enlace reveal" aria-labelledby="titulo-enlace-historia">
+          <div>
+            <p class="eyebrow">Archivo institucional</p>
+            <h4 id="titulo-enlace-historia">Más de un siglo construyendo futuro.</h4>
+            <p>
+              Desde 1914, nuestra escuela transforma el aprendizaje técnico en oportunidades para la
+              comunidad.
+            </p>
+          </div>
+          <a class="btn-principal" href="historia.html"
+            >Conocé nuestra historia <span aria-hidden="true">→</span></a
+          >
+        </aside>
       </section>
 
       <!-- SECCIÓN DE ESPECIALIDADES (TARJETAS) -->
@@ -282,7 +340,11 @@
           <!-- Tarjeta 1 -->
           <div class="tarjeta">
             <div class="img-placeholder">
-              <img src="assets/images/informatica.jpg" alt="Especialidad Informática" />
+              <img
+                src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&amp;fit=crop&amp;w=1100&amp;q=85"
+                alt="Estudiante trabajando con tecnología informática"
+                loading="lazy"
+              />
             </div>
             <div class="tarjeta-body">
               <span class="card-number">01</span>
@@ -295,7 +357,11 @@
           <!-- Tarjeta 2 -->
           <div class="tarjeta">
             <div class="img-placeholder">
-              <img src="assets/images/madera y mueble.jpg" alt="Especialidad Madera y Mueble" />
+              <img
+                src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&amp;fit=crop&amp;w=1100&amp;q=85"
+                alt="Mueble contemporáneo de madera en proceso de diseño"
+                loading="lazy"
+              />
             </div>
             <div class="tarjeta-body">
               <span class="card-number">02</span>
@@ -310,8 +376,9 @@
           <div class="tarjeta">
             <div class="img-placeholder">
               <img
-                src="assets/images/mayor de obra.jpg"
-                alt="Especialidad Maestro Mayor de Obras"
+                src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&amp;fit=crop&amp;w=1100&amp;q=85"
+                alt="Profesionales revisando planos de una obra"
+                loading="lazy"
               />
             </div>
             <div class="tarjeta-body">
@@ -512,8 +579,34 @@
       <p class="contador-visitas" aria-live="polite">
         Visitas desde este dispositivo: <strong class="numero-visitas">0</strong>
       </p>
+      <div class="redes-sociales" aria-label="Redes sociales institucionales">
+        <a
+          href="https://wa.me/541142526784"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Escribir por WhatsApp"
+          title="WhatsApp"
+          ><img src="assets/images/social/whatsapp-oficial.png" alt="" aria-hidden="true"
+        /></a>
+        <a
+          href="https://www.instagram.com/sanfermunicipio/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Ver Instagram"
+          title="Instagram"
+          ><img src="assets/images/social/instagram-oficial.png" alt="" aria-hidden="true"
+        /></a>
+        <a
+          href="https://www.facebook.com/SanFerMunicipio"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Ver Facebook"
+          title="Facebook"
+          ><img src="assets/images/social/facebook-oficial.png" alt="" aria-hidden="true"
+        /></a>
+      </div>
     </footer>
 
-    <script src="assets/js/script.js"></script>
+    <script src="assets/js/script.js?v=20260925-11"></script>
   </body>
 </html>

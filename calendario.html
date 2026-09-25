@@ -9,12 +9,16 @@
     />
     <title>Calendario 2026 | EEST N°3 Fragata Moyano</title>
     <link rel="icon" type="image/png" href="assets/images/logo.png" />
-    <link rel="stylesheet" href="assets/css/estilo.css" />
+    <link rel="stylesheet" href="assets/css/estilo.css?v=20260925-19" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Space+Grotesk:wght@500;600;700&display=swap"
       rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
     />
   </head>
   <body>
@@ -27,11 +31,125 @@
         </div>
       </a>
       <div class="navegacion-principal">
-        <nav aria-label="Navegación principal">
+        <button
+          class="boton-menu"
+          type="button"
+          aria-expanded="false"
+          aria-controls="panel-navegacion"
+        >
+          <span class="boton-menu-icono" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span>Explorar</span>
+        </button>
+        <nav id="panel-navegacion" aria-label="Navegación principal">
           <div class="enlaces-navegacion">
-            <a href="index.html">Inicio</a><a href="index.html#organizacion">Organización</a
-            ><a class="active" href="calendario.html">Calendario 2026</a
-            ><a href="index.html#contacto">Contacto</a>
+            <a href="index.html">Inicio</a>
+            <a href="historia.html">Sobre nosotros</a>
+            <div class="grupo-navegacion">
+              <button class="desplegador-navegacion" type="button" aria-expanded="false">
+                Organización <span aria-hidden="true">⌄</span>
+              </button>
+              <div class="submenu-navegacion">
+                <a href="index.html#organizacion"
+                  ><strong>Centro institucional</strong><small>Agenda y comunidad</small></a
+                >
+                <a href="index.html#organizacion"
+                  ><strong>Trámites</strong><small>Consultas y certificados</small></a
+                >
+              </div>
+            </div>
+            <div class="grupo-navegacion">
+              <button class="desplegador-navegacion" type="button" aria-expanded="false">
+                La Escuela <span aria-hidden="true">⌄</span>
+              </button>
+              <div class="submenu-navegacion">
+                <a href="historia.html"
+                  ><strong>Historia institucional</strong
+                  ><small>Más de un siglo formando futuro</small></a
+                >
+                <a href="index.html#institucional"
+                  ><strong>Identidad institucional</strong><small>Comunidad y formación</small></a
+                >
+                <a href="galeria.html"
+                  ><strong>Espacios de aprendizaje</strong><small>Talleres y actualidad</small></a
+                >
+              </div>
+            </div>
+            <div class="grupo-navegacion">
+              <button class="desplegador-navegacion" type="button" aria-expanded="false">
+                Especialidades <span aria-hidden="true">⌄</span>
+              </button>
+              <div class="submenu-navegacion">
+                <a href="index.html#especialidades"
+                  ><strong>Informática</strong><small>Software, redes y tecnología</small></a
+                >
+                <a href="index.html#especialidades"
+                  ><strong>Madera y Mueble</strong><small>Diseño y producción</small></a
+                >
+                <a href="index.html#especialidades"
+                  ><strong>Maestro Mayor de Obras</strong><small>Proyecto y construcción</small></a
+                >
+              </div>
+            </div>
+            <a href="galeria.html">Galería</a>
+            <a class="active" aria-current="page" href="calendario.html">Calendario 2026</a>
+            <a href="index.html#contacto">Contacto</a>
+          </div>
+          <div class="panel-menu" aria-label="Explorar el sitio">
+            <div class="panel-menu-intro">
+              <p class="eyebrow">Directorio institucional</p>
+              <strong>Explorá la escuela por áreas.</strong>
+              <span
+                >Accesos organizados para conocer cada dimensión de la comunidad educativa.</span
+              >
+              <a href="index.html" class="panel-menu-inicio"
+                >Volver al inicio <span aria-hidden="true">→</span></a
+              >
+            </div>
+            <div class="panel-menu-enlaces">
+              <section class="grupo-menu" aria-labelledby="menu-institucion">
+                <p id="menu-institucion">01 · Institución</p>
+                <a href="index.html#institucional"
+                  ><strong>La Escuela</strong><small>Identidad, misión y comunidad</small></a
+                >
+                <a href="historia.html"
+                  ><strong>Historia institucional</strong
+                  ><small>Hitos y memoria de la escuela</small></a
+                >
+                <a href="index.html#organizacion"
+                  ><strong>Organización</strong><small>Agenda, trámites y acompañamiento</small></a
+                >
+                <a href="calendario.html"
+                  ><strong>Calendario 2026</strong><small>Feriados y agenda institucional</small></a
+                >
+              </section>
+              <section class="grupo-menu" aria-labelledby="menu-formacion">
+                <p id="menu-formacion">02 · Formación</p>
+                <a href="index.html#especialidades"
+                  ><strong>Especialidades</strong
+                  ><small>Trayectorias técnicas de la escuela</small></a
+                >
+                <a href="index.html#especialidades"
+                  ><strong>Informática</strong><small>Software, redes y tecnología</small></a
+                >
+                <a href="index.html#especialidades"
+                  ><strong>Madera y Mueble</strong><small>Diseño, oficio y producción</small></a
+                >
+                <a href="index.html#especialidades"
+                  ><strong>Maestro Mayor de Obras</strong
+                  ><small>Proyecto, cálculo y construcción</small></a
+                >
+              </section>
+              <section class="grupo-menu" aria-labelledby="menu-comunidad">
+                <p id="menu-comunidad">03 · Comunidad</p>
+                <a href="galeria.html"
+                  ><strong>Galería</strong><small>Fotos, talleres y actualidad</small></a
+                >
+                <a href="index.html#contacto"
+                  ><strong>Contacto y ubicación</strong
+                  ><small>Secretaría, consultas y cómo llegar</small></a
+                >
+              </section>
+            </div>
           </div>
         </nav>
         <button
@@ -59,6 +177,32 @@
           </div>
           <p>Feriados nacionales, asuetos locales y fechas de la comunidad educativa.</p>
         </div>
+        <aside class="clima-compacto" data-weather-component aria-live="polite">
+          <div>
+            <p class="eyebrow">San Fernando, Buenos Aires</p>
+            <p class="clima-compacto-fecha" data-weather-date>Cargando fecha...</p>
+            <p class="clima-compacto-descripcion" data-weather-description>Consultando clima...</p>
+            <img
+              class="icono-clima-compacto"
+              data-weather-icon
+              src="https://openweathermap.org/img/wn/03d@2x.png"
+              alt="Condición meteorológica"
+            />
+          </div>
+          <p class="clima-compacto-temperatura">
+            <strong data-weather-temperature>--</strong><span>°C</span>
+          </p>
+          <dl>
+            <div>
+              <dt>Sensación</dt>
+              <dd data-weather-feels-like>--</dd>
+            </div>
+            <div>
+              <dt>Viento</dt>
+              <dd data-weather-wind>--</dd>
+            </div>
+          </dl>
+        </aside>
         <div class="calendario-app">
           <div>
             <div class="selector-meses" aria-label="Elegí un mes"></div>
@@ -148,7 +292,34 @@
       <p class="contador-visitas" aria-live="polite">
         Visitas desde este dispositivo: <strong class="numero-visitas">0</strong>
       </p>
+      <div class="redes-sociales" aria-label="Redes sociales institucionales">
+        <a
+          href="https://wa.me/541142526784"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Escribir por WhatsApp"
+          title="WhatsApp"
+          ><img src="assets/images/social/whatsapp-oficial.png" alt="" aria-hidden="true"
+        /></a>
+        <a
+          href="https://www.instagram.com/sanfermunicipio/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Ver Instagram"
+          title="Instagram"
+          ><img src="assets/images/social/instagram-oficial.png" alt="" aria-hidden="true"
+        /></a>
+        <a
+          href="https://www.facebook.com/SanFerMunicipio"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Ver Facebook"
+          ><img src="assets/images/social/facebook-oficial.png" alt="" aria-hidden="true"
+        /></a>
+      </div>
     </footer>
-    <script src="assets/js/calendario.js"></script>
+    <script src="assets/js/navegacion.js?v=20260925-2"></script>
+    <script src="assets/js/clima.js?v=20260925-3"></script>
+    <script src="assets/js/calendario.js?v=20260925-3"></script>
   </body>
 </html>

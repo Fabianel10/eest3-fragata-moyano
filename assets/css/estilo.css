@@ -11,7 +11,7 @@
   --ink: #12263a;
   --sky: #17b9df;
   --sky-deep: #087fa5;
-  --sun: #f6a900;
+  --sun: #17b9df;
   --bg: #eaf9ff;
   --text: #132b42;
   --muted: #557086;
@@ -606,6 +606,19 @@ body.tema-oscuro .acceso-rapido:focus-visible {
   background: #123d58;
   color: #9deff0;
 }
+body.tema-oscuro .clima-hoy {
+  background: linear-gradient(145deg, #103752, #0d2c44);
+  border-color: var(--line);
+}
+body.tema-oscuro .clima-hoy h3,
+body.tema-oscuro .temperatura-clima,
+body.tema-oscuro .datos-clima dd {
+  color: #e4f5fd;
+}
+body.tema-oscuro .clima-hoy .eyebrow,
+body.tema-oscuro .estado-clima {
+  color: #9deff0;
+}
 body.tema-oscuro .organizacion-intro h2,
 body.tema-oscuro .section-heading h2,
 body.tema-oscuro .section-intro h3,
@@ -919,7 +932,7 @@ body.tema-oscuro .formulario-contacto textarea {
 
 .organizacion-panel {
   display: grid;
-  grid-template-columns: minmax(290px, 0.9fr) minmax(0, 1.35fr);
+  grid-template-columns: minmax(220px, 0.78fr) minmax(250px, 0.92fr) minmax(0, 1.35fr);
   border: 1px solid var(--line);
   background: #fff;
   box-shadow: var(--card-shadow);
@@ -970,6 +983,100 @@ body.tema-oscuro .formulario-contacto textarea {
 .enlace-panel span {
   color: var(--sky);
   margin-left: 5px;
+}
+
+.clima-hoy {
+  min-width: 0;
+  padding: 30px 26px;
+  border-right: 1px solid var(--line);
+  background: linear-gradient(145deg, #eafaff, #f8feff);
+}
+
+.clima-encabezado {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.clima-hoy .eyebrow {
+  color: var(--sky-deep);
+  font-size: 0.66rem;
+  line-height: 1.35;
+}
+
+.clima-hoy h3 {
+  color: var(--navy);
+  font-size: 1.2rem;
+  margin-top: 5px;
+}
+
+.estado-clima {
+  display: block;
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+}
+
+.temperatura-clima {
+  display: flex;
+  align-items: flex-start;
+  margin: 26px 0 4px;
+  color: var(--navy);
+  font-family: 'Space Grotesk', sans-serif;
+  line-height: 0.9;
+}
+
+.temperatura-clima strong {
+  font-size: clamp(2.8rem, 4vw, 4rem);
+  letter-spacing: 0;
+}
+
+.temperatura-clima span {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-top: 3px;
+}
+
+.descripcion-clima {
+  min-height: 2.8em;
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+
+.datos-clima {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(23, 185, 223, 0.25);
+}
+
+.datos-clima dt,
+.datos-clima dd {
+  margin: 0;
+}
+
+.datos-clima dt {
+  color: var(--muted);
+  font-size: 0.65rem;
+}
+
+.datos-clima dd {
+  color: var(--navy);
+  font-size: 0.76rem;
+  font-weight: 700;
+  margin-top: 3px;
+  overflow-wrap: anywhere;
+}
+
+.actualizacion-clima {
+  color: var(--muted);
+  font-size: 0.68rem;
+  line-height: 1.35;
+  margin-top: 18px;
 }
 
 .accesos-rapidos {
@@ -1861,33 +1968,27 @@ footer p {
 
 @keyframes riseIn {
   from {
-    opacity: 0;
     transform: translateY(28px);
   }
   to {
-    opacity: 1;
     transform: translateY(0);
   }
 }
 
 @keyframes heroZoom {
   from {
-    opacity: 0;
     transform: scale(1.06);
   }
   to {
-    opacity: 1;
     transform: scale(1);
   }
 }
 
 @keyframes headerDrop {
   from {
-    opacity: 0;
     transform: translateY(-18px);
   }
   to {
-    opacity: 1;
     transform: translateY(0);
   }
 }
@@ -2339,6 +2440,17 @@ footer p {
 }
 
 @media (max-width: 768px) {
+  header,
+  .hero,
+  .hero-content,
+  .hero-content h2,
+  .hero-content p,
+  .hero-actions,
+  .slider-medio > img,
+  .slider-medio > video {
+    animation: none;
+  }
+
   body {
     background-size: 190% 190%;
   }
@@ -2593,6 +2705,17 @@ footer p {
   .panel-menu {
     right: 0;
     width: min(430px, calc(100vw - 24px));
+    max-height: calc(100svh - 92px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .panel-menu-intro {
+    padding-bottom: 16px;
+  }
+
+  .panel-menu-enlaces {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .hero-code {
@@ -2624,6 +2747,40 @@ footer p {
 }
 
 @media (max-width: 520px) {
+  .boton-menu {
+    gap: 6px;
+    padding-right: 6px;
+  }
+
+  .interruptor-tema {
+    margin-left: 10px;
+    margin-right: 0;
+  }
+
+  .tema-claro,
+  .tema-oscuro {
+    display: none;
+  }
+
+  .panel-menu {
+    top: calc(100% + 10px);
+    width: calc(100vw - 20px);
+    padding: 18px;
+  }
+
+  .panel-menu-enlaces {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .grupo-menu {
+    padding: 10px 4px;
+  }
+
+  .grupo-menu + .grupo-menu {
+    border-top: 1px solid rgba(157, 239, 240, 0.14);
+  }
+
   .logo-texto span {
     font-size: 0.72rem;
   }
@@ -2723,7 +2880,7 @@ header {
 
 .hero::before {
   background:
-    linear-gradient(115deg, rgba(2, 179, 188, 0.18), transparent 38%, rgba(246, 169, 0, 0.1)),
+    linear-gradient(115deg, rgba(2, 179, 188, 0.18), transparent 38%, rgba(125, 223, 246, 0.12)),
     repeating-linear-gradient(90deg, transparent 0 78px, rgba(125, 223, 246, 0.1) 79px 80px);
   mix-blend-mode: screen;
 }
@@ -2744,7 +2901,7 @@ header {
 
 .hero-content .eyebrow::before {
   background: var(--sun);
-  box-shadow: 0 0 12px rgba(246, 169, 0, 0.8);
+  box-shadow: 0 0 12px rgba(125, 223, 246, 0.8);
   content: '';
   height: 7px;
   width: 7px;
@@ -2822,7 +2979,7 @@ header {
 }
 
 .hero-code code i {
-  color: #f6c453;
+  color: #9deff0;
   font-style: normal;
 }
 
@@ -3122,22 +3279,18 @@ body.tema-oscuro .formulario-contacto textarea:focus {
 
 @keyframes heroContentIn {
   from {
-    opacity: 0;
     transform: translateY(34px) scale(0.985);
   }
   to {
-    opacity: 1;
     transform: translateY(0) scale(1);
   }
 }
 
 @keyframes cardEnter {
   from {
-    opacity: 0;
     transform: translateY(26px) scale(0.97);
   }
   to {
-    opacity: 1;
     transform: translateY(0) scale(1);
   }
 }
@@ -3161,7 +3314,7 @@ body.tema-oscuro .formulario-contacto textarea:focus {
 
   .hero::before {
     background:
-      linear-gradient(160deg, rgba(2, 179, 188, 0.22), transparent 48%, rgba(246, 169, 0, 0.1)),
+      linear-gradient(160deg, rgba(2, 179, 188, 0.22), transparent 48%, rgba(125, 223, 246, 0.12)),
       repeating-linear-gradient(90deg, transparent 0 48px, rgba(125, 223, 246, 0.08) 49px 50px);
   }
 
@@ -3283,6 +3436,131 @@ main {
   max-width: 370px;
 }
 
+.clima-compacto {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(160px, 0.48fr);
+  align-items: center;
+  gap: 24px;
+  margin: 0 0 34px;
+  padding: 20px 24px;
+  border: 1px solid rgba(23, 185, 223, 0.38);
+  background: linear-gradient(105deg, #eafaff, #f7fdff);
+  box-shadow: 0 12px 28px rgba(7, 53, 86, 0.08);
+}
+
+.clima-compacto .eyebrow {
+  color: var(--sky-deep);
+  font-size: 0.67rem;
+}
+
+.clima-compacto > div:first-child {
+  position: relative;
+  padding-right: 48px;
+}
+
+.icono-clima-compacto {
+  position: absolute;
+  top: 4px;
+  right: 0;
+  width: 58px;
+  height: 58px;
+  object-fit: contain;
+}
+
+.clima-compacto-fecha {
+  color: var(--navy);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  margin-top: 5px;
+  text-transform: capitalize;
+}
+
+.clima-compacto-descripcion {
+  color: var(--muted);
+  font-size: 0.8rem;
+  margin-top: 5px;
+}
+
+.clima-compacto-temperatura {
+  display: flex;
+  align-items: flex-start;
+  color: var(--navy);
+  font-family: 'Space Grotesk', sans-serif;
+  line-height: 0.9;
+}
+
+.clima-compacto-temperatura strong {
+  font-size: clamp(2.6rem, 5vw, 4rem);
+}
+
+.clima-compacto-temperatura span {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-top: 4px;
+}
+
+.clima-compacto dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0;
+  padding-left: 22px;
+  border-left: 1px solid rgba(23, 185, 223, 0.32);
+}
+
+.clima-compacto dt,
+.clima-compacto dd {
+  margin: 0;
+}
+
+.clima-compacto dt {
+  color: var(--muted);
+  font-size: 0.68rem;
+}
+
+.clima-compacto dd {
+  color: var(--navy);
+  font-size: 0.82rem;
+  font-weight: 700;
+  margin-top: 3px;
+}
+
+body.tema-oscuro .clima-compacto {
+  border-color: rgba(125, 223, 246, 0.3);
+  background: linear-gradient(105deg, #103752, #0d2c44);
+}
+
+body.tema-oscuro .clima-compacto-fecha,
+body.tema-oscuro .clima-compacto-temperatura,
+body.tema-oscuro .clima-compacto dd {
+  color: #e4f5fd;
+}
+
+body.tema-oscuro .clima-compacto .eyebrow {
+  color: #9deff0;
+}
+
+body.tema-oscuro .icono-clima-compacto {
+  color: #9deff0;
+}
+
+@media (max-width: 620px) {
+  .clima-compacto {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 16px;
+    padding: 18px;
+  }
+
+  .clima-compacto dl {
+    grid-column: 1 / -1;
+    padding-top: 13px;
+    padding-left: 0;
+    border-top: 1px solid rgba(23, 185, 223, 0.32);
+    border-left: 0;
+  }
+}
+
 .calendario-app {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(260px, 0.38fr);
@@ -3392,8 +3670,9 @@ main {
 }
 
 .dia-calendario.seleccionado {
-  box-shadow: 0 0 0 3px rgba(246, 169, 0, 0.9);
-  outline: 2px solid var(--surface);
+  background: rgba(23, 185, 223, 0.18);
+  box-shadow: 0 0 0 3px rgba(23, 185, 223, 0.9);
+  outline: 2px solid #d9f4ff;
   outline-offset: -5px;
 }
 
@@ -3401,13 +3680,13 @@ main {
   background: var(--sky-deep);
 }
 .dia-calendario.local {
-  background: #d87d2c;
+  background: #1d93b2;
 }
 .dia-calendario.docente {
   background: #6b5ca5;
 }
 .dia-calendario.turistico {
-  background: #d85b31;
+  background: #287eaa;
 }
 .dia-calendario.efemeride {
   background: #278ea5;
@@ -3475,13 +3754,13 @@ main {
 }
 
 .detalle-fecha.local time {
-  background: #f0a64d;
+  background: var(--sky);
 }
 .detalle-fecha.docente time {
   background: #b7a8ef;
 }
 .detalle-fecha.turistico time {
-  background: #f29a75;
+  background: var(--sky);
 }
 .detalle-fecha.efemeride time {
   background: #6cdef3;
@@ -3552,13 +3831,13 @@ main {
   background: var(--sky);
 }
 .tipo-local {
-  background: #f0a64d;
+  background: var(--sky);
 }
 .tipo-docente {
   background: #b7a8ef;
 }
 .tipo-turistico {
-  background: #f29a75;
+  background: var(--sky);
 }
 .leyenda-calendario .tipo-efemeride {
   background: #6cdef3;
@@ -3572,6 +3851,25 @@ footer .contador-visitas {
   color: #d9f4ff;
 }
 
+footer,
+footer.reveal,
+footer.reveal.is-visible {
+  clip-path: none;
+  overflow: hidden;
+  transform: none;
+}
+
+footer p,
+footer.reveal p,
+footer.reveal.is-visible p {
+  color: #ffffff;
+  max-width: 100%;
+  opacity: 1;
+  overflow-wrap: anywhere;
+  transform: none;
+  white-space: normal;
+}
+
 .fecha-seleccionada {
   margin-top: 5px;
   color: #9deff0;
@@ -3582,6 +3880,495 @@ footer .contador-visitas {
 
 .calendario-utilidades {
   margin-top: 28px;
+}
+
+.redes-sociales {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 14px;
+  position: relative;
+  z-index: 1;
+}
+
+.redes-sociales a {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border: 1px solid rgba(217, 244, 255, 0.42);
+  border-radius: 50%;
+  color: #ffffff;
+  font-size: 1rem;
+  text-decoration: none;
+  transition:
+    background 0.2s var(--smooth),
+    color 0.2s var(--smooth),
+    transform 0.2s var(--smooth);
+}
+
+.redes-sociales a:hover,
+.redes-sociales a:focus-visible {
+  background: var(--sky);
+  color: var(--navy);
+  outline: none;
+  transform: translateY(-3px);
+}
+
+.redes-sociales img {
+  display: block;
+  width: 23px;
+  height: 23px;
+  object-fit: contain;
+}
+
+.historia-hero {
+  isolation: isolate;
+  min-height: min(720px, 78svh);
+  overflow: hidden;
+  position: relative;
+  display: grid;
+  align-items: end;
+  padding: 90px max(24px, calc((100% - 1100px) / 2)) 80px;
+  color: #ffffff;
+}
+
+.historia-hero-imagen {
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+  background: url('../images/IMG-20260917-WA0151.jpg') center / cover no-repeat;
+  animation: historia-zoom 14s var(--smooth) both;
+}
+
+.historia-hero::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(3, 18, 31, 0.93) 0%,
+    rgba(3, 18, 31, 0.75) 50%,
+    rgba(3, 18, 31, 0.25) 100%
+  );
+}
+
+.historia-hero-contenido {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 710px;
+  animation: historia-entrada 0.9s var(--smooth) both;
+}
+
+.historia-hero .eyebrow {
+  color: #9deff0;
+}
+
+.historia-hero h2 {
+  font-size: clamp(2.8rem, 6vw, 5.5rem);
+  letter-spacing: 0;
+  margin: 15px 0 20px;
+}
+
+.historia-hero-contenido > p:not(.eyebrow) {
+  color: #d9f4ff;
+  font-size: clamp(1rem, 1.8vw, 1.2rem);
+  max-width: 590px;
+}
+
+.historia-hero .btn-principal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.historia-hero-fecha {
+  position: absolute;
+  right: max(24px, calc((100% - 1100px) / 2));
+  bottom: 78px;
+  display: grid;
+  justify-items: end;
+  gap: 12px;
+  text-align: right;
+}
+
+.historia-hero-fecha strong {
+  color: #7ddff6;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(3.2rem, 8vw, 7.6rem);
+  line-height: 0.8;
+  text-shadow: 0 0 20px rgba(125, 223, 246, 0.6);
+}
+
+.historia-hero-fecha span {
+  color: #e7fbff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.historia-imagen-tecnica {
+  display: block;
+  width: 100%;
+  max-width: 430px;
+  justify-self: end;
+  border: 1px solid rgba(23, 185, 223, 0.45);
+  object-fit: cover;
+  box-shadow: var(--card-shadow);
+}
+
+@media (max-width: 960px) {
+  .historia-hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 28px;
+  }
+
+  .historia-hero-fecha {
+    position: static;
+    align-self: flex-end;
+  }
+}
+
+.historia-manifiesto,
+.historia-linea,
+.historia-presente,
+.historia-cta {
+  max-width: 1100px;
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+
+.historia-manifiesto {
+  display: grid;
+  grid-template-columns: 0.62fr 1.4fr 0.52fr;
+  align-items: end;
+  gap: 40px;
+  padding-top: 110px;
+  padding-bottom: 100px;
+}
+
+.historia-manifiesto h3,
+.historia-linea h3,
+.historia-presente h3,
+.historia-cta h3 {
+  color: var(--navy);
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  letter-spacing: 0;
+}
+.historia-manifiesto > div > p,
+.historia-presente > div > p {
+  color: var(--muted);
+  font-size: 1rem;
+  margin-top: 18px;
+}
+.historia-dato {
+  border-left: 3px solid var(--sky);
+  padding-left: 16px;
+}
+.historia-dato strong {
+  display: block;
+  color: var(--sky-deep);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 3rem;
+  line-height: 1;
+}
+.historia-dato span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+.historia-enlace {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  max-width: 980px;
+  margin-top: 48px;
+  padding: 28px 30px;
+  border: 1px solid rgba(23, 185, 223, 0.42);
+  background: linear-gradient(110deg, rgba(23, 185, 223, 0.14), transparent 58%), var(--surface);
+}
+
+.historia-enlace h4 {
+  color: var(--navy);
+  font-size: 1.35rem;
+  margin-top: 6px;
+}
+
+.historia-enlace p:last-child {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-top: 7px;
+  max-width: 560px;
+}
+
+body.tema-oscuro .historia-enlace h4 {
+  color: #e4f5fd;
+}
+
+.historia-linea {
+  padding-bottom: 110px;
+}
+.historia-linea-encabezado {
+  max-width: 680px;
+}
+.historia-linea-encabezado h3 {
+  margin-top: 10px;
+}
+.historia-linea ol {
+  list-style: none;
+  margin: 58px 0 0;
+  position: relative;
+}
+.historia-linea ol::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 154px;
+  width: 1px;
+  background: linear-gradient(var(--sky), transparent);
+}
+.hito {
+  display: grid;
+  grid-template-columns: 128px minmax(0, 1fr);
+  gap: 52px;
+  position: relative;
+  padding-bottom: 48px;
+}
+.hito::before {
+  content: '';
+  position: absolute;
+  left: 148px;
+  top: 9px;
+  width: 13px;
+  height: 13px;
+  border: 3px solid var(--page-bg);
+  border-radius: 50%;
+  background: var(--sky);
+  box-shadow: 0 0 0 1px var(--sky);
+}
+.hito-fecha {
+  color: var(--sky-deep);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  text-align: right;
+}
+.hito article {
+  max-width: 670px;
+  padding: 25px 28px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  box-shadow: var(--card-shadow);
+}
+.hito article .eyebrow {
+  font-size: 0.64rem;
+}
+.hito h4 {
+  color: var(--navy);
+  font-size: 1.35rem;
+  margin-top: 7px;
+}
+.hito article > p:last-child {
+  color: var(--muted);
+  font-size: 0.92rem;
+  margin-top: 10px;
+}
+
+.historia-presente {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 0.72fr);
+  gap: 80px;
+  align-items: center;
+  padding-top: 85px;
+  padding-bottom: 100px;
+  border-top: 1px solid var(--line);
+}
+.historia-radar {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  padding: 40px;
+  border: 1px solid rgba(23, 185, 223, 0.5);
+  background: linear-gradient(135deg, rgba(23, 185, 223, 0.16), transparent), var(--surface);
+}
+.historia-radar::before {
+  content: '';
+  position: absolute;
+  inset: 16px;
+  border: 1px dashed rgba(23, 185, 223, 0.45);
+  pointer-events: none;
+}
+.historia-radar strong {
+  display: grid;
+  min-height: 128px;
+  place-items: center;
+  grid-column: 1 / -1;
+  background: var(--navy);
+  color: #ffffff;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.8rem;
+  line-height: 1;
+  text-align: center;
+}
+.historia-radar span {
+  color: var(--sky-deep);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.historia-cta {
+  margin-bottom: 100px;
+  padding-top: 60px;
+  padding-bottom: 60px;
+  background: linear-gradient(135deg, #123853, var(--navy));
+  color: #ffffff;
+  text-align: center;
+}
+.historia-cta .eyebrow {
+  color: #9deff0;
+}
+.historia-cta h3 {
+  max-width: 720px;
+  margin: 10px auto 28px;
+  color: #ffffff;
+}
+.historia-cta > div {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+.historia-cta .btn-secundario {
+  color: #ffffff;
+}
+
+.historia-pagina .reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 0.65s var(--smooth),
+    transform 0.65s var(--smooth);
+}
+.historia-pagina .reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+body.tema-oscuro .historia-manifiesto h3,
+body.tema-oscuro .historia-linea h3,
+body.tema-oscuro .historia-presente h3,
+body.tema-oscuro .hito h4 {
+  color: #e4f5fd;
+}
+body.tema-oscuro .hito article {
+  background: var(--surface);
+}
+
+@keyframes historia-entrada {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes historia-zoom {
+  from {
+    transform: scale(1.08);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 760px) {
+  .historia-hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 620px;
+    padding-bottom: 90px;
+  }
+  .historia-hero::after {
+    background: linear-gradient(180deg, rgba(3, 18, 31, 0.42), rgba(3, 18, 31, 0.94));
+  }
+  .historia-hero-fecha {
+    position: static;
+    align-self: flex-end;
+    margin-top: 0;
+  }
+  .historia-manifiesto {
+    grid-template-columns: 1fr;
+    gap: 22px;
+    padding-top: 72px;
+    padding-bottom: 72px;
+  }
+  .historia-linea {
+    padding-bottom: 70px;
+  }
+  .historia-linea ol {
+    margin-top: 42px;
+  }
+  .historia-linea ol::before {
+    left: 8px;
+  }
+  .hito {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding-left: 30px;
+  }
+  .hito::before {
+    left: 2px;
+    top: 6px;
+  }
+  .hito-fecha {
+    text-align: left;
+  }
+  .historia-presente {
+    grid-template-columns: 1fr;
+    gap: 38px;
+    padding-top: 65px;
+    padding-bottom: 70px;
+  }
+  .historia-cta {
+    margin-bottom: 70px;
+    padding: 46px 24px;
+  }
+  .historia-cta > div {
+    flex-direction: column;
+    align-items: center;
+  }
+  .historia-enlace {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 20px;
+    padding: 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .historia-hero-imagen,
+  .historia-hero-contenido {
+    animation: none;
+  }
+  .historia-pagina .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
 
 .calendario-utilidades .reproductor-musica {
@@ -3775,13 +4562,26 @@ footer .contador-visitas {
 
 @keyframes revelarMedio {
   from {
-    opacity: 0;
     transform: scale(1.025);
   }
   to {
-    opacity: 1;
     transform: scale(1);
   }
+}
+
+html.tema-oscuro,
+body.tema-oscuro {
+  background-color: #06192a;
+}
+
+body.tema-oscuro main,
+body.tema-oscuro .galeria-pagina,
+body.tema-oscuro .calendario-completo {
+  background-color: #06192a;
+}
+
+body.tema-oscuro .galeria-pagina-intro h2 {
+  color: #e4f5fd;
 }
 
 body.tema-oscuro .calendario-completo-intro h2,
@@ -3812,7 +4612,38 @@ body.tema-oscuro .numero-mes {
 }
 
 body.tema-oscuro .fecha-calendario.local time {
-  color: #f0a64d;
+  color: var(--sky);
+}
+
+main,
+main * {
+  max-width: 100%;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+main h1,
+main h2,
+main h3,
+main h4,
+.galeria-pagina-intro > p,
+.calendario-completo-intro > p {
+  text-wrap: balance;
+}
+
+.selector-meses {
+  flex-wrap: nowrap;
+  max-width: 100%;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+}
+
+.selector-meses button {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
 }
 
 @media (max-width: 768px) {
@@ -3932,6 +4763,14 @@ body.tema-oscuro .fecha-calendario span {
 
 body.tema-oscuro .fecha-calendario time {
   color: #6cdef3;
+}
+
+html,
+body {
+  display: block !important;
+  min-height: 100vh !important;
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
 @media (max-width: 520px) {

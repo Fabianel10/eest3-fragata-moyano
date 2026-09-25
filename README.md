@@ -19,10 +19,10 @@ Abrir `index.html` en un navegador. El sitio es estático y no requiere instalar
 
 ## Entrega actual
 
-La versión `v1.2.0` incorpora galería multimedia, mejoras de interacción en el calendario y
-configuración de despliegue para Netlify. La evaluación docente, los criterios de
-publicación y los próximos pasos se documentan en `archive/versiones/v1.2.0/README.md` y
-`docs/MEJORAS.md`.
+La versión `v1.3.0` incorpora historia institucional, clima de San Fernando, recursos visuales
+locales, galería multimedia completa y mejoras responsive verificadas. La evaluación docente,
+los criterios de publicación y los próximos pasos se documentan en
+`archive/versiones/v1.3.0/README.md` y `docs/MEJORAS.md`.
 
 ## Versionado
 

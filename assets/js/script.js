@@ -17,6 +17,97 @@ const calendarMonthTitle = document.querySelector('.calendario-mes-titulo h3');
 const calendarMonthNumber = document.querySelector('.numero-mes');
 const calendarDetails = document.querySelector('.detalle-fechas');
 const visitCounter = document.querySelector('.numero-visitas');
+const currentDateLabel = document.querySelector('.fecha-actual');
+const weatherTemperature = document.querySelector('.clima-temperatura');
+const weatherDescription = document.querySelector('.descripcion-clima');
+const weatherStatus = document.querySelector('.estado-clima');
+const weatherFeelsLike = document.querySelector('.clima-sensacion');
+const weatherWind = document.querySelector('.clima-viento');
+const weatherRain = document.querySelector('.clima-lluvia');
+const weatherUpdatedAt = document.querySelector('.actualizacion-clima');
+
+const today = new Date();
+if (currentDateLabel) {
+  currentDateLabel.dateTime = today.toISOString().slice(0, 10);
+  currentDateLabel.textContent = today.toLocaleDateString('es-AR', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  });
+}
+
+const weatherConditions = {
+  0: ['Despejado', '☀'],
+  1: ['Mayormente despejado', '☀'],
+  2: ['Parcialmente nublado', '⛅'],
+  3: ['Nublado', '☁'],
+  45: ['Niebla', '≋'],
+  48: ['Niebla con escarcha', '≋'],
+  51: ['Llovizna leve', '☂'],
+  53: ['Llovizna moderada', '☂'],
+  55: ['Llovizna intensa', '☂'],
+  61: ['Lluvia leve', '☂'],
+  63: ['Lluvia moderada', '☂'],
+  65: ['Lluvia intensa', '☂'],
+  71: ['Nevada leve', '❄'],
+  73: ['Nevada moderada', '❄'],
+  75: ['Nevada intensa', '❄'],
+  80: ['Chaparrones leves', '☂'],
+  81: ['Chaparrones moderados', '☂'],
+  82: ['Chaparrones intensos', '☂'],
+  95: ['Tormentas', '⚡'],
+  96: ['Tormentas con granizo', '⚡'],
+  99: ['Tormentas con granizo', '⚡']
+};
+
+const weatherIconCodes = {
+  '☀': '01d',
+  '⛅': '02d',
+  '☁': '03d',
+  '≋': '50d',
+  '☂': '10d',
+  '❄': '13d',
+  '⚡': '11d'
+};
+const weatherIconUrl = (weatherSymbol) =>
+  `https://openweathermap.org/img/wn/${weatherIconCodes[weatherSymbol] || '03d'}@2x.png`;
+
+const renderWeatherUnavailable = () => {
+  if (!weatherDescription) return;
+  weatherDescription.textContent = 'El clima no está disponible en este momento.';
+  weatherStatus.src = weatherIconUrl();
+  weatherStatus.alt = 'Condición meteorológica no disponible';
+  weatherUpdatedAt.textContent = 'Volvé a cargar para actualizar las condiciones.';
+};
+
+const loadWeather = async () => {
+  if (!weatherTemperature) return;
+  try {
+    const response = await fetch(
+      'https://api.open-meteo.com/v1/forecast?latitude=-34.444&longitude=-58.557&current=temperature_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m&timezone=America%2FArgentina%2FBuenos_Aires'
+    );
+    if (!response.ok) throw new Error('No se pudo consultar el clima');
+    const { current } = await response.json();
+    if (!current) throw new Error('Respuesta de clima incompleta');
+    const [description, status] = weatherConditions[current.weather_code] || [
+      'Condiciones variables',
+      '◌'
+    ];
+    weatherTemperature.textContent = Math.round(current.temperature_2m);
+    weatherDescription.textContent = description;
+    weatherStatus.src = weatherIconUrl(status);
+    weatherStatus.alt = description;
+    weatherFeelsLike.textContent = `${Math.round(current.apparent_temperature)} °C`;
+    weatherWind.textContent = `${Math.round(current.wind_speed_10m)} km/h`;
+    weatherRain.textContent = `${Number(current.precipitation).toLocaleString('es-AR')} mm`;
+    weatherUpdatedAt.textContent = `Actualizado ${current.time.slice(11, 16)} hs`;
+  } catch {
+    renderWeatherUnavailable();
+  }
+};
+
+loadWeather();
 
 const setTheme = (isDark) => {
   document.body.classList.toggle('tema-oscuro', isDark);

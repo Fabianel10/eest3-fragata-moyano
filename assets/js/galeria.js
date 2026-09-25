@@ -44,7 +44,6 @@ const galleryItems = [
   { type: 'image', file: 'IMG_20260915_113032759_MFNR.jpg', title: 'Espacios de formación' },
   { type: 'image', file: 'IMG_20260915_113525040_MFNR.jpg', title: 'Momentos de la jornada' },
   { type: 'image', file: 'IMG_20260915_113803235.jpg', title: 'La escuela hoy' },
-  { type: 'image', file: 'IMG_20260915_125852415_MFNR.jpg', title: 'Proyectos de la comunidad' },
   {
     type: 'image',
     file: 'WhatsApp Image 2026-09-17 at 1.14.50 PM (1).jpeg',
@@ -55,6 +54,7 @@ const galleryItems = [
     file: 'WhatsApp Image 2026-09-17 at 1.14.50 PM.jpeg',
     title: 'Aprender haciendo'
   },
+  { type: 'image', file: 'IMG-20260917-WA0247.jpg', title: 'Encuentro de la comunidad' },
   { type: 'image', file: 'foto.png', title: 'Encuentro escolar' }
 ];
 

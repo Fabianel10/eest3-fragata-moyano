@@ -92,3 +92,27 @@ El siguiente objetivo no es agregar un formulario de usuario y contraseña al si
 - **Datos y calendario:** contrastar eventos, feriados, mesas, reuniones y plazos con Secretaría; mantener una única fuente de datos revisada.
 - **Desarrollo:** crear una rama por tarea, abrir Pull Request, adjuntar capturas y pruebas realizadas, y no fusionar sin revisión de otra persona.
 - **Infraestructura:** vincular Netlify con el repositorio bajo una cuenta institucional, definir responsables de acceso y validar el despliegue en la URL de producción.
+
+## Evaluación docente de la entrega 1.3.0
+
+### Logros observados
+
+- El equipo consolidó una identidad visual más propia: historia institucional, recursos gráficos locales, imágenes de la comunidad y una galería navegable.
+- Se resolvieron problemas de navegación móvil, contraste en modo oscuro, jerarquía de botones y visualización de contenido en diferentes anchos.
+- El calendario y el clima muestran información dinámica, mientras que los contenidos históricos se organizan en una secuencia clara y accesible.
+- La prueba de maquetación no registró desbordamiento horizontal en 320, 375, 768, 1024 y 1440 px para Inicio, Galería, Calendario e Historia.
+
+### Correcciones y criterios profesionales
+
+- La calidad visual no reemplaza la validación institucional: cada fecha, enlace, teléfono, foto, video y audio debe tener fuente, vigencia, responsable y autorización registrados.
+- No se debe usar el contador actual como métrica institucional: cuenta cargas en un mismo dispositivo, no visitas reales. Debe retirarse o reemplazarse por analítica institucional con información de privacidad.
+- Las imágenes donde se reconoce a personal o estudiantes sólo pueden quedar publicadas con autorización correspondiente. La galería debe llevar descripciones verificadas de actividad, fecha y responsable.
+- Antes de publicar como sitio oficial, probar con teclado, lector de pantalla y teléfonos reales; el control de calidad debe incluir enlaces externos, menú, calendario, clima, reproductor, formulario y contraste en ambos temas.
+
+### Próxima clase: actividades obligatorias
+
+1. **Equipo de contenidos:** crear una planilla de inventario para cada texto, imagen, video, audio y enlace con fuente, autorización, fecha, vigencia y responsable institucional.
+2. **Equipo de accesibilidad:** realizar pruebas manuales con teclado y lector de pantalla; registrar al menos tres hallazgos o confirmar los flujos probados con capturas.
+3. **Equipo de datos:** validar el calendario 2026 con Secretaría, agregar la fuente de cada fecha y definir quién actualiza las novedades.
+4. **Equipo de desarrollo:** abrir una rama por mejora, realizar una Pull Request, adjuntar evidencia de la prueba responsive y solicitar revisión de otro integrante.
+5. **Equipo de infraestructura:** registrar responsable institucional de GitHub y Netlify, comprobar el despliegue de producción y documentar cómo revertir una publicación.
