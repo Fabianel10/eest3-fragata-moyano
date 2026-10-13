@@ -2,6 +2,7 @@ import {
   PAGINAS, ARCHIVOS, TIPOS_EVENTO, nuevoBloque, nuevaTarjeta,
   validarDocumento, validarArchivo, urlSegura
 } from './cms-modelo.mjs';
+import { createCmsBackup, parseCmsBackup, backupFilename } from './cms-backup.mjs';
 import { obtenerCliente, configurado, resultado } from './supabase-cliente.mjs';
 import { mensajeError } from './comunidad-validacion.mjs';
 
@@ -25,6 +26,19 @@ let historyOffset = 0;
 let previewContent;
 let previewSlug;
 let fieldCounter = 0;
+
+async function cambiarPagina(next) {
+  const previous = slug;
+  slug = next;
+  try {
+    await cargarPagina();
+    $('#admin-pagina-selector').value = slug;
+  } catch (error) {
+    slug = previous;
+    $('#admin-pagina-selector').value = slug;
+    throw error;
+  }
+}
 
 function element(tag, text, clase) {
   const node = document.createElement(tag);
@@ -61,6 +75,8 @@ function actualizarControles() {
   $('#admin-guardar').disabled = busy || !dirty;
   $('#admin-publicar').disabled = busy || dirty || version === 0;
   $('#admin-recargar').disabled = busy;
+  $('#admin-exportar').disabled = busy || !content;
+  $('#admin-importar').disabled = busy || !catalogo;
   $('#admin-agregar').disabled = busy || !content || content.blocks.length >= 60;
   $('#admin-preview-update').disabled = busy || !content;
   $('#admin-bloques').querySelectorAll('button').forEach((button) => {
@@ -497,6 +513,40 @@ function actualizarPagina(page) {
   renderEditor();
   actualizarPreview();
 }
+
+function exportarRespaldo() {
+  if (!content) throw new Error('Todavía no hay contenido para respaldar.');
+  const backup = createCmsBackup(slug, content, {
+    draftVersion: version,
+    publishedVersion: publicado?.version ?? null
+  });
+  const blob = new Blob([`${JSON.stringify(backup, null, 2)}\n`], { type: 'application/json' });
+  const href = URL.createObjectURL(blob);
+  const link = element('a');
+  link.href = href;
+  link.download = backupFilename(slug, backup.exported_at);
+  document.body.append(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(href);
+  aviso(`Respaldo descargado para ${PAGINAS[slug]}. Conservá también las copias de seguridad del proyecto en Supabase y Netlify.`);
+}
+
+async function importarRespaldo(file) {
+  const backup = parseCmsBackup(await file.text());
+  if (dirty && !await confirmar('¿Cargar un respaldo y descartar los cambios locales sin guardar?')) return;
+  if (backup.slug !== slug) {
+    if (!await confirmar(`El respaldo corresponde a ${backup.page}. ¿Querés cambiar de página e importar ese contenido como borrador local?`)) return;
+    await cambiarPagina(backup.slug);
+  }
+  content = structuredClone(backup.document);
+  selection = 'ajustes';
+  dirty = true;
+  renderEditor();
+  actualizarPreview();
+  aviso(`Respaldo cargado para ${backup.page}. Revisá la vista previa y guardá el borrador para enviarlo al servidor.`);
+}
+
 async function cargarPagina() {
   const page = resultado(await cliente.from('cms_pages').select('*').eq('slug', slug).maybeSingle());
   publicado = resultado(await cliente.from('cms_published').select('version,published_at').eq('slug', slug).maybeSingle());
@@ -546,14 +596,23 @@ $('#admin-recargar').addEventListener('click', () => operacion(async () => {
   if (dirty && !await confirmar('¿Descartar cambios locales y cargar el borrador del servidor?')) return;
   await cargarPagina(); aviso('Borrador recargado.');
 }));
+$('#admin-exportar').addEventListener('click', () => operacion(async () => {
+  exportarRespaldo();
+}));
+$('#admin-importar').addEventListener('click', () => {
+  $('#admin-backup-file').click();
+});
+$('#admin-backup-file').addEventListener('change', (event) => operacion(async () => {
+  const [file] = event.target.files;
+  event.target.value = '';
+  if (!file) return;
+  await importarRespaldo(file);
+}));
 $('#admin-pagina-selector').addEventListener('change', (event) => operacion(async () => {
   const next = event.target.value;
   event.target.value = slug;
   if (dirty && !await confirmar('¿Cambiar de página y descartar los cambios sin guardar?')) return;
-  const previous = slug;
-  slug = next;
-  try { await cargarPagina(); event.target.value = slug; }
-  catch (error) { slug = previous; throw error; }
+  await cambiarPagina(next);
 }));
 window.addEventListener('beforeunload', (event) => {
   if (dirty || pendingMedia) { event.preventDefault(); event.returnValue = ''; }

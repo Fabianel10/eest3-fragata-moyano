@@ -35,7 +35,7 @@ automáticamente desde `main`; no publicar la raíz del repositorio.
 
 ## Entrega actual
 
-La versión `v1.5.0` continúa la entrega `v1.4.0` del trabajo estudiantil de comunidad, autenticación,
+La versión `v1.6.0` continúa la entrega `v1.4.0` del trabajo estudiantil de comunidad, autenticación,
 administración editorial y las tres carreras, además de las cinco nuevas fotografías
 del taller de Madera y Mueble. La revisión docente, las verificaciones y las tareas
 de la próxima entrega se documentan en
@@ -43,6 +43,8 @@ de la próxima entrega se documentan en
 El [ajuste 1.4.1](archive/versiones/v1.4.1/README.md) conserva las rutas HTML en Netlify.
 La [entrega 1.5.0](archive/versiones/v1.5.0/README.md) agrega recepción HTTPS de consultas,
 pausa accesible de galerías y comprobación de operaciones editoriales reales.
+La entrega 1.6.0 suma respaldos editoriales por página, documentación corregida del
+estado SMTP real y una limpieza de atribución automática en la historia publicada.
 
 Sitio de trabajo: **https://eest3sf.netlify.app**.
 La publicación técnica no reemplaza la validación institucional de contenidos y datos.
@@ -75,8 +77,10 @@ El proyecto Supabase real ya está conectado, con migraciones aplicadas, confirm
 de correo y URLs de retorno para `http://localhost:4173`.
 La primera cuenta administrativa está habilitada y su acceso fue confirmado.
 Las URLs HTTPS de retorno de Netlify están configuradas y se conservaron las locales.
-Falta SMTP propio;
-el correo predeterminado no permite abrir el registro a cualquier destinatario.
+SMTP ya fue orientado a Brevo, pero el envío real sigue pendiente de validar porque
+la última prueba devolvió autenticación fallida (`535`) en Supabase Auth Logs; hasta
+corregir el login SMTP y la clave SMTP correctos, no debe considerarse habilitado
+el registro/recuperación por correo para cualquier destinatario.
 Consultar [el estado y la guía de cuentas](docs/COMUNIDAD.md).
 Esta entrega guarda preferencias para futuras notificaciones; todavía no las envía.
 
@@ -86,7 +90,8 @@ Para pruebas automatizadas: `npm ci` y `npm test`. Las dependencias son solo de 
 
 Las cuentas administrativas pueden editar las siete páginas institucionales desde
 `admin.html`. Incluye secciones por bloques, textos, imágenes, enlaces, galería, agenda,
-audios, biblioteca de archivos, vista previa, borradores y publicación con historial.
+audios, biblioteca de archivos, vista previa, borradores, publicación con historial
+y respaldos JSON por página para recuperación rápida del contenido editorial.
 El backend real es Supabase (PostgreSQL, Auth, PostgREST y Storage), no el servidor local.
 Las cuatro migraciones ya están aplicadas en el proyecto conectado; no reejecutarlas.
 Consultar [la guía editorial](docs/ADMINISTRACION.md) antes de operar o usar Supabase CLI.

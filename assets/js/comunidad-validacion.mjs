@@ -45,6 +45,7 @@ export function mensajeError(error) {
     weak_password: 'Elegí una contraseña más segura y que no hayas usado antes.',
     session_not_found: 'La sesión venció. Volvé a iniciar sesión.',
     otp_expired: 'El enlace venció o ya fue usado. Solicitá uno nuevo.',
+    unexpected_failure: 'No pudimos completar la operación desde el servicio. Si ocurre al registrar o recuperar la cuenta, la escuela debe revisar la configuración del correo de envío.',
     validation_failed: 'Revisá los datos ingresados.',
     signup_disabled: 'El registro está deshabilitado. Contactá a la escuela.'
   };

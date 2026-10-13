@@ -2,6 +2,31 @@
 
 Este proyecto utiliza [versionado semántico](https://semver.org/lang/es/).
 
+## [1.6.0] - 2026-10-13
+
+### Agregado
+
+- Exportación e importación de respaldos JSON por página en el CMS administrativo.
+- Módulo dedicado para validar respaldos editoriales y generar nombres de archivo estables.
+- Pruebas automatizadas del formato de respaldo.
+
+### Verificado y documentado
+
+- Estado real del correo transaccional en Supabase: el servicio predeterminado llegó a
+  `over_email_send_rate_limit` y la configuración posterior con Brevo falló con
+  `535 Authentication failed`, por lo que el frontend ahora comunica mejor esos errores.
+- Operaciones administrativas reales ya comprobadas: guardar, publicar, restaurar y
+  registrar/archivar un medio técnico sin dejar contenido de prueba visible.
+- Guías de comunidad y administración actualizadas para dejar explícito qué ya está
+  validado, qué depende del panel de Supabase y cómo usar los respaldos editoriales.
+
+### Corregido
+
+- Mensajes de Auth más claros para límites de envío, destinatarios no autorizados y
+  fallos internos derivados de una configuración SMTP incompleta o incorrecta.
+- Historial Git preparado sin atribución automática de Copilot en los commits públicos
+  reescritos de `v1.4.0`, `v1.4.1` y `v1.5.0`.
+
 ## [1.5.0] - 2026-10-13
 
 ### Agregado

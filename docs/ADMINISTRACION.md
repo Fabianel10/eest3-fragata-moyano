@@ -20,6 +20,8 @@ El administrador puede:
   imagen destacada) y listas de audio.
 - Subir medios, editar su nombre/descripción, copiar URL y archivarlos.
 - Guardar borradores privados, revisar la vista previa adaptable y publicar por página.
+- Exportar e importar respaldos JSON por página para conservar una copia local del
+  borrador o la publicación, antes de guardar nuevamente en Supabase.
 - Consultar historial paginado y restaurar una versión como un nuevo borrador.
 - Ir al portal de comunidad para aprobar solicitudes de alumnos/as y profesores/as.
 
@@ -47,10 +49,13 @@ el historial de Supabase CLI: antes de usar `db push`, un operador debe reconcil
 ese historial con el esquema desplegado, sin volver a crear tablas ni políticas.
 
 La primera cuenta administrativa ya está confirmada y habilitada; su titular confirmó
-acceso al editor de las cuatro páginas. No se publicó contenido de prueba desde el CMS.
-Las páginas conservan su contenido original hasta la primera publicación.
-Quedan pendientes las pruebas reales de guardado, publicación y subida de medios.
+acceso al editor y ya se verificaron guardado de borrador, publicación, restauración
+de una revisión y alta de un medio técnico en Storage. No se dejaron publicaciones de
+prueba visibles: después de la comprobación, las páginas conservaron el contenido
+institucional esperado.
 Consultar [el estado de Auth y correo](COMUNIDAD.md#estado-del-proyecto-conectado).
+La exportación/importación de respaldo no reemplaza los backups de proyecto de Supabase:
+sirve para restaurar rápidamente el contenido editorial de una página en el navegador.
 
 ### Procedimiento para un proyecto nuevo
 
@@ -72,11 +77,28 @@ Consultar [el estado de Auth y correo](COMUNIDAD.md#estado-del-proyecto-conectad
    en la base hasta guardar por primera vez. Guardar y publicar las páginas deseadas.
 7. Confirmar que la URL pública muestra el contenido y que Storage entrega los medios.
    Hacer este control con una sesión anónima, no solo desde la vista previa.
+8. Descargar respaldos JSON de las páginas antes de cambios grandes. Para recuperar,
+   elegir **Importar respaldo**, revisar la vista previa y guardar el borrador.
+   Si hace falta restaurar toda la base, usar los backups del panel de Supabase.
 
 Sin Supabase configurado, las páginas institucionales conservan su contenido local y sus
 interacciones; el editor muestra una pantalla de activación y no habilita escrituras.
 Si el backend configurado no responde o falta una migración, la página pública avisa
 explícitamente y muestra la plantilla incluida. No simula una publicación exitosa.
+
+## Copias de seguridad y recuperación
+
+- **Respaldo editorial por página:** el editor exporta un JSON con `slug`, fecha,
+  versión del borrador y versión publicada. Sirve para reponer el contenido visual
+  de esa página como borrador local, incluso antes de reenviarlo al servidor.
+- **Historial en Supabase:** cada guardado, publicación y restauración crea una
+  revisión inmutable. Restaurar no toca la publicación hasta volver a publicar.
+- **Backups de base de datos:** según la documentación oficial de Supabase, los
+  backups de proyecto se gestionan desde **Database → Backups** y pueden requerir
+  downtime al restaurar. Las restauraciones de base no recuperan archivos borrados
+  de Storage; solo conservan sus metadatos en la base.
+- **Storage:** archivar un medio en el CMS no lo elimina. Si un archivo debe
+  preservarse fuera del proyecto, descargarlo además desde la biblioteca o el bucket.
 
 ## Modelo y API de backend
 

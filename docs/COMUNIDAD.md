@@ -31,19 +31,22 @@ Configuración verificada para Netlify y pruebas locales (2026-10-13):
   `https://eest3sf.netlify.app/comunidad.html?recuperacion=1`, además de las dos
   rutas equivalentes en `http://localhost:4173`, conservadas para desarrollo.
 - Registro por email habilitado, confirmación de correo requerida y contraseña mínima de 12 caracteres.
-- SMTP personalizado deshabilitado: se usa el correo predeterminado de Supabase.
-  Este servicio restringe destinatarios a miembros autorizados del equipo y limita envíos;
-  no está listo para registro público institucional.
+- SMTP personalizado habilitado para pruebas con Brevo (`smtp-relay.brevo.com`, TLS 587),
+  pero la validación real debe confirmar que el login SMTP, la clave SMTP y el remitente
+  verificado siguen vigentes. No usar contraseñas personales ni API keys en ese campo.
 
 La primera cuenta ya está confirmada y tiene administración asignada privadamente;
 su titular confirmó acceso al editor. No se incluyen datos personales de esa cuenta en el repositorio.
 El registro y la confirmación se completaron para esa cuenta; la recuperación todavía
 no se ha validado de extremo a extremo.
-En la comprobación del 2026-10-13, una solicitud autorizada de recuperación
-devolvió HTTP 429 (`over_email_send_rate_limit`): no se confirmó envío ni entrega,
-y no se cambió la contraseña. El formulario informa el límite sin afirmar éxito.
-El panel SMTP no tenía remitente, host, usuario ni contraseña configurados.
-Pendiente: configurar SMTP propio y comprobar confirmación/recuperación desde el sitio HTTPS.
+En las comprobaciones del 2026-10-13 se observaron dos estados distintos:
+
+- con el servicio predeterminado de Supabase, recuperación bloqueada por límite de envíos (`over_email_send_rate_limit`);
+- con Brevo cargado luego en Supabase, recuperación rechazada por autenticación SMTP (`535 "5.7.8 Authentication failed"`), lo que indica login o clave SMTP incorrectos.
+
+En ambos casos no se confirmó entrega ni se cambió la contraseña. El formulario informa
+el fallo sin afirmar éxito. Pendiente: confirmar el login SMTP y la clave SMTP correctos
+de Brevo, guardar y volver a probar confirmación/recuperación desde el sitio HTTPS.
 No desactivar la confirmación para eludir las restricciones del correo.
 
 Para completar SMTP, abrir **Authentication → Emails → SMTP Settings** en este
@@ -52,6 +55,30 @@ remitente autorizado, nombre institucional, host, puerto TLS, usuario y
 contraseña SMTP. Guardar y probar confirmación y recuperación con una cuenta de
 prueba autorizada. La contraseña se introduce únicamente en el panel: instalar
 paquetes o agregar código al frontend no sustituye un proveedor ni sus credenciales.
+
+### Brevo sin dominio propio
+
+Brevo puede usarse sin dominio propio, pero requiere dos cosas correctas:
+
+1. **Sender email address**: un remitente verificado en Brevo.
+2. **Username + Password**: el **login SMTP** y la **clave SMTP** que Brevo muestra en
+   **SMTP & API**, no la contraseña de acceso a la cuenta y no una API key genérica.
+
+Configuración esperada en Supabase:
+
+- Host: `smtp-relay.brevo.com`
+- Puerto TLS: `587`
+- Nombre del remitente: `EEST N°3 Fragata Moyano`
+- Usuario: login SMTP de Brevo
+- Contraseña: clave SMTP de Brevo
+
+Después de guardar, comprobar dos circuitos:
+
+- registro nuevo → correo de confirmación;
+- recuperación → correo con `?recuperacion=1`.
+
+Si Supabase devuelve `unexpected_failure`, revisar **Logs → Auth Logs**: un error
+`535 "5.7.8 Authentication failed"` apunta a credenciales SMTP incorrectas.
 
 ### Procedimiento para un proyecto nuevo
 
