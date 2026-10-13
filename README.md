@@ -7,6 +7,8 @@ Sitio institucional de muestra para la Escuela de Educación Secundaria Técnica
 El sitio usa archivos estáticos y módulos JavaScript:
 para todas las páginas, ejecutar `npm run dev` y visitar
 `http://localhost:4173`. El servidor local usa únicamente Node 22 o superior; no requiere instalar dependencias.
+En VS Code también se puede ejecutar la tarea **Sitio local**. Si el puerto ya está
+ocupado, comprobar la instancia existente antes de iniciar otra.
 
 Para publicar: `npm ci`, `npm test` y `npm run build`. El paquete `dist/` contiene
 solo las páginas y recursos públicos. Netlify ejecuta pruebas y genera ese paquete
@@ -33,12 +35,14 @@ automáticamente desde `main`; no publicar la raíz del repositorio.
 
 ## Entrega actual
 
-La versión `v1.4.1` consolida la entrega `v1.4.0` del trabajo estudiantil de comunidad, autenticación,
+La versión `v1.5.0` continúa la entrega `v1.4.0` del trabajo estudiantil de comunidad, autenticación,
 administración editorial y las tres carreras, además de las cinco nuevas fotografías
 del taller de Madera y Mueble. La revisión docente, las verificaciones y las tareas
 de la próxima entrega se documentan en
 [la entrega 1.4.0](archive/versiones/v1.4.0/README.md) y [la hoja de ruta](docs/MEJORAS.md).
 El [ajuste 1.4.1](archive/versiones/v1.4.1/README.md) conserva las rutas HTML en Netlify.
+La [entrega 1.5.0](archive/versiones/v1.5.0/README.md) agrega recepción HTTPS de consultas,
+pausa accesible de galerías y comprobación de operaciones editoriales reales.
 
 Sitio de trabajo: **https://eest3sf.netlify.app**.
 La publicación técnica no reemplaza la validación institucional de contenidos y datos.
@@ -87,6 +91,16 @@ El backend real es Supabase (PostgreSQL, Auth, PostgREST y Storage), no el servi
 Las cuatro migraciones ya están aplicadas en el proyecto conectado; no reejecutarlas.
 Consultar [la guía editorial](docs/ADMINISTRACION.md) antes de operar o usar Supabase CLI.
 Sin configuración no se habilitan escrituras ni se simulan publicaciones.
+
+## Consultas de contacto
+
+El formulario de inicio utiliza Netlify Forms con consentimiento y honeypot.
+Las consultas se revisan desde **Forms → contacto-institucional** en la cuenta
+Netlify del sitio; no se guardan en el perfil de Supabase ni se envían campañas.
+En localhost y vistas previas el envío está deshabilitado explícitamente.
+La institución debe asignar responsables, definir conservación y configurar
+notificaciones de recepción si las necesita. Consultar la
+[guía de despliegue](docs/DESPLIEGUE_COLABORADORES.md).
 
 ## Carreras técnicas
 

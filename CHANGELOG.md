@@ -2,6 +2,32 @@
 
 Este proyecto utiliza [versionado semántico](https://semver.org/lang/es/).
 
+## [1.5.0] - 2026-10-13
+
+### Agregado
+
+- Contacto por HTTPS con Netlify Forms: consentimiento, honeypot, límites de
+  campos, confirmación de recepción y conservación de datos ante errores.
+- Pausa/reanudación de galerías, suspensión al interactuar o al ocultar la pestaña,
+  controles de video y respeto al movimiento reducido.
+- Pruebas de interacción de galerías y de envío de consultas.
+- Tarea reproducible de VS Code para levantar el sitio local.
+
+### Verificado en el backend real
+
+- Cuenta administrativa autenticada: guardar, publicar y restaurar Madera.
+- Publicación v2 y borrador restaurado v3 con el mismo contenido de la plantilla.
+- Subida, registro, lectura pública y archivo de un medio técnico de 308 bytes.
+- Las pruebas no cambiaron textos, materias ni las cinco fotos del taller.
+
+### Corregido
+
+- Indicadores de galería mantienen el foco al navegar y las flechas no desplazan
+  la página ni interfieren con formularios.
+- Servidor local sirve JSON y MP4 con su tipo correcto, admite HEAD y rechaza
+  envíos que no puede procesar, sin aparentar recepción exitosa.
+- Mensaje explícito al intentar iniciar una segunda instancia en el puerto 4173.
+
 ## [1.4.1] - 2026-10-13
 
 ### Corregido

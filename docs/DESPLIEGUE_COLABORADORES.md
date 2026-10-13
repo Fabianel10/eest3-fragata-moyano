@@ -88,6 +88,23 @@ autorizado automáticamente para enlaces de confirmación: no usar comodines glo
 Configurar SMTP institucional antes de abrir el registro a cualquier destinatario.
 Las cuatro migraciones del proyecto real ya se aplicaron; no reejecutarlas al desplegar.
 
+### Recepción de consultas
+
+El formulario de inicio usa **Netlify Forms**, no `mailto` ni el SMTP de Supabase.
+Habilitar la detección de formularios en el sitio Netlify
+(`processing_settings.ignore_html_forms = false`) y conservar Pretty URLs desactivado.
+Después del deploy debe aparecer **contacto-institucional** en **Forms**.
+Confirmar tanto el mensaje de recepción en la página como la existencia del
+envío en esa bandeja; un HTTP 200 aislado no demuestra almacenamiento.
+
+Las consultas quedan restringidas a integrantes autorizados de la cuenta Netlify.
+Asignar un responsable y revisar entradas válidas/spam. Las notificaciones de
+Netlify Forms pueden configurarse por separado con un destinatario institucional
+validado; guardar una consulta no garantiza que llegue un aviso por correo.
+No publicar consultas ni incorporarlas al catálogo CMS. En localhost y vista
+previa no se envían datos. Ante error, los campos se conservan y se informa
+explícitamente que la recepción no está confirmada.
+
 ### Reversión
 
 Desde el panel del sitio en Netlify se puede volver a publicar un deploy anterior

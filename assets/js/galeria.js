@@ -10,6 +10,12 @@ const nextSlide = document.querySelector('.slider-siguiente');
 const soundButton = document.querySelector('.slider-sonido');
 const backgroundAudio = document.querySelector('.audio-fondo-video');
 const visitCounter = document.querySelector('.numero-visitas');
+const gallery = document.querySelector('.slider-galeria');
+const pauseButton = document.createElement('button');
+pauseButton.type = 'button';
+pauseButton.className = 'slider-boton slider-pausa';
+document.querySelector('.slider-controles').append(pauseButton);
+gallery.setAttribute('aria-roledescription', 'carrusel');
 
 backgroundAudio.src =
   'assets/audio/Argentina%20%20%20Cancion%20de%20la%20Selecci%C3%B3n%20Argentina%202026.mp3';
@@ -65,6 +71,10 @@ let currentSlide = 0;
 let slideshowTimer = null;
 let isBackgroundMusicEnabled = false;
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+let isPaused = prefersReducedMotion;
+let isHovered = false;
+const canAdvance = () => !isPaused && !isHovered && !document.hidden &&
+  !gallery.contains(document.activeElement);
 
 const encodedSource = (file) => `${mediaPath}${encodeURIComponent(file)}`;
 
@@ -91,18 +101,43 @@ const updateSoundButton = () => {
 
 const queueNextSlide = () => {
   stopTimer();
-  if (!prefersReducedMotion && galleryItems[currentSlide].type === 'image') {
+  if (canAdvance() && galleryItems[currentSlide]?.type === 'image') {
     slideshowTimer = window.setTimeout(() => showSlide(currentSlide + 1), 5500);
   }
 };
 
 const renderIndicators = () => {
-  sliderIndicators.innerHTML = galleryItems
-    .map(
-      (item, index) =>
-        `<button type="button" class="indicador-slider ${index === currentSlide ? 'activo' : ''}" data-slide="${index}" aria-label="Ver ${window.CMS_ESCAPE(item.title)}" aria-current="${index === currentSlide}"></button>`
-    )
-    .join('');
+  sliderIndicators.querySelectorAll('[data-slide]').forEach((button, index) => {
+    button.classList.toggle('activo', index === currentSlide);
+    button.setAttribute('aria-current', String(index === currentSlide));
+  });
+};
+
+const syncPlayback = () => {
+  const advancing = canAdvance();
+  pauseButton.setAttribute('aria-pressed', String(isPaused));
+  const label = isPaused ? 'Reanudar galería' : 'Pausar galería';
+  pauseButton.setAttribute('aria-label', label);
+  pauseButton.title = label;
+  pauseButton.textContent = isPaused ? '▶' : 'Ⅱ';
+  sliderMedia.setAttribute('aria-live', advancing ? 'off' : 'polite');
+  sliderCounter.setAttribute('aria-live', advancing ? 'off' : 'polite');
+  sliderStatus.textContent = isPaused
+    ? 'Galería en pausa. Podés avanzar con los controles.'
+    : advancing
+      ? 'Avance automático activo. Usá Pausar para detenerlo.'
+      : 'Avance suspendido mientras interactuás con la galería o la pestaña está oculta.';
+  const video = sliderMedia.querySelector('video');
+  if (advancing) {
+    queueNextSlide();
+    if (video) video.play().catch(() => {
+      sliderStatus.textContent = 'No se pudo iniciar el video. Usá los controles de reproducción.';
+    });
+  } else {
+    stopTimer();
+    video?.pause();
+    backgroundAudio.pause();
+  }
 };
 
 const showSlide = (index) => {
@@ -117,6 +152,8 @@ const showSlide = (index) => {
     previousSlide.disabled = true;
     nextSlide.disabled = true;
     soundButton.hidden = true;
+    pauseButton.disabled = true;
+    sliderStatus.textContent = 'La galería todavía no tiene imágenes ni videos publicados.';
     return;
   }
   currentSlide = (index + galleryItems.length) % galleryItems.length;
@@ -125,40 +162,48 @@ const showSlide = (index) => {
 
   sliderMedia.innerHTML =
     item.type === 'video'
-      ? `<video class="slider-video" src="${window.CMS_ESCAPE(source)}" autoplay muted playsinline preload="metadata" aria-label="${window.CMS_ESCAPE(item.title)}"></video>`
+      ? `<video class="slider-video" src="${window.CMS_ESCAPE(source)}" controls muted playsinline preload="metadata" aria-label="${window.CMS_ESCAPE(item.title)}"></video>`
       : `<img class="slider-imagen" src="${window.CMS_ESCAPE(source)}" alt="${window.CMS_ESCAPE(item.title)}" />`;
   sliderType.textContent = item.type === 'video' ? 'Video institucional' : 'Galería fotográfica';
   sliderTitle.textContent = item.title;
   sliderCounter.textContent = `${String(currentSlide + 1).padStart(2, '0')} / ${String(galleryItems.length).padStart(2, '0')}`;
-  sliderStatus.textContent =
-    item.type === 'video'
-      ? 'El video inicia automáticamente. Activá música con el botón de nota.'
-      : 'Las imágenes avanzan automáticamente.';
   updateSoundButton();
   renderIndicators();
+  syncPlayback();
 
   if (item.type === 'video') {
     const video = sliderMedia.querySelector('video');
-    if (isBackgroundMusicEnabled) {
+    if (isBackgroundMusicEnabled && canAdvance()) {
       backgroundAudio.play().catch(() => {
         isBackgroundMusicEnabled = false;
         updateSoundButton();
+        sliderStatus.textContent = 'No se pudo iniciar la música de fondo.';
       });
     }
-    video.addEventListener('ended', () => showSlide(currentSlide + 1), { once: true });
+    video.addEventListener('ended', () => {
+      if (canAdvance()) showSlide(currentSlide + 1);
+    });
     video.addEventListener('error', () => {
       sliderStatus.textContent =
-        'No se pudo cargar el video. Continuamos con la galería fotográfica.';
-      window.setTimeout(() => showSlide(currentSlide + 1), 1000);
-    });
-    video.play().catch(() => {
-      sliderStatus.textContent = 'El video está listo para reproducirse.';
+        'No se pudo cargar el video. Usá Siguiente para continuar.';
     });
   } else {
-    queueNextSlide();
+    sliderMedia.querySelector('img').addEventListener('error', () => {
+      stopTimer();
+      sliderStatus.textContent = 'No se pudo cargar la imagen. Usá Siguiente para continuar.';
+    });
   }
 };
 
+pauseButton.addEventListener('click', () => {
+  isPaused = !isPaused;
+  syncPlayback();
+});
+gallery.addEventListener('mouseenter', () => { isHovered = true; syncPlayback(); });
+gallery.addEventListener('mouseleave', () => { isHovered = false; syncPlayback(); });
+gallery.addEventListener('focusin', syncPlayback);
+gallery.addEventListener('focusout', () => window.setTimeout(syncPlayback, 0));
+document.addEventListener('visibilitychange', syncPlayback);
 previousSlide.addEventListener('click', () => showSlide(currentSlide - 1));
 nextSlide.addEventListener('click', () => showSlide(currentSlide + 1));
 soundButton.addEventListener('click', async () => {
@@ -185,10 +230,15 @@ sliderIndicators.addEventListener('click', (event) => {
 });
 document.addEventListener('keydown', (event) => {
   if (event.target.closest('input, textarea, select, [contenteditable="true"]')) return;
-  if (!document.querySelector('.slider-galeria').contains(document.activeElement)) return;
-  if (event.key === 'ArrowLeft') showSlide(currentSlide - 1);
-  if (event.key === 'ArrowRight') showSlide(currentSlide + 1);
+  if (!gallery.contains(document.activeElement)) return;
+  if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+    event.preventDefault();
+    showSlide(currentSlide + (event.key === 'ArrowLeft' ? -1 : 1));
+  }
 });
+sliderIndicators.innerHTML = galleryItems.map((item, index) =>
+  `<button type="button" class="indicador-slider" data-slide="${index}" aria-label="Ver ${window.CMS_ESCAPE(item.title)}"></button>`
+).join('');
 showSlide(0);
 
 if (visitCounter && !window.CMS_PREVIEW) {

@@ -547,30 +547,42 @@
           </div>
           <form
             class="formulario-contacto"
-            action="mailto:contacto@eest3sanfernando.edu.ar"
+            name="contacto-institucional"
+            data-netlify="true"
+            netlify-honeypot="sitio-web"
+            action="/"
             method="post"
-            enctype="text/plain"
           >
             <h3>Enviá tu consulta</h3>
             <div class="formulario-fila">
               <label>
                 Nombre
-                <input type="text" name="nombre" autocomplete="name" required />
+                <input type="text" name="nombre" autocomplete="name" minlength="2" maxlength="100" required />
               </label>
               <label>
                 Correo electrónico
-                <input type="email" name="correo" autocomplete="email" required />
+                <input type="email" name="correo" autocomplete="email" maxlength="254" required />
               </label>
             </div>
             <label>
               Asunto
-              <input type="text" name="asunto" required />
+              <input type="text" name="asunto" maxlength="200" required />
             </label>
             <label>
               Mensaje
-              <textarea name="mensaje" rows="4" required></textarea>
+              <textarea name="mensaje" rows="4" minlength="10" maxlength="5000" required></textarea>
             </label>
             <button type="submit">Enviar consulta</button>
+            <input type="hidden" name="form-name" value="contacto-institucional" />
+            <div hidden>
+              <label>No completar este campo <input name="sitio-web" tabindex="-1" autocomplete="off" /></label>
+            </div>
+            <label class="contacto-consentimiento">
+              <input type="checkbox" name="privacidad" value="aceptada" required />
+              Acepto el uso de mis datos para responder esta consulta según la
+              <a href="privacidad.html">política de privacidad</a>.
+            </label>
+            <p class="contacto-estado" role="status" tabindex="-1" hidden></p>
           </form>
         </div>
       </section>

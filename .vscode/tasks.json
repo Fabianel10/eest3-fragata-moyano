@@ -1,0 +1,29 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Sitio local",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"run",
+				"dev"
+			],
+			"isBackground": true,
+			"problemMatcher": {
+				"owner": "sitio-local",
+				"pattern": {
+					"regexp": "^(.*):(\\d+):(.*)$",
+					"file": 1,
+					"line": 2,
+					"message": 3
+				},
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": ".*",
+					"endsPattern": "Sitio disponible en http://localhost:4173"
+				}
+			}
+		}
+	]
+}

@@ -6,7 +6,7 @@ const file = location.pathname.split('/').pop() || 'index.html';
 const slug = Object.keys(ARCHIVOS).find((key) => ARCHIVOS[key] === file);
 window.CMS_ESCAPE = escaparHTML;
 const scripts = {
-  inicio: ['tema.js', 'script.js'],
+  inicio: ['tema.js', 'script.js', 'contacto.js'],
   historia: ['navegacion.js', 'historia.js'],
   galeria: ['navegacion.js', 'clima.js', 'galeria.js'],
   calendario: ['navegacion.js', 'clima.js', 'calendario.js'],

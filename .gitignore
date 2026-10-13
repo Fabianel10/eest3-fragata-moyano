@@ -1,7 +1,8 @@
 # Sistema operativo y editor
 .DS_Store
 Thumbs.db
-.vscode/
+.vscode/*
+!.vscode/tasks.json
 
 # Archivos temporales y de compilación
 *.log

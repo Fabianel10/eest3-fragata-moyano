@@ -12,12 +12,16 @@
 - Espacio preparado para agenda, fechas y comunicados institucionales.
 - Navegación directa hacia el nuevo centro institucional.
 - Aviso para identificar contenido de ejemplo que requiere validación oficial.
+- Entrega 1.5.0: recepción de consultas por Netlify Forms, consentimiento y estados de envío.
+- Galerías con pausa, controles de video, respeto al movimiento reducido y foco conservado.
+- Operaciones reales del CMS y Storage verificadas con autorización de administración.
 
 ## Prioridad alta
 
 - Definir responsables para actualizar cada contenido: secretaría, preceptoría, docentes y equipo directivo.
 - Reemplazar datos de contacto, horarios y enlaces de ejemplo por información oficial confirmada.
-- Conectar el formulario a un servicio seguro con confirmación de recepción; no utilizar `mailto` como canal principal.
+- Asignar responsables para revisar las consultas recibidas en Netlify Forms y
+  definir su conservación; configurar avisos de recepción si se necesitan.
 - Crear un calendario único con actos, mesas, inscripciones, reuniones, feriados y fechas de entrega.
 - Publicar comunicados con fecha, destinatario, adjuntos y vencimiento visible.
 - Incorporar accesos verificados a plataformas educativas y canales oficiales de la institución.
@@ -42,8 +46,9 @@
 
 ## Próxima decisión necesaria
 
-Consolidar la implementación existente: SMTP, validación editorial institucional,
-operaciones CMS reales y accesibilidad. El frontend es estático; cuentas y edición
+Consolidar la implementación existente: SMTP, validación editorial institucional
+y revisión de accesibilidad con personas usuarias. Las operaciones CMS reales
+ya se verificaron. El frontend es estático; cuentas y edición
 ya usan Auth y roles de Supabase. No crear una segunda autenticación paralela.
 
 ## Evaluación docente de la entrega 1.4.0
