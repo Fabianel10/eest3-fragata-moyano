@@ -35,7 +35,7 @@ automáticamente desde `main`; no publicar la raíz del repositorio.
 
 ## Entrega actual
 
-La versión `v1.6.0` continúa la entrega `v1.4.0` del trabajo estudiantil de comunidad, autenticación,
+La versión `v1.6.1` continúa la entrega `v1.4.0` del trabajo estudiantil de comunidad, autenticación,
 administración editorial y las tres carreras, además de las cinco nuevas fotografías
 del taller de Madera y Mueble. La revisión docente, las verificaciones y las tareas
 de la próxima entrega se documentan en
@@ -43,8 +43,9 @@ de la próxima entrega se documentan en
 El [ajuste 1.4.1](archive/versiones/v1.4.1/README.md) conserva las rutas HTML en Netlify.
 La [entrega 1.5.0](archive/versiones/v1.5.0/README.md) agrega recepción HTTPS de consultas,
 pausa accesible de galerías y comprobación de operaciones editoriales reales.
-La entrega 1.6.0 suma respaldos editoriales por página, documentación corregida del
-estado SMTP real y una limpieza de atribución automática en la historia publicada.
+La entrega 1.6.0 suma respaldos editoriales por página y la limpieza de atribución
+automática en la historia publicada. La 1.6.1 registra la causa final del bloqueo SMTP
+y la recepción comprobada del correo de recuperación en producción.
 
 Sitio de trabajo: **https://eest3sf.netlify.app**.
 La publicación técnica no reemplaza la validación institucional de contenidos y datos.
@@ -77,10 +78,11 @@ El proyecto Supabase real ya está conectado, con migraciones aplicadas, confirm
 de correo y URLs de retorno para `http://localhost:4173`.
 La primera cuenta administrativa está habilitada y su acceso fue confirmado.
 Las URLs HTTPS de retorno de Netlify están configuradas y se conservaron las locales.
-SMTP ya fue orientado a Brevo, pero el envío real sigue pendiente de validar porque
-la última prueba devolvió autenticación fallida (`535`) en Supabase Auth Logs; hasta
-corregir el login SMTP y la clave SMTP correctos, no debe considerarse habilitado
-el registro/recuperación por correo para cualquier destinatario.
+La recuperación de contraseña por correo quedó comprobada en producción con Brevo.
+El `525 Unauthorized IP address` se resolvió desactivando el bloqueo IP únicamente
+para SMTP en Brevo; se mantuvieron las credenciales SMTP y sin cambios el bloqueo
+de API. Falta probar el flujo de confirmación de registro con una cuenta de prueba
+autorizada antes de abrir el registro a cualquier destinatario.
 Consultar [el estado y la guía de cuentas](docs/COMUNIDAD.md).
 Esta entrega guarda preferencias para futuras notificaciones; todavía no las envía.
 

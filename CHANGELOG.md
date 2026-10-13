@@ -2,6 +2,24 @@
 
 Este proyecto utiliza [versionado semántico](https://semver.org/lang/es/).
 
+## [1.6.1] - 2026-10-13
+
+### Verificado
+
+- La recuperación de contraseña envió y entregó un correo real desde el sitio de
+  producción, después de actualizar la credencial SMTP en Supabase.
+- Diagnóstico confirmado: Brevo rechazaba la conexión de Supabase por bloqueo IP
+  (`525 5.7.1 Unauthorized IP address`), no por un error de la aplicación.
+- Se desactivó únicamente el bloqueo IP para SMTP keys en Brevo; el bloqueo de
+  API keys no se modificó y la autenticación SMTP continúa activa.
+
+### Documentado
+
+- Actualizado el estado de SMTP, el procedimiento de diagnóstico y las tareas de
+  verificación del correo de confirmación de registro.
+- Registrado que la recepción del correo de recuperación sí está probada, pero
+  el cambio de contraseña y el correo de alta todavía requieren una prueba separada.
+
 ## [1.6.0] - 2026-10-13
 
 ### Agregado

@@ -16,7 +16,8 @@
 - Galerías con pausa, controles de video, respeto al movimiento reducido y foco conservado.
 - Operaciones reales del CMS y Storage verificadas con autorización de administración.
 - Respaldo editorial por página: exportación e importación JSON desde el CMS.
-- Diagnóstico real del correo en Supabase documentado con errores 429 y 535.
+- Recuperación real por correo comprobada en producción tras corregir el bloqueo
+  IP de SMTP de Brevo (`525 5.7.1 Unauthorized IP address`).
 
 ## Prioridad alta
 
@@ -48,11 +49,11 @@
 
 ## Próxima decisión necesaria
 
-Consolidar la implementación existente: corregir las credenciales SMTP reales en
-Supabase/Brevo, completar la validación editorial institucional y revisar accesibilidad
-con personas usuarias. Las operaciones CMS reales ya se verificaron. El frontend es
-estático; cuentas y edición ya usan Auth y roles de Supabase. No crear una segunda
-autenticación paralela.
+Completar la prueba del correo de confirmación de registro con una cuenta autorizada,
+la validación editorial institucional y la revisión de accesibilidad con personas
+usuarias. La recuperación por correo y las operaciones CMS reales ya se verificaron.
+El frontend es estático; cuentas y edición ya usan Auth y roles de Supabase. No crear
+una segunda autenticación paralela.
 
 ## Evaluación docente de la entrega 1.4.0
 

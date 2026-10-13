@@ -31,30 +31,32 @@ Configuración verificada para Netlify y pruebas locales (2026-10-13):
   `https://eest3sf.netlify.app/comunidad.html?recuperacion=1`, además de las dos
   rutas equivalentes en `http://localhost:4173`, conservadas para desarrollo.
 - Registro por email habilitado, confirmación de correo requerida y contraseña mínima de 12 caracteres.
-- SMTP personalizado habilitado para pruebas con Brevo (`smtp-relay.brevo.com`, TLS 587),
-  pero la validación real debe confirmar que el login SMTP, la clave SMTP y el remitente
-  verificado siguen vigentes. No usar contraseñas personales ni API keys en ese campo.
+- SMTP personalizado habilitado con Brevo (`smtp-relay.brevo.com`, TLS 587).
+  La recuperación de contraseña desde el sitio HTTPS confirmó la recepción real del
+  correo el 2026-10-13. No se considera probado el cambio de contraseña ni el alta de
+  una cuenta nueva por confirmación de correo.
 
 La primera cuenta ya está confirmada y tiene administración asignada privadamente;
 su titular confirmó acceso al editor. No se incluyen datos personales de esa cuenta en el repositorio.
-El registro y la confirmación se completaron para esa cuenta; la recuperación todavía
-no se ha validado de extremo a extremo.
-En las comprobaciones del 2026-10-13 se observaron dos estados distintos:
+El registro y la confirmación de esa cuenta ya se completaron. La entrega del correo
+de recuperación se validó después de corregir SMTP; aún no se probó el cambio de
+contraseña desde el enlace.
+Durante las comprobaciones del 2026-10-13 se observaron estos estados:
 
 - con el servicio predeterminado de Supabase, recuperación bloqueada por límite de envíos (`over_email_send_rate_limit`);
-- con Brevo cargado luego en Supabase, recuperación rechazada por autenticación SMTP (`535 "5.7.8 Authentication failed"`), lo que indica login o clave SMTP incorrectos.
+- con Brevo configurado, primero hubo rechazo de autenticación (`535 "5.7.8 Authentication failed"`);
+- tras renovar la clave SMTP, Brevo informó `525 "5.7.1 Unauthorized IP address"`: el bloqueo IP de SMTP impedía conexiones desde Supabase.
 
-En ambos casos no se confirmó entrega ni se cambió la contraseña. El formulario informa
-el fallo sin afirmar éxito. Pendiente: confirmar el login SMTP y la clave SMTP correctos
-de Brevo, guardar y volver a probar confirmación/recuperación desde el sitio HTTPS.
-No desactivar la confirmación para eludir las restricciones del correo.
+Se desactivó en Brevo **solo** el bloqueo de IP para SMTP, manteniendo sin cambios
+el bloqueo de IP de API. La autenticación SMTP con usuario y clave sigue activa.
+Después, una recuperación real desde `https://eest3sf.netlify.app` confirmó la recepción
+del correo. La pantalla informa errores sin afirmar éxito. No desactivar la confirmación
+de cuentas para eludir restricciones del correo.
 
-Para completar SMTP, abrir **Authentication → Emails → SMTP Settings** en este
-proyecto, habilitar SMTP personalizado y cargar los datos del proveedor:
-remitente autorizado, nombre institucional, host, puerto TLS, usuario y
-contraseña SMTP. Guardar y probar confirmación y recuperación con una cuenta de
-prueba autorizada. La contraseña se introduce únicamente en el panel: instalar
-paquetes o agregar código al frontend no sustituye un proveedor ni sus credenciales.
+La configuración actual ya quedó guardada en **Authentication → Emails → SMTP
+Settings**. No rotar ni compartir las credenciales salvo que una nueva prueba indique
+un error de autenticación. Para revisar/cambiar credenciales, hacerlo directamente en
+los paneles de Supabase y Brevo, nunca en el repositorio, chats ni capturas.
 
 ### Brevo sin dominio propio
 
@@ -72,13 +74,23 @@ Configuración esperada en Supabase:
 - Usuario: login SMTP de Brevo
 - Contraseña: clave SMTP de Brevo
 
-Después de guardar, comprobar dos circuitos:
+Para el proyecto conectado, Brevo estaba bloqueando SMTP por IP (`525
+5.7.1 Unauthorized IP address`). Supabase envía desde su infraestructura, no desde la
+computadora local ni desde Netlify. Como no se configuró un relay de salida con IP
+fija, se desactivó **solo** el bloqueo de IP de **SMTP keys** en Brevo; no se modificó
+la fila de **API keys**. La autenticación SMTP permanece activa. Si una política
+institucional requiere allowlist IP para SMTP, usar un relay con salida fija en lugar
+de agregar la IP personal del operador.
+
+Después de guardar, probar los circuitos necesarios:
 
 - registro nuevo → correo de confirmación;
 - recuperación → correo con `?recuperacion=1`.
 
-Si Supabase devuelve `unexpected_failure`, revisar **Logs → Auth Logs**: un error
-`535 "5.7.8 Authentication failed"` apunta a credenciales SMTP incorrectas.
+Si Supabase devuelve `unexpected_failure`, revisar **Logs**, filtrando **Auth** y
+**error 5xx**: un error
+`535 "5.7.8 Authentication failed"` apunta a credenciales SMTP incorrectas y
+`525 "5.7.1 Unauthorized IP address"` a la restricción IP configurada en Brevo.
 
 ### Procedimiento para un proyecto nuevo
 
