@@ -10,6 +10,8 @@ de cuentas y contenidos es Supabase. Se generan solo los archivos públicos en `
 - Node: 22. Instalación: `npm ci`. Verificación: `npm test`. Empaquetado: `npm run build`.
 - `netlify.toml` ejecuta `npm test && npm run build` y publica `dist`.
 - El posprocesado HTML se desactiva para conservar rutas `.html` y referencias CMS.
+- Desactivar también **Pretty URLs** en la configuración del sitio Netlify si
+  estaba habilitado antes de incorporar `netlify.toml`; reconstruir después.
 - GitHub Actions comprueba las pruebas y el paquete en pushes a `main` y Pull Requests.
 - No publicar `.`, porque contiene pruebas, SQL, documentos fuente y dependencias.
 - Las claves publishable son públicas; nunca agregar secret keys ni credenciales de despliegue.
@@ -69,6 +71,12 @@ La versión publicada debe corresponder al SHA subido a GitHub. Comprobar estado
 `ready` del despliegue y abrir las nuevas páginas y fotos. Si se necesita publicar
 manualmente, usar `netlify deploy --prod --dir=dist` desde el sitio vinculado,
 después de verificar pruebas y build; nunca pasar `--dir=.`.
+
+Netlify puede insertar un comentario de hosting y su script público HUD aunque
+el posprocesado esté desactivado. No comparar el hash del HTML servido como única
+validación: comprobar que se conserva el HTML original al excluir esas inserciones,
+que los enlaces mantienen `.html` y que el CMS carga al navegar. Los recursos del
+catálogo y las imágenes sí deben coincidir exactamente con el paquete.
 
 ### Auth de producción y límites
 
