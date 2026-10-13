@@ -1,0 +1,27 @@
+[
+  {
+    "content": {
+      "version": 1,
+      "title": "Publicación de prueba",
+      "description": "Prueba de renderizado público",
+      "chrome": {},
+      "blocks": [
+        {
+          "id": "b0",
+          "source": "b0",
+          "kind": "original",
+          "label": "Portada",
+          "hidden": false,
+          "theme": "claro",
+          "layout": "derecha",
+          "fields": {
+            "f98": { "kind": "text", "value": "Aprender con nuestra comunidad." },
+            "f118": { "kind": "background", "value": "assets/images/ecolra.jpg" }
+          },
+          "cards": []
+        }
+      ],
+      "modules": { "gallery": [], "events": [], "playlist": [], "year": 2027 }
+    }
+  }
+]

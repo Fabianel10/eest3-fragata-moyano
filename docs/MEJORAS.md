@@ -2,6 +2,11 @@
 
 ## Implementado en esta entrega
 
+- Entrega 1.4.0: comunidad y Auth, CMS de siete páginas, backend Supabase real
+  y tres carreras con estructura curricular y referencias.
+- Cinco fotos del taller de Madera incorporadas y optimizadas para publicación.
+- Despliegue GitHub–Netlify con pruebas y paquete público aislado en `dist/`.
+- [Revisión docente y tareas con criterios de aceptación](../archive/versiones/v1.4.0/README.md).
 - Centro de organización en la página de inicio.
 - Accesos agrupados para preinscripción, trámites, familias y estudiantes.
 - Espacio preparado para agenda, fechas y comunicados institucionales.
@@ -19,7 +24,7 @@
 
 ## Prioridad media
 
-- Crear una sección por especialidad con plan de estudios, talleres, proyectos y perfil del egresado.
+- Completar las páginas de especialidades ya implementadas con proyectos propios, horarios y docentes validados.
 - Incorporar un repositorio de formularios y documentos descargables con versiones y fechas vigentes.
 - Agregar una cartelera de proyectos, olimpíadas, prácticas profesionalizantes y reconocimientos estudiantiles.
 - Ofrecer suscripción a avisos por correo o WhatsApp institucional, siempre con consentimiento.
@@ -37,7 +42,21 @@
 
 ## Próxima decisión necesaria
 
-Definir qué contenidos serán públicos y qué gestiones necesitarán acceso con cuenta institucional. Esa decisión determina si el siguiente paso es ampliar este sitio estático o construir un portal con autenticación y roles.
+Consolidar la implementación existente: SMTP, validación editorial institucional,
+operaciones CMS reales y accesibilidad. El frontend es estático; cuentas y edición
+ya usan Auth y roles de Supabase. No crear una segunda autenticación paralela.
+
+## Evaluación docente de la entrega 1.4.0
+
+Se reconoce la integración del trabajo de estudiantes: carreras independientes,
+contenido curricular identificado, comunidad, administración y pruebas del backend.
+La revisión incorpora las fotos autorizadas de Madera y corrige el paquete público
+para evitar la difusión accidental de archivos de desarrollo.
+
+La prioridad es comprobar servicios reales y calidad de información antes de ampliar
+funciones. Consultar la [rúbrica de tareas y evidencias de próxima entrega](../archive/versiones/v1.4.0/README.md#próxima-entrega).
+Las evaluaciones de versiones anteriores que siguen debajo son históricas: no
+describen la arquitectura actual ni deben usarse para recrear servicios ya implementados.
 
 ## Evaluación docente de la entrega 1.1.1
 

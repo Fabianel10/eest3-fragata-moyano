@@ -2,6 +2,51 @@
 
 Este proyecto utiliza [versionado semántico](https://semver.org/lang/es/).
 
+## [1.4.0] - 2026-10-13
+
+### Agregado
+
+- Tres páginas independientes de carreras, conectadas a la navegación y editables desde el CMS.
+- Síntesis curricular con fuentes y materias de 4.º a 7.º, campos formativos y horas reloj anuales de los documentos aportados.
+- Galerías por carrera y espacios preparados para horarios y equipo docente.
+- Componentes compartidos de carreras, redes, visitas locales, clima/fecha y música en todas las páginas.
+- Migración incremental de carreras que conserva las cuatro plantillas y datos editoriales anteriores.
+- Cinco fotos autorizadas del taller de Madera y Mueble, optimizadas a WebP, con nombres descriptivos y metadatos eliminados.
+- Paquete de publicación en `dist/` y verificación automática con GitHub Actions y Netlify.
+- CMS editorial por bloques para las cuatro páginas institucionales: textos, títulos, enlaces, imágenes de portada, cabecera y pie.
+- Administrador con biblioteca de medios, editor de galería/agenda/audios, vista previa, borradores, publicación e historial restaurable.
+- Backend Supabase con validación de documentos y plantillas, RLS, funciones transaccionales y protección contra ediciones concurrentes.
+- Storage público para medios autorizados con altas administrativas, límite de 20 MB y archivos inmutables.
+- Portal de comunidad con registro, login, confirmación de correo y recuperación mediante Supabase Auth.
+- Perfiles de comunidad, alumno/a y profesor/a; permisos institucionales por aprobación y administración asignada privadamente.
+- Cuenta con intereses y consentimiento opcional para futuros avisos, sin envío de notificaciones en esta entrega.
+- Migración PostgreSQL con RLS, permisos de columnas, fechas de consentimiento y aprobación administrativa.
+- Diseño adaptable claro/oscuro, información de privacidad, guía de activación y pruebas automatizadas de permisos y validación.
+- Acceso al portal desde la navegación y el directorio de las cuatro páginas institucionales.
+
+### Mejorado
+
+- Selector de tema del inicio extraído como recurso compartido con el portal.
+- La galería de cada carrera conserva su contenido local incluso sin configuración o ante fallos del CMS.
+- Navegación por flechas de galería limitada a sus controles, sin interferir con formularios ni el reproductor.
+- Fotografías verticales de Madera visibles completas, sin recorte forzado.
+- Despliegue excluye originales de fotos, dependencias, pruebas, SQL y documentos fuente.
+
+### Activado para pruebas locales
+
+- Proyecto Supabase real conectado con clave publishable y las tres migraciones aplicadas desde SQL Editor.
+- Verificados RLS, catálogo de cuatro páginas, bucket de 20 MB y restricciones de acceso anónimo.
+- URLs de Auth configuradas para localhost:4173, confirmación de correo requerida y contraseña mínima de 12 caracteres.
+- Primera cuenta confirmada habilitada como administrador/a mediante operación privada; acceso al editor confirmado por su titular.
+- Cuarta migración aplicada al proyecto real para habilitar las tres carreras en el backend editorial.
+- Site URL y retornos exactos HTTPS de Netlify configurados, conservando los retornos locales de desarrollo.
+
+### Pendiente para producción
+
+- Configurar SMTP propio para registro abierto y probar los correos desde la URL de Netlify.
+- Validar recuperación de contraseña y operaciones CMS autenticadas de extremo a extremo.
+- Validar política de datos y autorizaciones para menores con la institución antes de recibir registros.
+
 ## [1.3.0] - 2026-09-25
 
 ### Agregado

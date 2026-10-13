@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Tu espacio en la comunidad de la EEST N°3: cuenta, acceso y preferencias." />
+    <title>Comunidad | EEST N°3 Fragata Moyano</title>
+    <link rel="icon" type="image/png" href="assets/images/logo.png" />
+    <link rel="stylesheet" href="assets/css/estilo.css?v=20260925-19" />
+    <link rel="stylesheet" href="assets/css/comunidad.css?v=20261006-1" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  </head>
+  <body class="comunidad-pagina">
+    <a class="saltar-contenido" href="#contenido-principal">Saltar al contenido principal</a>
+    <header>
+      <a class="logo-container" href="index.html" aria-label="Volver al inicio">
+        <img src="assets/images/logo.png" alt="Escudo de la escuela" class="escudo-escuela" />
+        <div class="logo-texto"><h1>EEST N°3</h1><span>Fragata Moyano</span></div>
+      </a>
+      <div class="comunidad-nav">
+        <a href="index.html">Volver a la escuela <span aria-hidden="true">↗</span></a>
+        <button class="interruptor-tema" type="button" aria-pressed="false" aria-label="Activar modo oscuro">
+          <span class="tema-claro" aria-hidden="true">Claro</span>
+          <span class="pista-interruptor" aria-hidden="true"><span></span></span>
+          <span class="tema-oscuro" aria-hidden="true">Oscuro</span>
+        </button>
+      </div>
+    </header>
+    <main id="contenido-principal" class="portal-layout">
+      <aside class="portal-historia" aria-labelledby="titulo-comunidad">
+        <p class="portal-insignia"><span aria-hidden="true">✦</span> Comunidad Técnica 3</p>
+        <h2 id="titulo-comunidad">Tu escuela.<br />Tu comunidad.<br /><span>Tu próximo paso.</span></h2>
+        <p>Un punto de encuentro para quienes aprenden, enseñan y acompañan. Conectate con lo que nos mueve.</p>
+        <div class="portal-orbita" aria-hidden="true">
+          <div class="orbita-centro"><img src="assets/images/logo.png" alt="" /><span>Somos Técnica 3</span></div>
+          <span class="orbita-etiqueta orbita-uno">Aprender</span>
+          <span class="orbita-etiqueta orbita-dos">Compartir</span>
+          <span class="orbita-etiqueta orbita-tres">Construir</span>
+        </div>
+        <div class="portal-beneficios">
+          <div><span aria-hidden="true">01</span><p><strong>Un lugar para cada perfil</strong>Estudiantes, docentes y toda la comunidad.</p></div>
+          <div><span aria-hidden="true">02</span><p><strong>Vos elegís qué recibir</strong>Guardá tus intereses para futuros avisos.</p></div>
+          <div><span aria-hidden="true">03</span><p><strong>Acceso con identidad verificada</strong>Confirmación de correo y permisos institucionales.</p></div>
+        </div>
+        <small>San Fernando · Educación pública · Futuro compartido</small>
+      </aside>
+      <section class="portal-card" aria-label="Acceso a la comunidad">
+        <div class="portal-card-top"><span class="eyebrow">Espacio de comunidad</span><span class="portal-punto">Técnica 3</span></div>
+        <div id="configuracion-aviso" class="portal-aviso" role="status" hidden></div>
+        <div id="portal-estado" class="portal-estado" role="status" aria-live="polite" tabindex="-1" hidden></div>
+        <div id="acceso-publico">
+          <div class="portal-tabs" aria-label="Opciones de acceso">
+            <a href="#login" data-vista="login" aria-current="page">Iniciar sesión</a>
+            <a href="#registro" data-vista="registro">Crear cuenta</a>
+          </div>
+          <section data-panel="login" aria-labelledby="titulo-login">
+            <h3 id="titulo-login" tabindex="-1">Qué bueno verte de nuevo.</h3>
+            <p class="portal-subtitulo">Ingresá a tu espacio y seguí conectado/a.</p>
+            <form id="form-login" class="portal-form">
+              <label for="login-email">Correo electrónico</label>
+              <input id="login-email" name="email" type="email" autocomplete="username" placeholder="vos@ejemplo.com" maxlength="254" required />
+              <label for="login-password">Contraseña</label>
+              <div class="campo-password"><input id="login-password" name="password" type="password" autocomplete="current-password" required /><button type="button" data-password="login-password" aria-label="Mostrar contraseña" aria-pressed="false">Ver</button></div>
+              <a class="portal-link portal-recuperar" href="#recuperar">Olvidé mi contraseña</a>
+              <button class="portal-primary" type="submit">Ingresar a mi cuenta <span aria-hidden="true">→</span></button>
+            </form>
+            <p class="portal-pie-form">¿Todavía no tenés cuenta? <a href="#registro">Sumate a la comunidad</a></p>
+            <div class="portal-nota"><strong>¿Sos administrador/a?</strong><p>Ingresá con tu cuenta institucional habilitada. Los permisos de administración no se obtienen desde el registro público.</p></div>
+          </section>
+          <section data-panel="registro" aria-labelledby="titulo-registro" hidden>
+            <h3 id="titulo-registro" tabindex="-1">Hay un lugar para vos.</h3>
+            <p class="portal-subtitulo">Creá tu cuenta. No hace falta ser parte de la escuela para sumarte.</p>
+            <form id="form-registro" class="portal-form">
+              <fieldset class="perfil-selector">
+                <legend>¿Cómo te vinculás con la escuela?</legend>
+                <label><input type="radio" name="perfil" value="alumno" required /><span><strong>Alumno/a</strong><small>Mi recorrido</small></span></label>
+                <label><input type="radio" name="perfil" value="profesor" /><span><strong>Profesor/a</strong><small>Enseñar y conectar</small></span></label>
+                <label><input type="radio" name="perfil" value="comunidad" checked /><span><strong>Comunidad</strong><small>Familias y visitantes</small></span></label>
+              </fieldset>
+              <p id="perfil-ayuda" class="portal-ayuda">El perfil de alumno/a o profesor/a requiere aprobación institucional. Registrarse no equivale a una inscripción escolar.</p>
+              <label for="registro-nombre">Nombre y apellido</label>
+              <input id="registro-nombre" name="nombre" autocomplete="name" minlength="2" maxlength="100" required />
+              <label for="registro-email">Correo electrónico</label>
+              <input id="registro-email" name="email" type="email" autocomplete="email" placeholder="vos@ejemplo.com" maxlength="254" required />
+              <label for="registro-password">Creá una contraseña</label>
+              <div class="campo-password"><input id="registro-password" name="password" type="password" autocomplete="new-password" minlength="12" maxlength="128" aria-describedby="password-ayuda password-fuerza" required /><button type="button" data-password="registro-password" aria-label="Mostrar contraseña" aria-pressed="false">Ver</button></div>
+              <div class="password-medidor" aria-hidden="true"><span id="password-barra"></span></div>
+              <p id="password-fuerza" class="portal-ayuda" aria-live="polite">Seguridad: aún sin contraseña.</p>
+              <p id="password-ayuda" class="portal-ayuda">Entre 12 y 128 caracteres. Usá una frase larga y única.</p>
+              <label for="registro-confirmacion">Repetí la contraseña</label>
+              <div class="campo-password"><input id="registro-confirmacion" name="confirmacion" type="password" autocomplete="new-password" minlength="12" maxlength="128" required /><button type="button" data-password="registro-confirmacion" aria-label="Mostrar contraseña" aria-pressed="false">Ver</button></div>
+              <label class="portal-check"><input name="avisos" type="checkbox" /><span>Quiero recibir por correo futuras novedades institucionales. Puedo desactivarlas cuando quiera.</span></label>
+              <label class="portal-check"><input name="privacidad" type="checkbox" required /><span>Leí la <a href="privacidad.html" target="_blank" rel="noopener">información sobre mis datos</a> y acepto su uso para gestionar mi cuenta.</span></label>
+              <button class="portal-primary" type="submit">Crear mi cuenta <span aria-hidden="true">→</span></button>
+            </form>
+            <p class="portal-pie-form">Ya sos parte. <a href="#login">Iniciá sesión</a></p>
+          </section>
+          <section data-panel="recuperar" aria-labelledby="titulo-recuperar" hidden>
+            <a class="portal-link" href="#login">← Volver al acceso</a>
+            <h3 id="titulo-recuperar" tabindex="-1">Volvamos a conectar.</h3>
+            <p class="portal-subtitulo">Te enviaremos un enlace para elegir una nueva contraseña.</p>
+            <form id="form-recuperar" class="portal-form">
+              <label for="recuperar-email">Correo de tu cuenta</label>
+              <input id="recuperar-email" name="email" type="email" autocomplete="email" maxlength="254" required />
+              <button class="portal-primary" type="submit">Enviar enlace de recuperación</button>
+            </form>
+          </section>
+          <section data-panel="nueva-password" aria-labelledby="titulo-nueva-password" hidden>
+            <h3 id="titulo-nueva-password" tabindex="-1">Un nuevo comienzo.</h3>
+            <p class="portal-subtitulo">Elegí una contraseña nueva para proteger tu cuenta.</p>
+            <form id="form-nueva-password" class="portal-form">
+              <label for="nueva-password">Nueva contraseña</label>
+              <div class="campo-password"><input id="nueva-password" name="password" type="password" autocomplete="new-password" minlength="12" maxlength="128" required /><button type="button" data-password="nueva-password" aria-label="Mostrar contraseña" aria-pressed="false">Ver</button></div>
+              <p class="portal-ayuda">Entre 12 y 128 caracteres.</p>
+              <label for="nueva-confirmacion">Repetí la contraseña</label>
+              <input id="nueva-confirmacion" name="confirmacion" type="password" autocomplete="new-password" minlength="12" maxlength="128" required />
+              <button class="portal-primary" type="submit">Guardar nueva contraseña</button>
+            </form>
+          </section>
+        </div>
+        <section id="cuenta-panel" aria-labelledby="titulo-cuenta" hidden>
+          <div class="cuenta-encabezado"><span id="cuenta-avatar" aria-hidden="true">T3</span><div><p class="eyebrow">Mi comunidad</p><h3 id="titulo-cuenta" tabindex="-1">Tu cuenta</h3></div></div>
+          <p id="cuenta-email" class="portal-subtitulo"></p>
+          <span id="cuenta-rol" class="cuenta-badge"></span>
+          <p id="cuenta-solicitud" class="portal-nota" hidden></p>
+          <form id="form-preferencias" class="portal-form">
+            <label for="cuenta-nombre">Nombre y apellido</label>
+            <input id="cuenta-nombre" name="nombre" autocomplete="name" minlength="2" maxlength="100" required />
+            <fieldset class="preferencias-temas">
+              <legend>Tus intereses</legend>
+              <p class="portal-ayuda">Prepará tu cuenta para los avisos que vendrán.</p>
+              <label class="portal-check"><input type="checkbox" name="temas" value="novedades" /><span>Novedades de la escuela</span></label>
+              <label class="portal-check"><input type="checkbox" name="temas" value="calendario" /><span>Fechas y eventos</span></label>
+              <label class="portal-check"><input type="checkbox" name="temas" value="inscripciones" /><span>Inscripciones y actividades</span></label>
+            </fieldset>
+            <label class="portal-check"><input type="checkbox" name="avisos" /><span>Autorizo futuros avisos por correo sobre mis intereses.</span></label>
+            <p class="portal-ayuda">Todavía no se envían notificaciones: guardamos tu elección. No activamos permisos del navegador.</p>
+            <button class="portal-primary" type="submit">Guardar preferencias</button>
+          </form>
+          <section id="admin-panel" class="portal-admin" aria-labelledby="titulo-admin" hidden>
+            <a class="portal-primary" href="admin.html">Administrar el sitio <span aria-hidden="true">↗</span></a>
+            <div class="admin-titulo"><h4 id="titulo-admin">Solicitudes de perfiles</h4><button id="admin-actualizar" class="portal-secondary" type="button">Actualizar</button></div>
+            <p class="portal-ayuda">Verificá el vínculo con la escuela antes de habilitar el perfil. Se muestran hasta 50 solicitudes.</p>
+            <ul id="admin-solicitudes" class="admin-lista"></ul>
+          </section>
+          <button id="cerrar-sesion" class="portal-secondary cuenta-salir" type="button">Cerrar sesión</button>
+        </section>
+        <div class="portal-confianza"><span aria-hidden="true">◇</span> Tus datos, tus preferencias, tu decisión.<a href="privacidad.html">Privacidad</a></div>
+        <noscript><p class="portal-aviso">Necesitás activar JavaScript para usar el registro y el acceso.</p></noscript>
+      </section>
+    </main>
+    <footer><p>&copy; 2026 EEST N°3 Fragata Moyano · Una comunidad que construye futuro.</p></footer>
+    <script src="assets/js/tema.js?v=20261006-1"></script>
+    <script src="assets/js/comunidad-config.js?v=20261006-1"></script>
+    <script type="module" src="assets/js/comunidad.js?v=20261006-1"></script>
+    <script type="module" src="assets/js/sitio-compartido.mjs"></script>
+  </body>
+</html>

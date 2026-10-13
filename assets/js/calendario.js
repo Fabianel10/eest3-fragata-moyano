@@ -61,6 +61,11 @@ const calendarEvents2026 = [
   ['2026-12-22', 'Finalización del ciclo lectivo', 'docente'],
   ['2026-12-25', 'Navidad', 'feriado']
 ];
+if (window.CMS_CONTENT) {
+  calendarEvents2026.splice(0, calendarEvents2026.length,
+    ...window.CMS_CONTENT.events.filter((item) => Number(item.date.slice(0, 4)) === window.CMS_CONTENT.year)
+      .map((item) => [item.date, item.title, item.type]));
+}
 
 const monthNames = [
   'Enero',
@@ -111,7 +116,7 @@ const eventTypeLabels = {
 
 let selectedDate = null;
 let activeMonthEvents = [];
-const calendarYear = 2026;
+const calendarYear = window.CMS_CONTENT?.year || 2026;
 const today = new Date();
 const isCurrentCalendarYear = today.getFullYear() === calendarYear;
 const currentMonth = isCurrentCalendarYear ? today.getMonth() : 8;
@@ -137,6 +142,9 @@ const selectDate = (date, monthEvents) => {
     featuredType.textContent = eventTypeLabels[type];
     featuredTitle.textContent = title;
     featuredDescription.textContent = eventDescriptions[type];
+    const editableEvent = window.CMS_CONTENT?.events.find((item) => item.date === date);
+    if (editableEvent?.image) featuredImage.src = editableEvent.image;
+    if (editableEvent?.description) featuredDescription.textContent = editableEvent.description;
   } else {
     featuredImage.src = 'assets/images/ecuela.jpg';
     featuredImage.alt = 'Espacio educativo';
@@ -169,7 +177,7 @@ const renderCalendar = (month) => {
         const day = index + 1;
         const event = monthEvents.find(([date]) => Number(date.slice(8, 10)) === day);
         const date = `${calendarYear}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-        return `<button class="dia-calendario ${event ? `tiene-evento ${event[2]}` : ''}" type="button" data-date="${date}" aria-pressed="false" aria-label="${event ? `${day}: ${event[1]}` : `${day} de ${monthNames[month]}`}">${day}</button>`;
+        return `<button class="dia-calendario ${event ? `tiene-evento ${event[2]}` : ''}" type="button" data-date="${date}" aria-pressed="false" aria-label="${event ? `${day}: ${window.CMS_ESCAPE(event[1])}` : `${day} de ${monthNames[month]}`}">${day}</button>`;
       })
     )
     .join('');
@@ -177,7 +185,7 @@ const renderCalendar = (month) => {
     ? monthEvents
         .map(
           ([date, description, type]) =>
-            `<button class="detalle-fecha ${type}" type="button" data-date="${date}"><time>${date.slice(8, 10)}</time><span>${description}</span></button>`
+            `<button class="detalle-fecha ${type}" type="button" data-date="${date}"><time>${date.slice(8, 10)}</time><span>${window.CMS_ESCAPE(description)}</span></button>`
         )
         .join('')
     : '<p class="sin-fechas">Sin fechas destacadas para este mes.</p>';
@@ -208,7 +216,7 @@ calendarDetails.addEventListener('click', (event) => {
 });
 renderCalendar(currentMonth);
 
-if (visitCounter) {
+if (visitCounter && !window.CMS_PREVIEW) {
   const visitKey = 'eest3-visitas-dispositivo';
   const visits = Number.parseInt(localStorage.getItem(visitKey) || '0', 10) + 1;
   localStorage.setItem(visitKey, String(visits));
@@ -223,6 +231,9 @@ const playlist = [
       'assets/audio/Argentina%20%20%20Cancion%20de%20la%20Selecci%C3%B3n%20Argentina%202026.mp3'
   }
 ];
+if (window.CMS_CONTENT) {
+  playlist.splice(0, playlist.length, ...window.CMS_CONTENT.playlist.map((item) => ({ title: item.title, source: item.src })));
+}
 const audio = document.querySelector('.audio-reproductor');
 const playButton = document.querySelector('.boton-reproducir');
 const previousButton = document.querySelector('.anterior');
@@ -258,11 +269,16 @@ if (
     playlistContainer.innerHTML = playlist
       .map(
         (track, index) =>
-          `<button class="tema-lista" type="button" data-track="${index}" aria-current="${index === currentTrackIndex}"><span>${String(index + 1).padStart(2, '0')}</span>${track.title}</button>`
+          `<button class="tema-lista" type="button" data-track="${index}" aria-current="${index === currentTrackIndex}"><span>${String(index + 1).padStart(2, '0')}</span>${window.CMS_ESCAPE(track.title)}</button>`
       )
       .join('');
   };
   const loadTrack = (index) => {
+    if (!playlist.length) {
+      trackTitle.textContent = 'Sin audios publicados.';
+      [playButton, previousButton, nextButton].forEach((button) => { button.disabled = true; });
+      return;
+    }
     currentTrackIndex = (index + playlist.length) % playlist.length;
     audio.src = playlist[currentTrackIndex].source;
     trackTitle.textContent = playlist[currentTrackIndex].title;

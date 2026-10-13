@@ -86,4 +86,7 @@ const loadWeather = async () => {
   }
 };
 
+weatherComponents.forEach(component => {
+  component.querySelector('[data-weather-date]').textContent = formatToday();
+});
 loadWeather();

@@ -1,0 +1,32 @@
+.carrera-hero { max-width: 1280px; margin: 2rem auto; padding: 2rem; display: grid; grid-template-columns: 1.2fr 1fr; gap: 2rem; align-items: center; }
+.carrera-hero h2 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(2rem, 4vw, 3.7rem); line-height: 1.12; overflow-wrap: anywhere; }
+.carrera-hero img { width: 100%; height: 380px; object-fit: cover; border-radius: 24px; }
+.carrera-hero p { margin: 1.5rem 0; }
+.carrera-seccion { max-width: 1180px; margin: 0 auto; padding: 3rem 1.5rem; }
+.carrera-seccion h2 { font-size: clamp(1.7rem, 3vw, 2.6rem); margin-bottom: 1rem; }
+.carrera-seccion > p { max-width: 80ch; line-height: 1.8; margin-bottom: 1.5rem; }
+.carrera-aviso { border-left: 4px solid #0695bb; padding: 1rem; background: rgba(6,149,187,.08); }
+.carrera-anios { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 1.25rem; margin-top: 2rem; }
+.carrera-anio { padding: 1.5rem; border: 1px solid rgba(100,140,160,.4); border-radius: 18px; }
+.carrera-anio h3 { font-size: 1.5rem; margin: .5rem 0 1rem; }
+.carrera-anio ul, .carrera-objetivos { padding-left: 1.5rem; line-height: 2; }
+.carrera-anio { margin-bottom: 2rem; }
+.carrera-anio summary { cursor: pointer; padding: 1rem 0; font-weight: 700; }
+.carrera-materias { margin-top: 1.5rem; }
+.carrera-materias h4 { margin-bottom: .75rem; }
+.carrera-materias table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.carrera-materias caption { text-align: left; padding-bottom: .5rem; font-size: .85rem; }
+.carrera-materias th, .carrera-materias td { text-align: left; padding: .75rem; border-bottom: 1px solid rgba(100,140,160,.35); overflow-wrap: anywhere; }
+.carrera-materias th:last-child, .carrera-materias td { width: 25%; }
+.carrera-materias tbody th { font-weight: 500; }
+.carrera-seccion .clima-compacto { margin-top: 2rem; }
+.carrera-madera .slider-medio > img { object-fit: contain; }
+.sitio-complementos { max-width: 1180px; margin: 2rem auto; padding: 1.5rem; }
+.sitio-carreras { display: flex; flex-wrap: wrap; gap: 1rem; margin: 1rem 0; }
+.sitio-carreras a { border: 1px solid rgba(100,140,160,.4); border-radius: 12px; padding: .75rem; }
+@media (max-width: 700px) {
+  .carrera-hero, .carrera-anios { grid-template-columns: 1fr; }
+  .carrera-hero { padding: 1.25rem; }
+  .carrera-hero img { height: 240px; }
+  .carrera-seccion { padding: 2rem 1.25rem; }
+}

@@ -1,0 +1,20 @@
+[data-cms-hidden="true"] { display: none !important; }
+.cms-section { margin: 40px auto; padding: clamp(24px, 5vw, 64px); max-width: 1200px; border: 1px solid var(--line); border-radius: 24px; background: var(--surface); color: var(--text); }
+.cms-section h2 { margin: 14px 0 20px; font-size: clamp(1.7rem, 3vw, 2.8rem); }
+.cms-section .cms-body { white-space: pre-line; overflow-wrap: anywhere; }
+.cms-section img { width: 100%; max-height: 480px; object-fit: cover; border-radius: 18px; }
+.cms-section .btn-principal { margin-top: 20px; }
+.cms-imagen { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; }
+.cms-imagen[data-cms-layout="izquierda"] > img { grid-column: 1; grid-row: 1; }
+.cms-imagen[data-cms-layout="izquierda"] > .cms-section-copy { grid-column: 2; }
+.cms-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: 24px; margin-top: 28px; }
+.cms-card { padding: 20px; background: var(--surface); color: var(--text); border: 1px solid var(--line); border-radius: 16px; }
+.cms-card h3 { margin: 16px 0; }.cms-card img { max-height: 240px; }
+[data-cms-theme="acento"] { background-color: #dff6fc; color: #12263a; }
+[data-cms-theme="oscuro"] { background-color: #071a2b; color: #e4f5fd; }
+.cms-public-error { padding: 12px 24px; background: #fff4d7; color: #674313; border: 1px solid #c99b3d; font-size: .85rem; }
+@media (max-width: 700px) {
+  .cms-section { margin: 24px 16px; }
+  .cms-imagen { grid-template-columns: 1fr; }
+  .cms-imagen[data-cms-layout="izquierda"] > img, .cms-imagen[data-cms-layout="izquierda"] > .cms-section-copy { grid-column: auto; grid-row: auto; }
+}

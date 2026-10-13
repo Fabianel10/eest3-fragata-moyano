@@ -2,7 +2,6 @@ const header = document.querySelector('header');
 const navLinks = document.querySelectorAll('header nav a[href^="#"]');
 const navigation = document.querySelector('.navegacion-principal');
 const menuButton = document.querySelector('.boton-menu');
-const themeButton = document.querySelector('.interruptor-tema');
 const navigationGroups = document.querySelectorAll('.grupo-navegacion');
 const navigationTriggers = document.querySelectorAll('.desplegador-navegacion');
 const sections = document.querySelectorAll('section[id]');
@@ -109,25 +108,6 @@ const loadWeather = async () => {
 
 loadWeather();
 
-const setTheme = (isDark) => {
-  document.body.classList.toggle('tema-oscuro', isDark);
-  document.documentElement.classList.toggle('tema-oscuro', isDark);
-  themeButton?.setAttribute('aria-pressed', String(isDark));
-  themeButton?.setAttribute('aria-label', isDark ? 'Activar modo claro' : 'Activar modo oscuro');
-  localStorage.setItem('tema-eest3', isDark ? 'oscuro' : 'claro');
-};
-
-if (themeButton) {
-  const savedTheme = localStorage.getItem('tema-eest3');
-  const useDarkTheme = savedTheme
-    ? savedTheme === 'oscuro'
-    : window.matchMedia('(prefers-color-scheme: dark)').matches;
-  setTheme(useDarkTheme);
-  themeButton.addEventListener('click', () => {
-    setTheme(!document.body.classList.contains('tema-oscuro'));
-  });
-}
-
 const calendarEvents2026 = [
   ['2026-01-01', 'Año Nuevo', 'feriado'],
   ['2026-02-16', 'Carnaval', 'feriado'],
@@ -154,15 +134,19 @@ const calendarEvents2026 = [
   ['2026-12-22', 'Finalización del ciclo lectivo', 'docente'],
   ['2026-12-25', 'Navidad', 'feriado']
 ];
+if (window.CMS_CONTENT) {
+  calendarEvents2026.splice(0, calendarEvents2026.length,
+    ...window.CMS_CONTENT.events.map((item) => [item.date, item.title, item.type]));
+}
 
 if (calendarContainer) {
   calendarContainer.innerHTML = calendarEvents2026
-    .filter(([date]) => date >= '2026-09-01')
+    .filter(([date]) => date >= (window.CMS_CONTENT ? today.toLocaleDateString('en-CA') : '2026-09-01'))
     .map(
       ([date, description, type]) => `
         <article class="fecha-calendario ${type}">
           <time>${new Date(`${date}T12:00:00`).toLocaleDateString('es-AR', { day: '2-digit', month: 'short' })}</time>
-          <span>${description}</span>
+          <span>${window.CMS_ESCAPE(description)}</span>
         </article>`
     )
     .join('');
@@ -194,7 +178,7 @@ const renderCalendar = (month) => {
       Array.from({ length: days }, (_, index) => {
         const day = index + 1;
         const event = monthEvents.find(([date]) => Number(date.slice(8, 10)) === day);
-        return `<button class="dia-calendario ${event ? `tiene-evento ${event[2]}` : ''}" type="button" ${event ? `aria-label="${day}: ${event[1]}"` : `aria-label="${day} de ${monthNames[month]}"`}>${day}</button>`;
+        return `<button class="dia-calendario ${event ? `tiene-evento ${event[2]}` : ''}" type="button" ${event ? `aria-label="${day}: ${window.CMS_ESCAPE(event[1])}"` : `aria-label="${day} de ${monthNames[month]}"`}>${day}</button>`;
       })
     )
     .join('');
@@ -202,7 +186,7 @@ const renderCalendar = (month) => {
     ? monthEvents
         .map(
           ([date, description, type]) =>
-            `<article class="detalle-fecha ${type}"><time>${date.slice(8, 10)}</time><span>${description}</span></article>`
+            `<article class="detalle-fecha ${type}"><time>${date.slice(8, 10)}</time><span>${window.CMS_ESCAPE(description)}</span></article>`
         )
         .join('')
     : '<p class="sin-fechas">Sin fechas destacadas para este mes.</p>';
@@ -225,7 +209,7 @@ if (monthSelector) {
   renderCalendar(8);
 }
 
-if (visitCounter) {
+if (visitCounter && !window.CMS_PREVIEW) {
   const visitKey = 'eest3-visitas-dispositivo';
   const visits = Number.parseInt(localStorage.getItem(visitKey) || '0', 10) + 1;
   localStorage.setItem(visitKey, String(visits));
@@ -371,6 +355,9 @@ const playlist = [
       'assets/audio/Argentina%20%20%20Cancion%20de%20la%20Selecci%C3%B3n%20Argentina%202026.mp3'
   }
 ];
+if (window.CMS_CONTENT) {
+  playlist.splice(0, playlist.length, ...window.CMS_CONTENT.playlist.map((item) => ({ title: item.title, source: item.src })));
+}
 const audio = document.querySelector('.audio-reproductor');
 const playButton = document.querySelector('.boton-reproducir');
 const previousButton = document.querySelector('.anterior');
@@ -398,6 +385,11 @@ const formatTime = (seconds) => {
 };
 
 const loadTrack = (index) => {
+  if (!playlist.length) {
+    trackTitle.textContent = 'Sin audios publicados.';
+    [playButton, previousButton, nextButton].forEach((button) => { button.disabled = true; });
+    return;
+  }
   currentTrackIndex = (index + playlist.length) % playlist.length;
   const track = playlist[currentTrackIndex];
   audio.src = track.source;
@@ -416,7 +408,7 @@ const renderPlaylist = () => {
     trackButton.className = 'tema-lista';
     trackButton.type = 'button';
     trackButton.setAttribute('aria-current', isCurrentTrack ? 'true' : 'false');
-    trackButton.innerHTML = `<span>${String(index + 1).padStart(2, '0')}</span>${track.title}`;
+    trackButton.innerHTML = `<span>${String(index + 1).padStart(2, '0')}</span>${window.CMS_ESCAPE(track.title)}`;
     trackButton.addEventListener('click', () => {
       loadTrack(index);
       playCurrentTrack();

@@ -1,6 +1,17 @@
 # Despliegue para colaboradores
 
-Esta guía permite publicar el sitio de la EEST N°3 desde una cuenta personal de Vercel o Netlify. El proyecto es estático: no necesita instalar dependencias ni ejecutar una compilación.
+Esta guía permite publicar el sitio de la EEST N°3. El frontend es estático y el backend
+de cuentas y contenidos es Supabase. Se generan solo los archivos públicos en `dist/`.
+
+## Sitio de trabajo vinculado
+
+- URL: https://eest3sf.netlify.app
+- Netlify: sitio `eest3sf`, conectado a `Fabianel10/eest3-fragata-moyano`, rama `main`.
+- Node: 22. Instalación: `npm ci`. Verificación: `npm test`. Empaquetado: `npm run build`.
+- `netlify.toml` ejecuta `npm test && npm run build` y publica `dist`.
+- GitHub Actions comprueba las pruebas y el paquete en pushes a `main` y Pull Requests.
+- No publicar `.`, porque contiene pruebas, SQL, documentos fuente y dependencias.
+- Las claves publishable son públicas; nunca agregar secret keys ni credenciales de despliegue.
 
 ## Antes de comenzar
 
@@ -9,7 +20,7 @@ Esta guía permite publicar el sitio de la EEST N°3 desde una cuenta personal d
 3. Confirmar que el repositorio se visualiza y que se puede crear una rama o subir un cambio.
 4. Si GitHub muestra una invitación pendiente, aceptarla antes de continuar. Actualmente esta acción corresponde a `kkanek99-glitch`.
 
-## Opción recomendada: publicar en Vercel
+## Alternativa: publicar en Vercel
 
 1. Crear una cuenta o iniciar sesión en `https://vercel.com` usando **Continue with GitHub**.
 2. Autorizar a Vercel para acceder a GitHub cuando lo solicite.
@@ -20,15 +31,15 @@ Esta guía permite publicar el sitio de la EEST N°3 desde una cuenta personal d
    | Campo            | Valor       |
    | ---------------- | ----------- |
    | Framework Preset | Other       |
-   | Build Command    | Dejar vacío |
-   | Output Directory | `.`         |
-   | Install Command  | Dejar vacío |
+   | Build Command    | `npm test && npm run build` |
+   | Output Directory | `dist`                     |
+   | Install Command  | `npm ci`                   |
 
 6. Seleccionar **Deploy**.
 7. Esperar a que Vercel finalice la publicación y abrir la URL entregada para comprobar el sitio.
 8. Guardar la URL en los canales internos de la escuela y comunicarla al equipo.
 
-## Alternativa: publicar en Netlify
+## Opción utilizada: publicar en Netlify
 
 1. Crear una cuenta o iniciar sesión en `https://app.netlify.com` usando GitHub.
 2. Seleccionar **Add new site** y luego **Import an existing project**.
@@ -39,8 +50,8 @@ Esta guía permite publicar el sitio de la EEST N°3 desde una cuenta personal d
    | Campo             | Valor       |
    | ----------------- | ----------- |
    | Base directory    | Dejar vacío |
-   | Build command     | Dejar vacío |
-   | Publish directory | `.`         |
+   | Build command     | `npm test && npm run build` |
+   | Publish directory | `dist`                     |
 
 6. Seleccionar **Deploy site**.
 7. Cuando termine, abrir la dirección asignada por Netlify y comprobar el sitio.
@@ -52,6 +63,29 @@ Esta guía permite publicar el sitio de la EEST N°3 desde una cuenta personal d
 3. Subir la rama a GitHub y crear un Pull Request para revisión.
 4. Después de aprobar y fusionar los cambios en `main`, Vercel o Netlify publicarán automáticamente la nueva versión.
 5. Verificar la URL de producción y comunicar cualquier cambio relevante a la comunidad.
+
+La versión publicada debe corresponder al SHA subido a GitHub. Comprobar estado
+`ready` del despliegue y abrir las nuevas páginas y fotos. Si se necesita publicar
+manualmente, usar `netlify deploy --prod --dir=dist` desde el sitio vinculado,
+después de verificar pruebas y build; nunca pasar `--dir=.`.
+
+### Auth de producción y límites
+
+Configurar en Supabase Site URL `https://eest3sf.netlify.app` y Redirect URLs exactas
+`https://eest3sf.netlify.app/comunidad.html` y
+`https://eest3sf.netlify.app/comunidad.html?recuperacion=1`.
+Conservar los retornos de localhost para desarrollo. Un deploy preview no queda
+autorizado automáticamente para enlaces de confirmación: no usar comodines globales.
+Configurar SMTP institucional antes de abrir el registro a cualquier destinatario.
+Las cuatro migraciones del proyecto real ya se aplicaron; no reejecutarlas al desplegar.
+
+### Reversión
+
+Desde el panel del sitio en Netlify se puede volver a publicar un deploy anterior
+verificado. Para revertir código en Git, crear un commit de reversión y revisarlo;
+no reescribir la historia compartida. El contenido CMS vive en Supabase: volver a
+un deploy no revierte publicaciones ni migraciones. Usar el historial editorial
+para restaurar un borrador y publicarlo expresamente.
 
 ## Recomendaciones de trabajo
 

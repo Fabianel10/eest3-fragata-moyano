@@ -17,7 +17,7 @@ themeButton?.addEventListener('click', () =>
   setTheme(!document.body.classList.contains('tema-oscuro'))
 );
 
-if (visitCounter) {
+if (visitCounter && !window.CMS_PREVIEW) {
   const visitKey = 'eest3-visitas-dispositivo';
   const visits = Number.parseInt(localStorage.getItem(visitKey) || '0', 10) + 1;
   localStorage.setItem(visitKey, String(visits));

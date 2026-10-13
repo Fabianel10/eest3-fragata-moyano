@@ -7,6 +7,8 @@ Thumbs.db
 *.log
 dist/
 build/
+node_modules/
+/assets/images/Madera/*.jpg
 
 # Materiales fuente que no se publican en el sitio
 *.rar

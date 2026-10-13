@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Administración editorial | EEST N°3</title>
+    <link rel="icon" type="image/png" href="assets/images/logo.png" />
+    <link rel="stylesheet" href="assets/css/estilo.css?v=20260925-19" />
+    <link rel="stylesheet" href="assets/css/admin.css?v=20261006-1" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  </head>
+  <body class="admin-pagina">
+    <a class="saltar-contenido" href="#admin-contenido">Saltar al editor</a>
+    <header class="admin-header">
+      <a class="logo-container" href="index.html"><img class="escudo-escuela" src="assets/images/logo.png" alt="Escudo de la escuela" /><div class="logo-texto"><h1>Técnica 3</h1><span>Estudio editorial</span></div></a>
+      <div class="admin-header-links">
+        <a href="comunidad.html">Mi cuenta</a>
+        <a href="index.html" target="_blank" rel="noopener">Ver sitio ↗</a>
+        <button class="interruptor-tema" type="button" aria-pressed="false" aria-label="Activar modo oscuro"><span class="tema-claro" aria-hidden="true">Claro</span><span class="pista-interruptor" aria-hidden="true"><span></span></span><span class="tema-oscuro" aria-hidden="true">Oscuro</span></button>
+      </div>
+    </header>
+    <main id="admin-contenido">
+      <section id="admin-gate" class="admin-gate">
+        <p class="eyebrow">Administración institucional</p>
+        <h2>La escuela, en tus manos.</h2>
+        <p id="admin-gate-texto" role="status">Verificando tu acceso…</p>
+        <a class="btn-principal" href="comunidad.html#login">Iniciar sesión</a>
+        <p class="admin-ayuda">Solo las cuentas habilitadas como administrador/a pueden editar y publicar. No hay acceso de demostración ni permisos concedidos desde el navegador.</p>
+      </section>
+      <p id="admin-estado" class="admin-estado" role="status" aria-live="polite" tabindex="-1" hidden></p>
+      <div id="admin-workspace" hidden>
+        <section class="admin-bienvenida">
+          <div><p class="eyebrow">Centro de gestión · EEST N°3</p><h2>Crear. Revisar. Publicar.</h2><p>Todo el contenido en un lugar. Los cambios llegan al sitio solo cuando los publicás.</p></div>
+          <span id="admin-identidad" class="admin-identidad"></span>
+        </section>
+        <div class="admin-toolbar">
+          <label>Página<select id="admin-pagina-selector"><option value="inicio">Inicio</option><option value="historia">Historia</option><option value="galeria">Galería</option><option value="calendario">Calendario</option><option value="informatica">Informática Personal y Profesional</option><option value="madera">Industrialización de la Madera y el Mueble</option><option value="obras">Maestro Mayor de Obras</option></select></label>
+          <div class="admin-version"><strong id="admin-version">Sin borrador</strong><span id="admin-cambios">Sin cambios pendientes</span></div>
+          <button id="admin-recargar" type="button" class="admin-btn">Recargar</button>
+          <button id="admin-guardar" type="button" class="admin-btn admin-btn-primary">Guardar borrador</button>
+          <button id="admin-publicar" type="button" class="admin-btn admin-btn-publish">Publicar página ↗</button>
+        </div>
+        <div class="admin-layout">
+          <aside class="admin-sidebar">
+            <p class="eyebrow">Contenido de la página</p>
+            <button class="admin-nav" type="button" data-panel="ajustes">Título y descripción</button>
+            <button class="admin-nav" type="button" data-panel="chrome">Cabecera y pie</button>
+            <div class="admin-sidebar-title"><h3>Secciones</h3><span id="admin-bloques-cantidad"></span></div>
+            <ol id="admin-bloques" class="admin-bloques"></ol>
+            <label class="admin-add-label">Nueva sección<select id="admin-tipo-bloque"><option value="texto">Texto editorial</option><option value="imagen">Texto + imagen</option><option value="llamada">Llamada a la acción</option><option value="tarjetas">Grupo de tarjetas</option></select></label>
+            <button id="admin-agregar" type="button" class="admin-btn">+ Agregar bloque</button>
+            <div class="admin-sidebar-title"><h3>Herramientas</h3></div>
+            <button class="admin-nav" type="button" data-panel="gallery">Galería multimedia</button>
+            <button class="admin-nav" type="button" data-panel="events">Agenda y calendario</button>
+            <button class="admin-nav" type="button" data-panel="playlist">Audios</button>
+            <button class="admin-nav" type="button" data-panel="media">Biblioteca de archivos</button>
+            <button class="admin-nav" type="button" data-panel="history">Historial de versiones</button>
+            <a class="admin-nav" href="comunidad.html">Gestionar solicitudes de perfiles ↗</a>
+          </aside>
+          <section class="admin-editor" aria-labelledby="admin-editor-titulo">
+            <div class="admin-editor-heading"><div><p class="eyebrow">Editor visual</p><h3 id="admin-editor-titulo" tabindex="-1">Contenido</h3></div><span class="admin-borrador-badge">Borrador</span></div>
+            <form id="admin-editor-form"><fieldset id="admin-editor-fields"><div id="admin-editor-body"></div></fieldset></form>
+          </section>
+          <aside class="admin-preview" aria-labelledby="admin-preview-title">
+            <div class="admin-preview-head"><h3 id="admin-preview-title">Vista previa</h3><button id="admin-preview-update" type="button" class="admin-btn">Actualizar</button></div>
+            <p class="admin-ayuda">Muestra tu borrador, incluso antes de guardarlo. Actualizá para ver los últimos cambios.</p>
+            <label>Ancho<select id="admin-preview-width"><option value="100%">Adaptable</option><option value="375px">Móvil · 375 px</option><option value="1024px">Escritorio · 1024 px</option></select></label>
+            <div class="admin-preview-scroll"><iframe id="admin-preview-frame" title="Vista previa del borrador" sandbox="allow-scripts allow-same-origin" referrerpolicy="same-origin"></iframe></div>
+            <a id="admin-public-link" href="index.html" target="_blank" rel="noopener">Abrir versión pública ↗</a>
+          </aside>
+        </div>
+      </div>
+    </main>
+    <dialog id="admin-confirmacion">
+      <h3 id="admin-confirmacion-title">Confirmar acción</h3>
+      <p id="admin-confirmacion-texto"></p>
+      <div><button id="admin-confirmacion-no" class="admin-btn" type="button">Cancelar</button><button id="admin-confirmacion-si" class="admin-btn admin-btn-primary" type="button">Confirmar</button></div>
+    </dialog>
+    <noscript><p class="admin-estado">Necesitás activar JavaScript para administrar el sitio.</p></noscript>
+    <script src="assets/js/tema.js?v=20261006-1"></script>
+    <script src="assets/js/comunidad-config.js?v=20261006-1"></script>
+    <script type="module" src="assets/js/admin.mjs?v=20261006-1"></script>
+    <script type="module" src="assets/js/sitio-compartido.mjs"></script>
+  </body>
+</html>
