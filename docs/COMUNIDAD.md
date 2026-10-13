@@ -39,8 +39,19 @@ La primera cuenta ya está confirmada y tiene administración asignada privadame
 su titular confirmó acceso al editor. No se incluyen datos personales de esa cuenta en el repositorio.
 El registro y la confirmación se completaron para esa cuenta; la recuperación todavía
 no se ha validado de extremo a extremo.
+En la comprobación del 2026-10-13, una solicitud autorizada de recuperación
+devolvió HTTP 429 (`over_email_send_rate_limit`): no se confirmó envío ni entrega,
+y no se cambió la contraseña. El formulario informa el límite sin afirmar éxito.
+El panel SMTP no tenía remitente, host, usuario ni contraseña configurados.
 Pendiente: configurar SMTP propio y comprobar confirmación/recuperación desde el sitio HTTPS.
 No desactivar la confirmación para eludir las restricciones del correo.
+
+Para completar SMTP, abrir **Authentication → Emails → SMTP Settings** en este
+proyecto, habilitar SMTP personalizado y cargar los datos del proveedor:
+remitente autorizado, nombre institucional, host, puerto TLS, usuario y
+contraseña SMTP. Guardar y probar confirmación y recuperación con una cuenta de
+prueba autorizada. La contraseña se introduce únicamente en el panel: instalar
+paquetes o agregar código al frontend no sustituye un proveedor ni sus credenciales.
 
 ### Procedimiento para un proyecto nuevo
 

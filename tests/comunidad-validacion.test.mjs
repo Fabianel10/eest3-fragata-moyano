@@ -41,6 +41,8 @@ test('errores de Auth y conexión se muestran en español sin revelar mensajes i
   assert.match(mensajeError({ code: 'invalid_credentials' }), /correo o la contraseña/);
   assert.match(mensajeError({ code: 'email_not_confirmed' }), /confirmá/);
   assert.match(mensajeError({ code: 'otp_expired' }), /venció/);
+  assert.match(mensajeError({ code: 'over_email_send_rate_limit' }), /no pudo enviar/);
+  assert.match(mensajeError({ code: 'email_address_not_authorized' }), /configurar el servicio/);
   assert.match(mensajeError(new TypeError('Failed to fetch')), /conexión/);
   assert.doesNotMatch(mensajeError({ code: '42501', message: 'private database details' }), /private/);
 });

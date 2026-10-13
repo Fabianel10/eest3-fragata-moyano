@@ -24,7 +24,7 @@ test('el paquete público excluye código de pruebas, fuentes y originales de fo
   for (const file of ['index.html','madera.html','admin.html','comunidad.html','assets/cms/catalogo.json','assets/images/Madera/taller-05.webp']) {
     await access(new URL(`dist/${file}`, root));
   }
-  for (const file of ['node_modules','tests','supabase','docs','.git','.netlify','tools','package.json']) {
+  for (const file of ['node_modules','tests','supabase','docs','.git','.netlify','.vscode','tools','package.json']) {
     await assert.rejects(access(new URL(`dist/${file}`, root)), { code: 'ENOENT' });
   }
   assert.deepEqual((await readdir(new URL('dist/assets/images/Madera/', root))).sort(),

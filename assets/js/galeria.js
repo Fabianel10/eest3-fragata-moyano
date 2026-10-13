@@ -114,6 +114,7 @@ const renderIndicators = () => {
 };
 
 const syncPlayback = () => {
+  if (!galleryItems.length) return;
   const advancing = canAdvance();
   pauseButton.setAttribute('aria-pressed', String(isPaused));
   const label = isPaused ? 'Reanudar galería' : 'Pausar galería';
@@ -133,6 +134,13 @@ const syncPlayback = () => {
     if (video) video.play().catch(() => {
       sliderStatus.textContent = 'No se pudo iniciar el video. Usá los controles de reproducción.';
     });
+    if (video && isBackgroundMusicEnabled) {
+      backgroundAudio.play().catch(() => {
+        isBackgroundMusicEnabled = false;
+        updateSoundButton();
+        sliderStatus.textContent = 'No se pudo iniciar la música de fondo.';
+      });
+    }
   } else {
     stopTimer();
     video?.pause();
@@ -173,13 +181,6 @@ const showSlide = (index) => {
 
   if (item.type === 'video') {
     const video = sliderMedia.querySelector('video');
-    if (isBackgroundMusicEnabled && canAdvance()) {
-      backgroundAudio.play().catch(() => {
-        isBackgroundMusicEnabled = false;
-        updateSoundButton();
-        sliderStatus.textContent = 'No se pudo iniciar la música de fondo.';
-      });
-    }
     video.addEventListener('ended', () => {
       if (canAdvance()) showSlide(currentSlide + 1);
     });

@@ -50,6 +50,11 @@ test('formulario estático registra campos, consentimiento y honeypot en Netlify
     assert.ok(nodes.some((node) => node.attrs && attrs(node).name === name), name);
   }
   assert.ok(nodes.some((node) => node.tagName === 'input' && attrs(node).name === 'privacidad' && 'required' in attrs(node)));
+  for (const [name, maximum] of [['nombre', '100'], ['correo', '254'], ['asunto', '200'], ['mensaje', '5000']]) {
+    const field = nodes.find((node) => node.attrs && attrs(node).name === name);
+    assert.equal(attrs(field).maxlength, maximum);
+    assert.ok('required' in attrs(field));
+  }
   assert.ok(!html.includes('action="mailto:'));
 });
 

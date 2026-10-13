@@ -38,9 +38,13 @@ No se reejecutaron migraciones ni se cambiaron permisos de cuentas.
 - 43 pruebas automatizadas: se conservan las 33 existentes y se agregan diez de
   contacto e interacción de galerías.
 - Pruebas del CMS real, incluyendo restauración y Storage.
-- Navegación móvil de Madera comprobada sin desbordamiento y con pausa funcional.
-- La recepción de contacto requiere comprobar la bandeja de Netlify tras desplegar;
-  no se considera suficiente una respuesta HTTP exitosa.
+- Las cuatro galerías comprobadas en producción a 375 px, sin desbordamiento,
+  con pausa funcional y sin errores de catálogo CMS.
+- Recepción de contacto comprobada en producción: confirmación en pantalla y
+  almacenamiento de la consulta técnica en la bandeja de Netlify. Ese envío,
+  sin datos personales, se eliminó después de verificarlo.
+- GitHub Actions y Netlify aprobaron la publicación; no se consideró suficiente
+  una respuesta HTTP aislada como prueba del formulario.
 
 ## Dependencias externas pendientes
 
@@ -48,6 +52,8 @@ SMTP personalizado todavía no está habilitado en el proyecto Supabase comproba
 Requiere proveedor, remitente autorizado y credenciales cargadas directamente en
 el panel, nunca en el repositorio. El servicio predeterminado es limitado y no
 equivale a registro abierto para cualquier destinatario.
+La prueba autorizada de recuperación devolvió HTTP 429 por límite de correo;
+no se confirmó entrega ni se cambió la contraseña.
 
 No se inventan horarios, docentes ni contactos institucionales. Las preferencias
 de avisos se guardan para futuras campañas, pero esta versión no las envía.

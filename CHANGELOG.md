@@ -19,6 +19,9 @@ Este proyecto utiliza [versionado semántico](https://semver.org/lang/es/).
 - Publicación v2 y borrador restaurado v3 con el mismo contenido de la plantilla.
 - Subida, registro, lectura pública y archivo de un medio técnico de 308 bytes.
 - Las pruebas no cambiaron textos, materias ni las cinco fotos del taller.
+- Consulta HTTPS confirmada en Netlify Forms; eliminado únicamente el envío técnico.
+- Recuperación por correo bloqueada por HTTP 429 del servicio predeterminado:
+  error comunicado explícitamente, sin cambiar contraseña ni desactivar confirmación.
 
 ### Corregido
 
