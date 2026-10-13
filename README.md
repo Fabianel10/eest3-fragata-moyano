@@ -33,11 +33,12 @@ automáticamente desde `main`; no publicar la raíz del repositorio.
 
 ## Entrega actual
 
-La versión `v1.4.0` integra el trabajo estudiantil de comunidad, autenticación,
+La versión `v1.4.1` consolida la entrega `v1.4.0` del trabajo estudiantil de comunidad, autenticación,
 administración editorial y las tres carreras, además de las cinco nuevas fotografías
 del taller de Madera y Mueble. La revisión docente, las verificaciones y las tareas
 de la próxima entrega se documentan en
 [la entrega 1.4.0](archive/versiones/v1.4.0/README.md) y [la hoja de ruta](docs/MEJORAS.md).
+El [ajuste 1.4.1](archive/versiones/v1.4.1/README.md) conserva las rutas HTML en Netlify.
 
 Sitio de trabajo: **https://eest3sf.netlify.app**.
 La publicación técnica no reemplaza la validación institucional de contenidos y datos.

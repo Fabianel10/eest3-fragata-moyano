@@ -9,6 +9,7 @@ de cuentas y contenidos es Supabase. Se generan solo los archivos públicos en `
 - Netlify: sitio `eest3sf`, conectado a `Fabianel10/eest3-fragata-moyano`, rama `main`.
 - Node: 22. Instalación: `npm ci`. Verificación: `npm test`. Empaquetado: `npm run build`.
 - `netlify.toml` ejecuta `npm test && npm run build` y publica `dist`.
+- El posprocesado HTML se desactiva para conservar rutas `.html` y referencias CMS.
 - GitHub Actions comprueba las pruebas y el paquete en pushes a `main` y Pull Requests.
 - No publicar `.`, porque contiene pruebas, SQL, documentos fuente y dependencias.
 - Las claves publishable son públicas; nunca agregar secret keys ni credenciales de despliegue.

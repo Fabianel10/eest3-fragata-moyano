@@ -2,6 +2,14 @@
 
 Este proyecto utiliza [versionado semántico](https://semver.org/lang/es/).
 
+## [1.4.1] - 2026-10-13
+
+### Corregido
+
+- Desactivado el posprocesado HTML de Netlify: las rutas `.html` y los campos del
+  catálogo CMS se conservan como se verificaron localmente, sin reescritura de enlaces.
+- Ajuste detectado durante la verificación pública de la entrega 1.4.0.
+
 ## [1.4.0] - 2026-10-13
 
 ### Agregado
