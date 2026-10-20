@@ -34,7 +34,8 @@ las migraciones en el proyecto conectado.
    retención de consultas y autorización de documentos públicos.
 2. En un entorno de prueba con las cuatro migraciones existentes, aplicar
    `supabase/migrations/202610200005_gestion.sql` y después
-   `supabase/migrations/202610200006_notificaciones.sql`. No reejecutar las
+   `supabase/migrations/202610200006_notificaciones.sql` y
+   `supabase/migrations/202610200007_skynet.sql`. No reejecutar las
    migraciones anteriores ni usar `db push` sin reconciliar el historial.
    Probar que el CMS anterior sigue funcionando.
 3. Tras aprobarlo, aplicar esa misma migración incremental al proyecto real.
@@ -79,6 +80,26 @@ Para volver temporalmente a Netlify Forms, desactivar `CONTACT_ENABLED`, restaur
 el modo y atributos Netlify en un nuevo deploy y verificar su detección y recepción.
 No borrar tablas o archivos de Supabase para revertir la interfaz. La función
 deshabilitada devuelve 503 explícito.
+
+### Historial y nombre de Skynet
+
+La séptima migración agrega tablas y RPC privados; no modifica permisos de usuarios,
+contenidos CMS, contacto ni notificaciones. No requiere credenciales nuevas:
+utiliza la sesión Auth existente y RLS por propietario. Revisar
+[consentimiento, retención y pruebas](SKYNET.md).
+Fue aplicada al proyecto conectado el 2026-10-20. Se verificaron los RPC en una
+transacción con rollback, la denegación anónima y la ausencia de chats de prueba.
+Las siete migraciones están aplicadas; no reejecutarlas.
+
+Antes de aplicar, confirmar con `to_regclass('public.skynet_turns')` y
+`to_regclass('public.skynet_preferences')` que todavía no existen. Después, comprobar
+RLS, permisos de RPC y que la lectura anónima esté denegada. No escribir chats reales
+para probar. Preferir comprobaciones transaccionales con rollback y datos técnicos.
+No otorgar consentimiento a otras personas ni reutilizar una sesión ajena.
+
+Reversión: volver a un deploy validado no elimina datos ni revoca consentimiento.
+Deshabilitar la interfaz en un nuevo deploy si fuera necesario y conservar las
+tablas para permitir una eliminación controlada. No borrar el esquema como rollback.
 
 ## Alternativa: publicar en Vercel
 
@@ -143,7 +164,7 @@ Configurar en Supabase Site URL `https://eest3sf.netlify.app` y Redirect URLs ex
 Conservar los retornos de localhost para desarrollo. Un deploy preview no queda
 autorizado automáticamente para enlaces de confirmación: no usar comodines globales.
 Configurar SMTP institucional antes de abrir el registro a cualquier destinatario.
-Las seis migraciones del proyecto real ya se aplicaron; no reejecutarlas al desplegar.
+Verificar el estado de las siete migraciones antes de operar; no reejecutarlas al desplegar.
 
 ### Recepción de consultas
 

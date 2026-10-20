@@ -1,153 +1,154 @@
-# EEST N°3 Fragata Moyano
+# EEST N.º 3 «Fragata Moyano»
 
-Sitio institucional de muestra para la Escuela de Educación Secundaria Técnica N°3 "Fragata Moyano", San Fernando.
+**Portal educativo e institucional · San Fernando, Buenos Aires**
 
-## Ejecutar el proyecto
+[![Verificación](https://github.com/Fabianel10/eest3-fragata-moyano/actions/workflows/verificar.yml/badge.svg)](https://github.com/Fabianel10/eest3-fragata-moyano/actions)
 
-El sitio usa archivos estáticos y módulos JavaScript:
-para todas las páginas, ejecutar `npm run dev` y visitar
-`http://localhost:4173`. El servidor local usa únicamente Node 22 o superior; no requiere instalar dependencias.
-En VS Code también se puede ejecutar la tarea **Sitio local**. Si el puerto ya está
-ocupado, comprobar la instancia existente antes de iniciar otra.
+[Visitar el sitio](https://eest3sf.netlify.app) ·
+[Documentación](docs/README.md) ·
+[Entrega v1.8.0](archive/versiones/v1.8.0/README.md) ·
+[Historial](CHANGELOG.md)
 
-Para publicar: `npm ci`, `npm test` y `npm run build`. El paquete `dist/` contiene
-solo las páginas y recursos públicos. Netlify ejecuta pruebas y genera ese paquete
-automáticamente desde `main`; no publicar la raíz del repositorio.
+Proyecto desarrollado por estudiantes, con revisión técnica y seguimiento docente.
+Integra información de las especialidades, servicios para la comunidad y herramientas
+de gestión. La publicación técnica no reemplaza la validación institucional de
+contenidos, licencias, autorizaciones de imagen y tratamiento de datos.
 
-## Estructura
+## Funcionalidades
 
-- `index.html`: estructura y contenido del sitio.
-- `assets/css/estilo.css`: estilos responsive y animaciones.
-- `assets/js/script.js`: interacciones, navegación, selector de tema y reproductor.
-- `assets/images/`: imágenes e identidad visual del sitio.
-- `assets/audio/`: recursos de audio del reproductor.
-- `comunidad.html`: registro, login, recuperación y preferencias de la comunidad.
-- `privacidad.html`: información sobre el tratamiento de datos de las cuentas.
-- `supabase/migrations/`: esquema de perfiles y permisos para Supabase.
-- `docs/COMUNIDAD.md`: activación del portal, administración y pruebas.
-- `admin.html`: administrador editorial por bloques, biblioteca, borradores e historial.
-- `informatica.html`, `madera.html`, `obras.html`: páginas independientes de las carreras.
-- `assets/cms/catalogo.json`: catálogo de contenido inicial y referencias de campos.
-- `docs/ADMINISTRACION.md`: backend editorial, activación y flujo de publicación.
-- `archive/versiones/`: historial documentado de las versiones publicadas.
-- `docs/MEJORAS.md`: hoja de ruta para organizar y profesionalizar el sitio institucional.
-- `docs/DESPLIEGUE_COLABORADORES.md`: pasos para que los colaboradores publiquen el sitio en Vercel o Netlify.
+| Área | Capacidades |
+| --- | --- |
+| Institución y carreras | Inicio, historia, galerías y páginas de Informática, Madera y Mueble y Maestro Mayor de Obras; diseños curriculares y materias de 4.º a 7.º |
+| Comunidad | Registro, confirmación de correo, login, recuperación y solicitud de perfil; aprobación institucional de permisos |
+| Administración editorial | Edición de siete páginas por bloques, imágenes, medios, borradores, publicación, historial y respaldos JSON |
+| Gestión | Consultas privadas, responsables, notas, auditoría, control de concurrencia y eliminación |
+| Recursos públicos | Comunicados, documentos PDF, proyectos y horarios con filtros, programación y vencimiento |
+| Calendario | Selector multianual y exportación iCalendar de las fechas cargadas |
+| Notificaciones | Avisos internos por intereses, preferencias, lecturas privadas y sincronización de publicaciones |
+| Skynet | Personaje PNG transparente, conversación guiada, nombre opcional, contexto de carrera, búsqueda de publicaciones e historial privado con consentimiento |
+| Servicios compartidos | Tema claro/oscuro, clima, fecha, música activada por la persona usuaria y redes |
 
-## Entrega actual
+### Skynet: alcance y privacidad
 
-La versión `v1.7.0` continúa la entrega `v1.4.0` del trabajo estudiantil de comunidad, autenticación,
-administración editorial y las tres carreras, además de las cinco nuevas fotografías
-del taller de Madera y Mueble. La revisión docente, las verificaciones y las tareas
-de la próxima entrega se documentan en
-[la entrega 1.4.0](archive/versiones/v1.4.0/README.md) y [la hoja de ruta](docs/MEJORAS.md).
-El [ajuste 1.4.1](archive/versiones/v1.4.1/README.md) conserva las rutas HTML en Netlify.
-La [entrega 1.5.0](archive/versiones/v1.5.0/README.md) agrega recepción HTTPS de consultas,
-pausa accesible de galerías y comprobación de operaciones editoriales reales.
-La entrega 1.6.0 suma respaldos editoriales por página y la limpieza de atribución
-automática en la historia publicada. La 1.6.1 registra la causa final del bloqueo SMTP
-y la recepción comprobada del correo de recuperación en producción.
-La [entrega 1.7.0](archive/versiones/v1.7.0/README.md) incorpora gestión de consultas,
-publicaciones, notificaciones internas, calendario multianual y Skynet, con
-evidencias de pruebas y criterios docentes para la próxima entrega.
+Skynet **no es IA generativa ni atención humana**. Responde temas institucionales,
+reconoce saludos y preguntas de seguimiento y consulta títulos publicados y vigentes.
+Ejemplos: `hola`, `Informática`, `¿y sus horarios?`, `buscar taller`.
+No confirma vacantes, no realiza trámites ni solicita contraseñas.
 
-Sitio de trabajo: **https://eest3sf.netlify.app**.
-La publicación técnica no reemplaza la validación institucional de contenidos y datos.
+- Sin cuenta o sin consentimiento: conversación temporal en la página.
+- Con autorización: historial privado por cuenta en Supabase, hasta 100 turnos
+  y ventana de 90 días. Permite recuperar, descargar y eliminar la conversación.
+- Nombre de pila o apodo opcional: se recuerda en la cuenta solo al autorizarlo;
+  tiene un control independiente para olvidarlo.
+- Las respuestas antiguas se identifican como históricas; deben verificarse sus fuentes.
+- No se envían consultas a proveedores de modelos de IA.
 
-### Gestión, notificaciones y Skynet (2026-10-20)
+Consultar [la guía completa de Skynet](docs/SKYNET.md) y la
+[política visible de privacidad](https://eest3sf.netlify.app/privacidad.html).
 
-Ampliación con migraciones incrementales aplicadas al proyecto Supabase:
+## Desarrollo local
 
-- Contacto mediante Netlify Function y Supabase, con comprobante, reintentos
-  idempotentes y límite persistente de cinco consultas por IP/hora.
-- `gestion.html`: bandeja privada, responsables, notas, historial y eliminación.
-- `novedades.html`: comunicados, biblioteca de documentos PDF, proyectos y horarios,
-  con buscador, filtros, paginación, programación y vencimiento.
-- Historial editorial de publicaciones, control de versiones y acceso solo de
-  administradores para gestionar los nuevos módulos.
-- Calendario multianual y exportación iCalendar, sin inventar fechas de otros años.
-- Centro privado de notificaciones por intereses, lecturas por cuenta, preferencias,
-  programación, vencimiento y avisos automáticos desde publicaciones.
-- Skynet: asistente guiado accesible, con fuentes locales, sin IA generativa,
-  sin servicios externos ni almacenamiento de conversaciones.
+Requisito: **Node.js 22 o superior**, con npm.
 
-El contacto utiliza la función de Netlify y la bandeja privada de Supabase:
-no se escribe simultáneamente en dos bandejas. Consultar el
-[procedimiento de activación y verificación](docs/DESPLIEGUE_COLABORADORES.md#activación-de-la-gestión-institucional-preparada).
-Las campañas de correo, los roles editor/revisor y la preinscripción formal
-no están implementados en esta etapa ni se activan automáticamente.
+```sh
+git clone https://github.com/Fabianel10/eest3-fragata-moyano.git
+cd eest3-fragata-moyano
+npm run dev
+```
 
-## Versionado
+Abrir `http://localhost:4173`. El servidor estático no necesita dependencias;
+para ejecutar las pruebas:
 
-Cada entrega publicada debe tener una etiqueta Git y una carpeta dentro de `archive/versiones/`.
+```sh
+npm ci
+npm test
+npm run build
+```
 
-1. Crear una rama para el cambio: `git switch -c tipo/descripcion-corta`.
-2. Realizar y probar el cambio.
-3. Actualizar `CHANGELOG.md` y crear `archive/versiones/vX.Y.Z/README.md`.
-4. Crear un commit descriptivo.
-5. Fusionar el cambio y crear una etiqueta: `git tag -a vX.Y.Z -m "Versión X.Y.Z"`.
-6. Publicar commits y etiquetas: `git push origin main --follow-tags`.
+| Comando | Resultado |
+| --- | --- |
+| `npm run dev` | Servidor de desarrollo estático en el puerto 4173 |
+| `npm test` | Pruebas Node, contratos HTML y PostgreSQL embebido mediante PGlite |
+| `npm run build` | Paquete público aislado en `dist/` |
+| `npm run cms:catalog` | Regenera catálogo y manifiestos; requiere revisión de compatibilidad antes de usarlo |
 
-Se utiliza versionado semántico:
+**Atención:** el frontend local utiliza el Supabase configurado; no es una base de
+prueba aislada. No modificar contenidos reales durante desarrollo. El contacto está
+deshabilitado en localhost y vistas previas; requiere Netlify Functions en producción.
+No abrir los módulos con `file://`.
 
-- `v1.0.0`: primera entrega o cambio mayor.
-- `v1.1.0`: nueva sección o función compatible.
-- `v1.0.1`: corrección pequeña.
+## Arquitectura y organización
 
-No se deben versionar contraseñas, claves secretas ni datos personales de estudiantes.
-La URL y la clave publishable de Supabase son configuración pública, protegida por RLS.
+```text
+*.html                    Páginas públicas y herramientas privadas
+assets/
+  cms/                    Catálogo editorial y datos iniciales
+  css/                    Estilos generales y de módulos
+  js/                     Módulos ES y lógica de interfaz
+  images/                 Identidad, galerías y personaje Skynet
+  audio/                  Recursos del reproductor
+netlify/functions/        Endpoint privado de contacto
+supabase/migrations/      Evolución incremental del esquema, RPC y RLS
+tests/                    Pruebas automatizadas
+tools/                    Servidor local, build y herramientas de contenido
+docs/                     Guías vigentes de uso, operación y contribución
+archive/versiones/        Evidencias y corrección docente por entrega
+.github/workflows/        Verificación de CI
+```
 
-## Cuentas y comunidad
+El navegador sirve HTML/CSS/JavaScript sin framework de frontend. Supabase aporta
+Auth, PostgreSQL, PostgREST y Storage; Netlify aloja el sitio y ejecuta la función de
+contacto. GitHub Actions verifica las pruebas y el build; Netlify publica desde `main`.
+El contador de visitas es **local al dispositivo**, no una métrica global.
 
-El portal permite solicitar perfiles de alumno/a y profesor/a, o sumarse como comunidad.
-Los permisos institucionales requieren aprobación; administración se asigna privadamente.
-El proyecto Supabase real ya está conectado, con migraciones aplicadas, confirmación
-de correo y URLs de retorno para `http://localhost:4173`.
-La primera cuenta administrativa está habilitada y su acceso fue confirmado.
-Las URLs HTTPS de retorno de Netlify están configuradas y se conservaron las locales.
-La recuperación de contraseña por correo quedó comprobada en producción con Brevo.
-El `525 Unauthorized IP address` se resolvió desactivando el bloqueo IP únicamente
-para SMTP en Brevo; se mantuvieron las credenciales SMTP y sin cambios el bloqueo
-de API. Falta probar el flujo de confirmación de registro con una cuenta de prueba
-autorizada antes de abrir el registro a cualquier destinatario.
-Consultar [el estado y la guía de cuentas](docs/COMUNIDAD.md).
-Esta entrega ofrece avisos internos; no envía campañas de correo ni notificaciones push.
+## Acceso, datos y operación
 
-Para pruebas automatizadas: `npm ci` y `npm test`. Las dependencias son solo de desarrollo.
+- La selección de alumno/a o profesor/a no otorga permisos automáticamente.
+  Administración se asigna por un operador autorizado, nunca por autorregistro.
+- Las consultas de contacto se guardan en Supabase, no en dos destinos a la vez.
+  Las consultas históricas de Netlify Forms permanecen en su bandeja anterior.
+- El consentimiento de correo es independiente de los avisos internos y del historial
+  de Skynet. **No se envían campañas ni push** en esta versión.
+- Los PDF autorizados son públicos por URL, incluso si su artículo es borrador o
+  deja de mostrarse. No subir legajos, firmas, DNI ni documentación sensible.
+- Las claves publishable son públicas por diseño. Nunca publicar `service_role`,
+  claves SMTP, tokens de despliegue o datos personales.
+- Las migraciones aplicadas manualmente no deben reejecutarse. Antes de `db push`,
+  reconciliar el historial CLI con el esquema real.
 
-## Administrar el contenido
+La recuperación de correo con Brevo fue comprobada en una entrega anterior.
+La confirmación de un registro nuevo autorizado y el cambio final de contraseña
+siguen siendo recorridos de validación separados: ver [Comunidad](docs/COMUNIDAD.md).
 
-Las cuentas administrativas pueden editar las siete páginas institucionales desde
-`admin.html`. Incluye secciones por bloques, textos, imágenes, enlaces, galería, agenda,
-audios, biblioteca de archivos, vista previa, borradores, publicación con historial
-y respaldos JSON por página para recuperación rápida del contenido editorial.
-El backend real es Supabase (PostgreSQL, Auth, PostgREST y Storage), no el servidor local.
-Las seis migraciones ya están aplicadas en el proyecto conectado; no reejecutarlas.
-Consultar [la guía editorial](docs/ADMINISTRACION.md) antes de operar o usar Supabase CLI.
-Sin configuración no se habilitan escrituras ni se simulan publicaciones.
+## Documentación por responsabilidad
 
-## Consultas de contacto
+| Necesidad | Documento |
+| --- | --- |
+| Índice y estado de la entrega | [Documentación](docs/README.md) |
+| Cuentas y permisos | [Comunidad](docs/COMUNIDAD.md) |
+| Editar y publicar; gestionar consultas | [Administración](docs/ADMINISTRACION.md) |
+| Usar, mantener y probar el asistente | [Skynet](docs/SKYNET.md) |
+| Configurar entornos, migrar y desplegar | [Despliegue](docs/DESPLIEGUE_COLABORADORES.md) |
+| Colaborar y presentar evidencias | [Contribución](CONTRIBUTING.md) |
+| Próximas mejoras y criterios docentes | [Hoja de ruta](docs/MEJORAS.md) |
+| Consultar entregas anteriores | [Versiones](archive/versiones/README.md) |
 
-El formulario de inicio utiliza una Netlify Function con consentimiento y honeypot.
-Las consultas se revisan en **Gestión institucional → Consultas**, con una cuenta
-administrativa; se guardan separadas de perfiles y no se envían campañas.
-Las consultas históricas de Netlify Forms permanecen en su bandeja anterior.
-En localhost y vistas previas el envío está deshabilitado explícitamente.
-La institución debe asignar responsables, definir conservación y configurar
-notificaciones de recepción si las necesita. Consultar la
-[guía de despliegue](docs/DESPLIEGUE_COLABORADORES.md).
+## Calidad y publicación
 
-## Carreras técnicas
+Antes de publicar: pruebas aprobadas, build correcto, verificación móvil y por teclado,
+permisos reales y contenido autorizado. La evidencia distingue pruebas simuladas,
+transaccionales y recorridos de producción; no confundir un HTTP exitoso con
+persistencia confirmada.
 
-Cada especialidad cuenta con una página conectada al inicio, galería, calendario y comunidad:
+Solo `dist/` se publica como archivos estáticos. Las funciones se empaquetan aparte
+desde `netlify/functions/`. No publicar la raíz del repositorio.
+Cada entrega incluye commit, etiqueta semántica, release y
+[evaluación docente](archive/versiones/).
 
-- [Informática Personal y Profesional](informatica.html).
-- [Industrialización de la Madera y el Mueble](madera.html).
-- [Maestro Mayor de Obras](obras.html).
+## Autoría y recursos
 
-Incluyen síntesis del enfoque y objetivos, referencias a los diseños aportados, materias
-de 4.º a 7.º con horas reloj anuales y galería editable por carrera. Horarios y profesores/as
-quedan preparados para incorporar información institucional validada.
-Los servicios de clima/fecha, música, redes y visitas locales están disponibles en todas
-las páginas. Las visitas no representan un contador global de personas.
-
-hecho por estudiantes de 7° tecipp.
+La autoría corresponde a estudiantes y docentes que participan en el proyecto,
+conservada en la historia Git. La identidad visual, fotografías y materiales de
+terceros requieren las autorizaciones y licencias correspondientes; estar en un
+repositorio público no concede por sí solo una licencia de reutilización.
+No se incluyen datos personales de estudiantes como ejemplos.

@@ -4,6 +4,7 @@ const $ = id => document.getElementById(id);
 let offset = 0;
 let total = 0;
 let loading = false;
+let linkedPost = new URLSearchParams(location.search).get('post');
 function node(tag, text, className) {
   const item = document.createElement(tag);
   item.textContent = text;
@@ -27,6 +28,10 @@ async function load() {
       .abortSignal(AbortSignal.timeout(12000))
       .lte('published_at', now).or(`expires_at.is.null,expires_at.gt.${now}`)
       .order('published_at', { ascending: false }).order('id');
+    if (linkedPost) {
+      if (!/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(linkedPost)) throw new Error('Invalid publication link');
+      query = query.eq('id', linkedPost);
+    }
     for (const key of ['kind', 'career', 'audience']) {
       if (filters.get(key)) query = query.eq(key, filters.get(key));
     }
@@ -49,7 +54,8 @@ async function load() {
       }
       $('public-list').append(card);
     }
-    status.textContent = total ? `${total} publicaciones vigentes · página ${offset / 20 + 1}` : 'No hay publicaciones vigentes para estos filtros.';
+    status.textContent = total ? linkedPost ? 'Publicación enlazada. Usá Buscar para volver al catálogo completo.'
+      : `${total} publicaciones vigentes · página ${offset / 20 + 1}` : 'No hay publicaciones vigentes para estos filtros.';
     status.dataset.error = 'false';
   } catch (error) {
     offset = previousOffset;
@@ -67,7 +73,14 @@ async function load() {
     $('public-next').disabled = offset + 20 >= total;
   }
 }
-$('public-filter').addEventListener('submit', event => { event.preventDefault(); if (!loading) { offset = 0; load(); } });
+$('public-filter').addEventListener('submit', event => {
+  event.preventDefault();
+  if (!loading) {
+    linkedPost = null;
+    const url = new URL(location.href); url.searchParams.delete('post'); history.replaceState(null, '', url);
+    offset = 0; load();
+  }
+});
 $('public-prev').addEventListener('click', () => { if (!loading) { offset = Math.max(0, offset - 20); load(); } });
 $('public-next').addEventListener('click', () => { if (!loading) { offset += 20; load(); } });
 const params = new URLSearchParams(location.search);

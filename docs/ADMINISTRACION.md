@@ -92,7 +92,7 @@ Un año sin fechas se muestra vacío: no se copian feriados de 2026 a 2027.
 
 ### Verificación de esta ampliación
 
-- Suite automatizada: incluye las seis migraciones en PostgreSQL embebido para
+- Suite automatizada: incluye las siete migraciones en PostgreSQL embebido para
   comprobar compatibilidad, además de las pruebas de recepción e interfaz.
 - Pruebas de recepción HTTP: formato, tamaño, origen, límites, fallos y comprobantes.
 - Pruebas de RLS/RPC: consultas privadas, notas, eliminación, permisos, conflictos
@@ -129,10 +129,14 @@ preferencia interna independiente del consentimiento de correo.
 Skynet es un asistente guiado por doce temas, no un modelo generativo ni un
 operador humano. Sus respuestas y fuentes se mantienen en
 `assets/js/skynet-modelo.mjs`: cualquier nueva fecha o requisito necesita
-validación institucional. Las consultas no se transmiten ni persisten, y se
-conservan como máximo ocho turnos en la memoria de la página.
-El diálogo admite teclado, Escape, retorno de foco y borrado de conversación.
+validación institucional. La versión 1.8.0 incorpora imagen transparente, nombre
+opcional, contexto de carrera, búsqueda de publicaciones vigentes e historial
+privado por cuenta con consentimiento explícito. Sin autorización, la conversación
+permanece en memoria. El diálogo admite teclado, Escape, retorno de foco,
+descarga y borrado de conversación.
 No tiene permisos para cambiar cuentas, leer consultas o publicar contenido.
+Administración no puede leer chats ajenos mediante el portal. Consultar
+[la guía de Skynet](SKYNET.md) para retención, permisos y mantenimiento.
 
 ## Activación
 
@@ -142,6 +146,9 @@ Las migraciones `202610060001_comunidad.sql`, `202610060002_editorial.sql`,
 `202610060003_catalogo.sql` y `202610060004_carreras.sql` ya se aplicaron en el proyecto `dzkcpsfmubwwguixtruu`
 desde el SQL Editor. La cuarta extiende las páginas permitidas e incorpora las tres
 plantillas de carreras, conservando los manifiestos y datos anteriores.
+Las migraciones quinta y sexta agregan gestión y notificaciones. La séptima,
+`202610200007_skynet.sql`, incorpora historial y nombre opcional del asistente.
+También se aplicó al proyecto conectado el 2026-10-20, sin alterar el contenido previo.
 Se verificaron las seis tablas con RLS, las siete plantillas
 y el bucket público `institutional-media` con límite de 20 MB.
 La API anónima permite consultar publicaciones y deniega perfiles y borradores.
@@ -167,6 +174,9 @@ sirve para restaurar rápidamente el contenido editorial de una página en el na
    - `supabase/migrations/202610060002_editorial.sql`.
    - `supabase/migrations/202610060003_catalogo.sql`.
    - `supabase/migrations/202610060004_carreras.sql`.
+   - `supabase/migrations/202610200005_gestion.sql`.
+   - `supabase/migrations/202610200006_notificaciones.sql`.
+   - `supabase/migrations/202610200007_skynet.sql`.
 3. Estas migraciones suponen un proyecto donde no existen tablas CMS ni el bucket
    `institutional-media`. No ejecutar repetidamente la creación de tablas/políticas.
    Revisar políticas preexistentes de Storage: una política permisiva global no debe

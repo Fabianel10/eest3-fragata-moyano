@@ -19,6 +19,14 @@
 - Recuperación real por correo comprobada en producción tras corregir el bloqueo
   IP de SMTP de Brevo (`525 5.7.1 Unauthorized IP address`).
 
+## Entrega 1.8.0: Skynet y documentación
+
+Imagen transparente, diálogo guiado, contexto de carrera y búsqueda de publicaciones
+vigentes. Nombre opcional e historial privado por cuenta, con autorizaciones
+independientes, descarga, borrado y límites verificables.
+Ver [Skynet](SKYNET.md), [contribución](../CONTRIBUTING.md) e
+[índice de documentación](README.md). No incorpora un proveedor de IA generativa.
+
 ## Prioridad alta
 
 ### Ampliación 1.7.0 del 2026-10-20
@@ -28,7 +36,8 @@ en Supabase, comunicados/documentos/proyectos/horarios, programación y vencimie
 historial editorial, PDF públicos y calendario multianual con exportación `.ics`.
 El contacto nuevo utiliza Supabase; las migraciones quinta y sexta ya se aplicaron.
 Se agregan notificaciones internas por intereses y Skynet, asistente guiado
-sin IA generativa y sin almacenar conversaciones. Ver [activación y pruebas reales](DESPLIEGUE_COLABORADORES.md#activación-de-la-gestión-institucional-preparada).
+sin IA generativa. Su modalidad inicial sin persistencia fue ampliada en la 1.8.0
+con historial opcional privado por cuenta. Ver [activación y pruebas reales](DESPLIEGUE_COLABORADORES.md#activación-de-la-gestión-institucional-preparada).
 
 Siguientes etapas todavía no implementadas:
 

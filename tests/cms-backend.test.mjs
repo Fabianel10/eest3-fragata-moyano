@@ -25,7 +25,7 @@ test('backend editorial: autorización, publicación, conflictos, historial y St
     grant usage on schema storage to anon, authenticated;
     grant select, insert, update, delete on storage.objects to anon, authenticated;
   `);
-  for (const file of ['202610060001_comunidad.sql', '202610060002_editorial.sql', '202610060003_catalogo.sql', '202610060004_carreras.sql', '202610200005_gestion.sql', '202610200006_notificaciones.sql']) {
+  for (const file of ['202610060001_comunidad.sql', '202610060002_editorial.sql', '202610060003_catalogo.sql', '202610060004_carreras.sql', '202610200005_gestion.sql', '202610200006_notificaciones.sql', '202610200007_skynet.sql']) {
     if (file === '202610060004_carreras.sql') {
       await db.query("insert into public.cms_pages(slug,draft,version) values ('historia',$1,3)",
         [JSON.stringify(catalogo.historia.defaults)]);

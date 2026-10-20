@@ -2,6 +2,28 @@
 
 Este proyecto utiliza [versionado semántico](https://semver.org/lang/es/).
 
+## [1.8.0] - 2026-10-20
+
+### Skynet
+
+- Personaje PNG con transparencia, optimizado desde la imagen aportada.
+- Saludos, seguimiento de carrera, nombre de pila/apodo opcional, recuerdo
+  autorizado en la cuenta y control para olvidarlo.
+- Búsqueda de títulos publicados vigentes con filtros y enlaces a artículos concretos.
+- Historial privado por cuenta con consentimiento: hasta 100 turnos, paginación de
+  30, ventana de 90 días, descarga, borrado y reintentos idempotentes.
+- Validación de fuentes locales, prevención de datos sensibles evidentes y limpieza
+  de estado ante cambios de sesión. No se incorpora IA generativa.
+- Migración incremental séptima con RLS por propietario y escrituras solo mediante RPC.
+
+### Documentación y organización
+
+- README reestructurado por capacidades, arquitectura, desarrollo, operación y privacidad.
+- Índice de documentación, guía de Skynet y procedimiento de contribución estudiantil.
+- Guías actuales actualizadas; versiones históricas conservadas como evidencia docente.
+- About de GitHub con descripción, sitio publicado y temas pertinentes.
+- Verificación de autores: API de Contributors sin Copilot; no se reescribe historia.
+
 ## [1.7.0] - 2026-10-20
 
 ### Agregado

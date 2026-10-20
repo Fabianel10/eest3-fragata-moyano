@@ -9,6 +9,8 @@
 - Administración: listado de hasta 50 solicitudes pendientes, ordenadas por antigüedad, y aprobación.
 - Acceso al [administrador editorial](ADMINISTRACION.md) para las cuentas habilitadas.
 - Preferencias e intereses para futuras notificaciones por correo, con consentimiento opcional.
+- [Notificaciones internas](../notificaciones.html) por intereses y lecturas privadas.
+- [Skynet](SKYNET.md): nombre opcional e historial privado con autorizaciones independientes.
 - Tema claro/oscuro, diseño adaptable, etiquetas accesibles, estados de carga y errores.
 
 No incluye notas, matrícula escolar, campañas de correo ni notificaciones push.
@@ -21,8 +23,9 @@ protegida mediante RLS y permisos de columnas, no los metadatos editables de Aut
 ### Estado del proyecto conectado
 
 El proyecto `dzkcpsfmubwwguixtruu` (EEST3 San Fernando) está conectado mediante
-URL y clave pública publishable. Las cuatro migraciones ya se aplicaron manualmente
-desde el SQL Editor; **no volver a ejecutarlas en este proyecto**.
+URL y clave pública publishable. Las migraciones se aplican incrementalmente
+desde el SQL Editor; **no volver a ejecutar las ya aplicadas en este proyecto**.
+Consultar el [estado de despliegue](DESPLIEGUE_COLABORADORES.md) antes de cualquier cambio.
 
 Configuración verificada para Netlify y pruebas locales (2026-10-13):
 
@@ -54,8 +57,8 @@ del correo. La pantalla informa errores sin afirmar éxito. No desactivar la con
 de cuentas para eludir restricciones del correo.
 
 La configuración actual ya quedó guardada en **Authentication → Emails → SMTP
-Settings**. No rotar ni compartir las credenciales salvo que una nueva prueba indique
-un error de autenticación. Para revisar/cambiar credenciales, hacerlo directamente en
+Settings**. No compartir credenciales; rotarlas si se sospecha exposición y según
+la política institucional. Para revisar/cambiar credenciales, hacerlo directamente en
 los paneles de Supabase y Brevo, nunca en el repositorio, chats ni capturas.
 
 ### Brevo sin dominio propio
