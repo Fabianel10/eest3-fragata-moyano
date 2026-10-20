@@ -123,18 +123,19 @@
           <p id="cuenta-email" class="portal-subtitulo"></p>
           <span id="cuenta-rol" class="cuenta-badge"></span>
           <p id="cuenta-solicitud" class="portal-nota" hidden></p>
+          <a class="portal-primary" href="notificaciones.html">Mis notificaciones internas ↗</a>
           <form id="form-preferencias" class="portal-form">
             <label for="cuenta-nombre">Nombre y apellido</label>
             <input id="cuenta-nombre" name="nombre" autocomplete="name" minlength="2" maxlength="100" required />
             <fieldset class="preferencias-temas">
               <legend>Tus intereses</legend>
-              <p class="portal-ayuda">Prepará tu cuenta para los avisos que vendrán.</p>
+              <p class="portal-ayuda">Estos temas filtran tus notificaciones internas. El consentimiento de correo es independiente.</p>
               <label class="portal-check"><input type="checkbox" name="temas" value="novedades" /><span>Novedades de la escuela</span></label>
               <label class="portal-check"><input type="checkbox" name="temas" value="calendario" /><span>Fechas y eventos</span></label>
               <label class="portal-check"><input type="checkbox" name="temas" value="inscripciones" /><span>Inscripciones y actividades</span></label>
             </fieldset>
             <label class="portal-check"><input type="checkbox" name="avisos" /><span>Autorizo futuros avisos por correo sobre mis intereses.</span></label>
-            <p class="portal-ayuda">Todavía no se envían notificaciones: guardamos tu elección. No activamos permisos del navegador.</p>
+            <p class="portal-ayuda">Las notificaciones internas están en “Mis notificaciones”. Todavía no enviamos campañas por correo ni activamos permisos del navegador.</p>
             <button class="portal-primary" type="submit">Guardar preferencias</button>
           </form>
           <section id="admin-panel" class="portal-admin" aria-labelledby="titulo-admin" hidden>

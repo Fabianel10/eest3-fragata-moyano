@@ -27,7 +27,7 @@ themeButton?.addEventListener('click', () =>
   setTheme(!document.body.classList.contains('tema-oscuro'))
 );
 
-const calendarEvents2026 = [
+const calendarEvents = [
   ['2026-01-01', 'Año Nuevo', 'feriado'],
   ['2026-02-16', 'Carnaval', 'feriado'],
   ['2026-02-17', 'Carnaval', 'feriado'],
@@ -62,9 +62,8 @@ const calendarEvents2026 = [
   ['2026-12-25', 'Navidad', 'feriado']
 ];
 if (window.CMS_CONTENT) {
-  calendarEvents2026.splice(0, calendarEvents2026.length,
-    ...window.CMS_CONTENT.events.filter((item) => Number(item.date.slice(0, 4)) === window.CMS_CONTENT.year)
-      .map((item) => [item.date, item.title, item.type]));
+  calendarEvents.splice(0, calendarEvents.length,
+    ...window.CMS_CONTENT.events.map((item) => [item.date, item.title, item.type]));
 }
 
 const monthNames = [
@@ -116,7 +115,7 @@ const eventTypeLabels = {
 
 let selectedDate = null;
 let activeMonthEvents = [];
-const calendarYear = window.CMS_CONTENT?.year || 2026;
+let calendarYear = window.CMS_CONTENT?.year || 2026;
 const today = new Date();
 const isCurrentCalendarYear = today.getFullYear() === calendarYear;
 const currentMonth = isCurrentCalendarYear ? today.getMonth() : 8;
@@ -165,7 +164,8 @@ const selectDate = (date, monthEvents) => {
 };
 
 const renderCalendar = (month) => {
-  const monthEvents = calendarEvents2026.filter(([date]) => Number(date.slice(5, 7)) === month + 1);
+  const monthEvents = calendarEvents.filter(([date]) =>
+    Number(date.slice(0, 4)) === calendarYear && Number(date.slice(5, 7)) === month + 1);
   activeMonthEvents = monthEvents;
   calendarMonthTitle.textContent = monthNames[month];
   calendarMonthNumber.textContent = String(month + 1).padStart(2, '0');
@@ -190,7 +190,7 @@ const renderCalendar = (month) => {
         .join('')
     : '<p class="sin-fechas">Sin fechas destacadas para este mes.</p>';
   const initialDate =
-    currentDate && month === currentMonth
+    currentDate && Number(currentDate.slice(0, 4)) === calendarYear && month === currentMonth
       ? currentDate
       : monthEvents[0]?.[0] || `${calendarYear}-${String(month + 1).padStart(2, '0')}-01`;
   selectDate(initialDate, monthEvents);
@@ -215,6 +215,49 @@ calendarDetails.addEventListener('click', (event) => {
   if (button) selectDate(button.dataset.date, activeMonthEvents);
 });
 renderCalendar(currentMonth);
+
+const yearControls = document.createElement('div');
+yearControls.className = 'calendario-controles';
+const yearLabel = document.createElement('label');
+yearLabel.textContent = 'Ciclo lectivo ';
+const yearInput = document.createElement('input');
+yearInput.type = 'number'; yearInput.min = '2000'; yearInput.max = '2100';
+yearInput.value = String(calendarYear);
+yearLabel.append(yearInput);
+const changeYear = document.createElement('button');
+changeYear.type = 'button'; changeYear.textContent = 'Ver año';
+const downloadCalendar = document.createElement('button');
+downloadCalendar.type = 'button'; downloadCalendar.textContent = 'Descargar agenda (.ics)';
+const yearStatus = document.createElement('p');
+yearStatus.setAttribute('role', 'status');
+const updateYearLabel = () => {
+  const count = calendarEvents.filter(([date]) => Number(date.slice(0, 4)) === calendarYear).length;
+  yearStatus.textContent = `Ciclo ${calendarYear}: ${count} fechas cargadas. No se calculan feriados ni fechas escolares de otros años automáticamente.`;
+};
+changeYear.addEventListener('click', () => {
+  if (!yearInput.reportValidity() || !yearInput.value) return;
+  calendarYear = Number(yearInput.value);
+  renderCalendar(calendarYear === today.getFullYear() ? today.getMonth() : 0);
+  updateYearLabel();
+});
+downloadCalendar.addEventListener('click', async () => {
+  downloadCalendar.disabled = true;
+  try {
+    const { createCalendar } = await import('./calendario-export.mjs');
+    const events = window.CMS_CONTENT?.events || calendarEvents.map(([date, title]) => ({ date, title }));
+    const url = URL.createObjectURL(new Blob([createCalendar(events, calendarYear)], { type: 'text/calendar;charset=utf-8' }));
+    const link = document.createElement('a');
+    link.href = url; link.download = `agenda-eest3-${calendarYear}.ics`;
+    document.body.append(link); link.click(); link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  } catch (error) {
+    console.error('Exportación de agenda:', error.name);
+    yearStatus.textContent = 'No se pudo exportar la agenda. Revisá las fechas e intentá nuevamente.';
+  } finally { downloadCalendar.disabled = false; }
+});
+yearControls.append(yearLabel, changeYear, downloadCalendar, yearStatus);
+monthSelector.before(yearControls);
+updateYearLabel();
 
 if (visitCounter && !window.CMS_PREVIEW) {
   const visitKey = 'eest3-visitas-dispositivo';

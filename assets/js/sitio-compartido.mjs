@@ -1,4 +1,5 @@
 import { iniciarReproductor } from './reproductor-compartido.mjs';
+import { startSkynet } from './skynet.mjs';
 
 const carreras = [
   ['informatica.html', 'Informática Personal y Profesional'],
@@ -6,6 +7,7 @@ const carreras = [
   ['obras.html', 'Maestro Mayor de Obras']
 ];
 export async function completarSitio() {
+  startSkynet();
   if (document.querySelector('[data-sitio-completo]')) return;
   const style = document.createElement('link');
   style.rel = 'stylesheet';
@@ -84,6 +86,19 @@ export async function completarSitio() {
   wrapper.dataset.sitioCompleto = 'true';
   wrapper.setAttribute('aria-label', 'Carreras y servicios de la comunidad');
   wrapper.append(links());
+  const resources = document.createElement('nav');
+  resources.className = 'sitio-carreras';
+  resources.setAttribute('aria-label', 'Comunicados y recursos');
+  for (const [href, text] of [
+    ['novedades.html', 'Comunicados y recursos'],
+    ['novedades.html?kind=documento', 'Documentos'],
+    ['novedades.html?kind=proyecto', 'Proyectos estudiantiles'],
+    ['novedades.html?kind=horario', 'Horarios y equipo docente'],
+    ['notificaciones.html', 'Mis notificaciones']
+  ]) {
+    const link = document.createElement('a'); link.href = href; link.textContent = text; resources.append(link);
+  }
+  wrapper.append(resources);
   const insertar = html => {
     const template = document.createElement('template');
     template.innerHTML = html;

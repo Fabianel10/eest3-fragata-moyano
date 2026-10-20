@@ -23,6 +23,63 @@ de cuentas y contenidos es Supabase. Se generan solo los archivos públicos en `
 3. Confirmar que el repositorio se visualiza y que se puede crear una rama o subir un cambio.
 4. Si GitHub muestra una invitación pendiente, aceptarla antes de continuar. Actualmente esta acción corresponde a `kkanek99-glitch`.
 
+## Activación de la gestión institucional preparada
+
+**Autorizado y aplicado el 2026-10-20.** Las migraciones quinta y sexta ya están
+en el proyecto real. El contacto usa Supabase mediante una función privada de Netlify.
+Los pasos siguientes documentan el procedimiento para otros entornos; no reejecutar
+las migraciones en el proyecto conectado.
+
+1. Revisar los cambios, hacer backup del proyecto y confirmar responsables,
+   retención de consultas y autorización de documentos públicos.
+2. En un entorno de prueba con las cuatro migraciones existentes, aplicar
+   `supabase/migrations/202610200005_gestion.sql` y después
+   `supabase/migrations/202610200006_notificaciones.sql`. No reejecutar las
+   migraciones anteriores ni usar `db push` sin reconciliar el historial.
+   Probar que el CMS anterior sigue funcionando.
+3. Tras aprobarlo, aplicar esa misma migración incremental al proyecto real.
+   No hay importación de datos ni asignación automática de permisos.
+4. Cargar variables privadas en Netlify, **contexto producción**. Usar scope
+   Functions si el plan lo permite. El plan actual requiere todos los scopes;
+   los valores siguen siendo privados y nunca se incorporan al JavaScript público.
+
+   | Variable | Uso |
+   | --- | --- |
+   | `CONTACT_ENABLED` | `true` únicamente cuando se apruebe la recepción en Supabase |
+   | `SUPABASE_URL` | URL del mismo proyecto utilizado por el frontend |
+   | `SUPABASE_SERVICE_ROLE_KEY` | Credencial privada de servidor, nunca la publishable |
+   | `CONTACT_HASH_SECRET` | Secreto de al menos 64 caracteres, generado con 32 bytes aleatorios en hexadecimal |
+
+   Netlify suministra `URL` con el origen del sitio y `context.ip` con la IP de
+   conexión. La función rechaza otros orígenes y no habilita deploy previews.
+   No guardar valores privados en archivos, capturas, comandos registrados ni Git.
+5. En `index.html`, cambiar explícitamente `data-backend="netlify"` por
+   `data-backend="supabase"` y quitar `data-netlify` / `netlify-honeypot`.
+   Conservar el campo trampa y el consentimiento. El botón requiere JavaScript;
+   la función solo admite JSON. No hay fallback automático a Netlify ante fallos.
+6. Antes de ese cambio, actualizar la información visible de privacidad para
+   indicar Supabase como receptor activo, responsable y retención. La aceptación
+   de contacto se registra con versión `2026-10-20`; esto no suscribe a campañas.
+7. Ejecutar `npm test` y `npm run build`. Netlify publica `dist/` y empaqueta las
+   funciones desde `netlify/functions`, fuera del paquete público. Vercel no
+   ejecuta esta función sin adaptar el runtime; no activar este modo allí.
+8. En prueba controlada: enviar una consulta, registrar su comprobante y comprobar
+   **una sola fila** en `contact_requests`, visible solo para administración.
+   Verificar cambios de estado, notas, conflictos de versión y eliminación.
+9. Probar borrador, programación, publicación y vencimiento de artículos con una
+   sesión anónima y PDF autorizado. Confirmar que el PDF no expone información privada.
+10. Verificar calendario 2026 y un año sin fechas; importar un `.ics` de prueba en
+    un calendario separado, sin modificar el calendario personal.
+
+Las consultas históricas de Netlify no se migran automáticamente. Conservarlas
+privadamente según la política institucional; no exportarlas al repositorio. Una
+eventual importación debe auditar cantidades y duplicados antes de cerrar la bandeja antigua.
+
+Para volver temporalmente a Netlify Forms, desactivar `CONTACT_ENABLED`, restaurar
+el modo y atributos Netlify en un nuevo deploy y verificar su detección y recepción.
+No borrar tablas o archivos de Supabase para revertir la interfaz. La función
+deshabilitada devuelve 503 explícito.
+
 ## Alternativa: publicar en Vercel
 
 1. Crear una cuenta o iniciar sesión en `https://vercel.com` usando **Continue with GitHub**.
@@ -69,7 +126,7 @@ de cuentas y contenidos es Supabase. Se generan solo los archivos públicos en `
 
 La versión publicada debe corresponder al SHA subido a GitHub. Comprobar estado
 `ready` del despliegue y abrir las nuevas páginas y fotos. Si se necesita publicar
-manualmente, usar `netlify deploy --prod --dir=dist` desde el sitio vinculado,
+manualmente, usar `netlify deploy --prod --dir=dist --functions=netlify/functions --no-build` desde el sitio vinculado,
 después de verificar pruebas y build; nunca pasar `--dir=.`.
 
 Netlify puede insertar un comentario de hosting y su script público HUD aunque
@@ -86,21 +143,18 @@ Configurar en Supabase Site URL `https://eest3sf.netlify.app` y Redirect URLs ex
 Conservar los retornos de localhost para desarrollo. Un deploy preview no queda
 autorizado automáticamente para enlaces de confirmación: no usar comodines globales.
 Configurar SMTP institucional antes de abrir el registro a cualquier destinatario.
-Las cuatro migraciones del proyecto real ya se aplicaron; no reejecutarlas al desplegar.
+Las seis migraciones del proyecto real ya se aplicaron; no reejecutarlas al desplegar.
 
 ### Recepción de consultas
 
-El formulario de inicio usa **Netlify Forms**, no `mailto` ni el SMTP de Supabase.
-Habilitar la detección de formularios en el sitio Netlify
-(`processing_settings.ignore_html_forms = false`) y conservar Pretty URLs desactivado.
-Después del deploy debe aparecer **contacto-institucional** en **Forms**.
-Confirmar tanto el mensaje de recepción en la página como la existencia del
-envío en esa bandeja; un HTTP 200 aislado no demuestra almacenamiento.
+El formulario de inicio usa **Supabase mediante Netlify Function**, no `mailto`
+ni el SMTP. Confirmar el comprobante UUID y la existencia de una única fila en
+`contact_requests`; un HTTP 200 aislado no demuestra almacenamiento.
 
-Las consultas quedan restringidas a integrantes autorizados de la cuenta Netlify.
-Asignar un responsable y revisar entradas válidas/spam. Las notificaciones de
-Netlify Forms pueden configurarse por separado con un destinatario institucional
-validado; guardar una consulta no garantiza que llegue un aviso por correo.
+Las consultas quedan restringidas a cuentas administrativas en Gestión institucional.
+Asignar un responsable y revisar entradas. Guardar una consulta no envía un aviso
+ni una respuesta por correo. La bandeja histórica de Netlify Forms permanece
+separada y no recibe los envíos nuevos.
 No publicar consultas ni incorporarlas al catálogo CMS. En localhost y vista
 previa no se envían datos. Ante error, los campos se conservan y se informa
 explícitamente que la recepción no está confirmada.

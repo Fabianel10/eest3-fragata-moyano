@@ -2536,7 +2536,7 @@
               "textIndex": 0
             },
             "f223": {
-              "selector": "main > section:nth-child(6) > div:nth-child(2) > form:nth-child(4) > button:nth-child(5)",
+              "selector": ".formulario-contacto > button[type=\"submit\"]",
               "label": "Enviar consulta",
               "kind": "text",
               "textIndex": 0

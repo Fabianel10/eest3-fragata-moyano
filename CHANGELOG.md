@@ -2,6 +2,35 @@
 
 Este proyecto utiliza [versionado semántico](https://semver.org/lang/es/).
 
+## [1.7.0] - 2026-10-20
+
+### Agregado
+
+- Contacto con Netlify Function y RPC privado de Supabase: comprobante UUID,
+  idempotencia, validación de servidor, honeypot y límite persistente por HMAC de IP.
+- Bandeja administrativa de consultas con búsqueda, estados, responsables, notas,
+  historial y eliminación definitiva; concurrencia controlada por versiones.
+- Comunicados, documentos, proyectos estudiantiles y horarios con filtros,
+  paginación, programación, vencimiento, historial privado y enlaces HTTPS.
+- Carga administrativa de PDF públicos de hasta 10 MB en un bucket separado.
+- Calendario multianual 2000–2100 y exportación iCalendar de eventos cargados.
+- Integración de los nuevos recursos con la navegación y servicios compartidos.
+- Notificaciones internas por intereses, preferencias, lecturas privadas,
+  avisos manuales idempotentes y sincronización automática de publicaciones.
+- Skynet, asistente guiado con doce temas y fuentes locales, diálogo accesible,
+  sin IA generativa ni envío o persistencia de conversaciones.
+- Protección de las pantallas privadas frente a respuestas pendientes al cerrar sesión.
+- Selector estable del botón de contacto en el catálogo CMS, conservando los IDs
+  y las publicaciones existentes; generación de catálogo compatible con el calendario multianual.
+
+### Compatibilidad y activación
+
+- Migraciones quinta y sexta aplicadas al Supabase real, conservando el CMS existente.
+- Contacto activado explícitamente en Supabase, sin doble escritura en Netlify Forms.
+- Sin nuevas cuentas, asignación automática de roles ni campañas de correo/push.
+- Pruebas de permisos, límites, reintentos, vencimiento, conflictos y compatibilidad
+  con las migraciones editoriales existentes.
+
 ## [1.6.1] - 2026-10-13
 
 ### Verificado

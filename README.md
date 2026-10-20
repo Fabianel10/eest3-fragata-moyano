@@ -35,7 +35,7 @@ automáticamente desde `main`; no publicar la raíz del repositorio.
 
 ## Entrega actual
 
-La versión `v1.6.1` continúa la entrega `v1.4.0` del trabajo estudiantil de comunidad, autenticación,
+La versión `v1.7.0` continúa la entrega `v1.4.0` del trabajo estudiantil de comunidad, autenticación,
 administración editorial y las tres carreras, además de las cinco nuevas fotografías
 del taller de Madera y Mueble. La revisión docente, las verificaciones y las tareas
 de la próxima entrega se documentan en
@@ -46,9 +46,35 @@ pausa accesible de galerías y comprobación de operaciones editoriales reales.
 La entrega 1.6.0 suma respaldos editoriales por página y la limpieza de atribución
 automática en la historia publicada. La 1.6.1 registra la causa final del bloqueo SMTP
 y la recepción comprobada del correo de recuperación en producción.
+La [entrega 1.7.0](archive/versiones/v1.7.0/README.md) incorpora gestión de consultas,
+publicaciones, notificaciones internas, calendario multianual y Skynet, con
+evidencias de pruebas y criterios docentes para la próxima entrega.
 
 Sitio de trabajo: **https://eest3sf.netlify.app**.
 La publicación técnica no reemplaza la validación institucional de contenidos y datos.
+
+### Gestión, notificaciones y Skynet (2026-10-20)
+
+Ampliación con migraciones incrementales aplicadas al proyecto Supabase:
+
+- Contacto mediante Netlify Function y Supabase, con comprobante, reintentos
+  idempotentes y límite persistente de cinco consultas por IP/hora.
+- `gestion.html`: bandeja privada, responsables, notas, historial y eliminación.
+- `novedades.html`: comunicados, biblioteca de documentos PDF, proyectos y horarios,
+  con buscador, filtros, paginación, programación y vencimiento.
+- Historial editorial de publicaciones, control de versiones y acceso solo de
+  administradores para gestionar los nuevos módulos.
+- Calendario multianual y exportación iCalendar, sin inventar fechas de otros años.
+- Centro privado de notificaciones por intereses, lecturas por cuenta, preferencias,
+  programación, vencimiento y avisos automáticos desde publicaciones.
+- Skynet: asistente guiado accesible, con fuentes locales, sin IA generativa,
+  sin servicios externos ni almacenamiento de conversaciones.
+
+El contacto utiliza la función de Netlify y la bandeja privada de Supabase:
+no se escribe simultáneamente en dos bandejas. Consultar el
+[procedimiento de activación y verificación](docs/DESPLIEGUE_COLABORADORES.md#activación-de-la-gestión-institucional-preparada).
+Las campañas de correo, los roles editor/revisor y la preinscripción formal
+no están implementados en esta etapa ni se activan automáticamente.
 
 ## Versionado
 
@@ -84,7 +110,7 @@ para SMTP en Brevo; se mantuvieron las credenciales SMTP y sin cambios el bloque
 de API. Falta probar el flujo de confirmación de registro con una cuenta de prueba
 autorizada antes de abrir el registro a cualquier destinatario.
 Consultar [el estado y la guía de cuentas](docs/COMUNIDAD.md).
-Esta entrega guarda preferencias para futuras notificaciones; todavía no las envía.
+Esta entrega ofrece avisos internos; no envía campañas de correo ni notificaciones push.
 
 Para pruebas automatizadas: `npm ci` y `npm test`. Las dependencias son solo de desarrollo.
 
@@ -95,15 +121,16 @@ Las cuentas administrativas pueden editar las siete páginas institucionales des
 audios, biblioteca de archivos, vista previa, borradores, publicación con historial
 y respaldos JSON por página para recuperación rápida del contenido editorial.
 El backend real es Supabase (PostgreSQL, Auth, PostgREST y Storage), no el servidor local.
-Las cuatro migraciones ya están aplicadas en el proyecto conectado; no reejecutarlas.
+Las seis migraciones ya están aplicadas en el proyecto conectado; no reejecutarlas.
 Consultar [la guía editorial](docs/ADMINISTRACION.md) antes de operar o usar Supabase CLI.
 Sin configuración no se habilitan escrituras ni se simulan publicaciones.
 
 ## Consultas de contacto
 
-El formulario de inicio utiliza Netlify Forms con consentimiento y honeypot.
-Las consultas se revisan desde **Forms → contacto-institucional** en la cuenta
-Netlify del sitio; no se guardan en el perfil de Supabase ni se envían campañas.
+El formulario de inicio utiliza una Netlify Function con consentimiento y honeypot.
+Las consultas se revisan en **Gestión institucional → Consultas**, con una cuenta
+administrativa; se guardan separadas de perfiles y no se envían campañas.
+Las consultas históricas de Netlify Forms permanecen en su bandeja anterior.
 En localhost y vistas previas el envío está deshabilitado explícitamente.
 La institución debe asignar responsables, definir conservación y configurar
 notificaciones de recepción si las necesita. Consultar la

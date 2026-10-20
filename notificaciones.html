@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>Mis notificaciones | EEST N°3</title>
+    <link rel="icon" href="assets/images/logo.png" />
+    <link rel="stylesheet" href="assets/css/estilo.css" />
+    <link rel="stylesheet" href="assets/css/gestion.css" />
+  </head>
+  <body>
+    <a class="saltar-contenido" href="#contenido-principal">Saltar al contenido</a>
+    <main id="contenido-principal" class="gestion-main">
+      <nav aria-label="Comunidad"><a href="index.html">Inicio</a><a href="comunidad.html">Mi cuenta e intereses</a><a href="novedades.html">Publicaciones</a>
+        <button class="interruptor-tema" type="button" aria-pressed="false" aria-label="Activar modo oscuro">Claro / oscuro</button>
+      </nav>
+      <h1>Mis notificaciones</h1>
+      <p>Avisos dentro del portal según los intereses de tu cuenta. No se envían correos ni notificaciones del navegador. Solo tu cuenta puede marcar sus lecturas.</p>
+      <p id="notifications-status" role="status" tabindex="-1">Verificando tu sesión…</p>
+      <div id="notifications-workspace" hidden>
+        <form id="notifications-preferences">
+          <label><span><input id="notifications-enabled" type="checkbox" /> Mostrar notificaciones internas para mi cuenta</span></label>
+          <button>Guardar elección</button>
+        </form>
+        <p>Las publicaciones generan avisos de “Novedades”. Cambiá los temas que te interesan en <a href="comunidad.html">Mi cuenta</a>. Esto es independiente del consentimiento de correo.</p>
+        <button id="notifications-refresh" type="button">Actualizar avisos</button>
+        <p id="notifications-summary"></p>
+        <div id="notifications-list"></div>
+        <button id="notifications-more" type="button" hidden>Ver avisos anteriores</button>
+        <section id="notifications-admin" hidden aria-labelledby="notifications-admin-title">
+          <h2 id="notifications-admin-title">Administrar avisos</h2>
+          <p>Los artículos publicados generan su aviso automáticamente. Acá podés crear avisos adicionales de calendario e inscripciones. Retirar un artículo retira su aviso; las correcciones no duplican notificaciones.</p>
+          <form id="notifications-create" class="gestion-card">
+            <label>Título<input name="title" required minlength="3" maxlength="160" /></label>
+            <label>Mensaje<textarea name="body" required minlength="10" maxlength="2000" rows="4"></textarea></label>
+            <label>Tema<select name="topic"><option value="novedades">Novedades</option><option value="calendario">Calendario</option><option value="inscripciones">Inscripciones</option></select></label>
+            <label>Destino<select name="link"><option value="novedades.html">Publicaciones</option><option value="calendario.html">Calendario</option><option value="index.html#contacto">Contacto</option><option value="informatica.html">Informática</option><option value="madera.html">Madera y Mueble</option><option value="obras.html">Maestro Mayor de Obras</option><option value="comunidad.html">Comunidad</option></select></label>
+            <label>Publicación (vacío = ahora)<input name="published_at" type="datetime-local" /></label>
+            <label>Vencimiento opcional<input name="expires_at" type="datetime-local" /></label>
+            <button>Crear aviso interno</button>
+          </form>
+          <h3>Últimos 25 avisos administrativos</h3>
+          <div id="notifications-admin-list"></div>
+        </section>
+      </div>
+    </main>
+    <script src="assets/js/comunidad-config.js"></script>
+    <script src="assets/js/tema.js"></script>
+    <script type="module" src="assets/js/notificaciones.mjs"></script>
+    <script type="module" src="assets/js/sitio-compartido.mjs"></script>
+  </body>
+</html>

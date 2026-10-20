@@ -3,6 +3,9 @@ if (contactForm) {
   const contactStatus = contactForm.querySelector('.contacto-estado');
   const contactSubmit = contactForm.querySelector('button[type="submit"]');
   const localContact = ['localhost', '127.0.0.1'].includes(location.hostname);
+  const databaseContact = contactForm.dataset.backend === 'supabase';
+  let pendingRequest;
+  contactSubmit.disabled = localContact || Boolean(window.CMS_PREVIEW);
   const contactNotice = (message, error = false) => {
     contactStatus.textContent = message;
     contactStatus.hidden = false;
@@ -35,18 +38,37 @@ if (contactForm) {
     contactForm.setAttribute('aria-busy', 'true');
     contactSubmit.disabled = true;
     try {
-      const response = await fetch('/', {
+      let body = new URLSearchParams(data).toString();
+      if (databaseContact) {
+        const payload = Object.fromEntries(data);
+        const fingerprint = JSON.stringify(payload);
+        if (!pendingRequest || pendingRequest.fingerprint !== fingerprint) {
+          pendingRequest = { fingerprint, id: crypto.randomUUID() };
+        }
+        body = JSON.stringify({ ...payload, request_id: pendingRequest.id });
+      }
+      const response = await fetch(databaseContact ? '/.netlify/functions/contacto' : '/', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(data).toString(),
+        headers: { 'Content-Type': databaseContact ? 'application/json' : 'application/x-www-form-urlencoded' },
+        body,
         signal: AbortSignal.timeout(15000)
       });
+      let receipt;
+      if (databaseContact) {
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.error || `HTTP ${response.status}`);
+        if (result.id !== pendingRequest.id) throw new Error('La respuesta no contiene un comprobante válido.');
+        receipt = result.id;
+      }
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      pendingRequest = null;
       contactForm.reset();
-      contactNotice('Tu consulta fue recibida. La institución podrá responder al correo que indicaste; el envío no confirma una inscripción.');
+      contactNotice(`Tu consulta fue recibida.${receipt ? ` Número: ${receipt}.` : ''} La institución podrá responder al correo que indicaste; el envío no confirma una inscripción.`);
     } catch (error) {
-      console.error('Envío de consulta:', error.name, error.message);
-      contactNotice('No pudimos confirmar la recepción. Tus datos siguen en el formulario. Revisá la conexión antes de reintentar; si el envío llegó, un segundo intento podría duplicarlo.', true);
+      console.error('Envío de consulta:', error.name);
+      contactNotice(databaseContact
+        ? `No pudimos confirmar la recepción. ${error.message} Tus datos siguen en el formulario.`
+        : 'No pudimos confirmar la recepción. Tus datos siguen en el formulario. Revisá la conexión antes de reintentar; si el envío llegó, un segundo intento podría duplicarlo.', true);
     } finally {
       delete contactForm.dataset.ocupado;
       contactForm.removeAttribute('aria-busy');

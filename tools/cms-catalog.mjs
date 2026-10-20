@@ -41,7 +41,7 @@ function literal(source, name) {
 const calendarSource = await readFile(new URL('assets/js/calendario.js', root), 'utf8');
 const gallerySource = await readFile(new URL('assets/js/galeria.js', root), 'utf8');
 const homeSource = await readFile(new URL('assets/js/script.js', root), 'utf8');
-const eventos = literal(calendarSource, 'calendarEvents2026').map(([date, title, type]) => ({
+const eventos = literal(calendarSource, 'calendarEvents').map(([date, title, type]) => ({
   date, title, type, description: '', image: ''
 }));
 const galeria = literal(gallerySource, 'galleryItems').map(({ type, file, title }) => ({

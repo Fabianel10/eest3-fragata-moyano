@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>Gestión institucional | EEST N°3</title>
+    <link rel="icon" href="assets/images/logo.png" />
+    <link rel="stylesheet" href="assets/css/estilo.css" />
+    <link rel="stylesheet" href="assets/css/gestion.css" />
+  </head>
+  <body>
+    <a class="saltar-contenido" href="#contenido-principal">Saltar al contenido</a>
+    <main id="contenido-principal" class="gestion-main">
+      <nav aria-label="Gestión institucional">
+        <a href="admin.html">Editor de páginas</a><a href="comunidad.html">Mi cuenta</a>
+        <a href="novedades.html">Ver publicaciones</a><a href="index.html">Inicio</a>
+        <a href="notificaciones.html">Administrar notificaciones</a>
+        <button class="interruptor-tema" type="button" aria-pressed="false" aria-label="Activar modo oscuro">Claro / oscuro</button>
+      </nav>
+      <h1>Gestión institucional</h1>
+      <p id="gestion-status" role="status" tabindex="-1">Verificando acceso administrativo…</p>
+      <div id="gestion-workspace" hidden>
+        <p>Consultas privadas y contenido público son espacios separados. Los avisos de recepción por correo y las campañas no se activan desde este panel.</p>
+        <nav aria-label="Secciones de gestión"><a href="#consultas">Consultas</a><a href="#publicaciones">Comunicados, documentos y proyectos</a></nav>
+        <section id="consultas" aria-labelledby="consultas-title">
+          <h2 id="consultas-title">Bandeja privada</h2>
+          <form id="contact-filter" class="gestion-filtros">
+            <label>Estado<select name="status"><option value="">Todos</option><option value="nueva">Nueva</option><option value="revision">En revisión</option><option value="respondida">Respondida</option><option value="cerrada">Cerrada</option></select></label>
+            <label>Buscar en asunto<input name="search" maxlength="100" type="search" /></label>
+            <button>Buscar consultas</button>
+          </form>
+          <p id="contact-count"></p>
+          <div class="gestion-grid"><div id="contact-list"></div><div id="contact-detail"></div></div>
+          <div class="gestion-actions"><button id="contact-prev" type="button">Anteriores</button><button id="contact-next" type="button">Siguientes</button></div>
+        </section>
+        <section id="publicaciones" aria-labelledby="publicaciones-title">
+          <h2 id="publicaciones-title">Publicaciones institucionales</h2>
+          <p>Todo lo publicado es público, incluidos los PDF del bucket de documentos. No subir legajos, firmas, DNI, notas ni documentación sensible. La selección de destinatario es una etiqueta, no una restricción de acceso.</p>
+          <form id="post-filter" class="gestion-filtros">
+            <label>Tipo<select name="kind"><option value="">Todos</option><option value="comunicado">Comunicados</option><option value="documento">Documentos</option><option value="proyecto">Proyectos estudiantiles</option><option value="horario">Horarios y equipo docente</option></select></label>
+            <label>Buscar título<input name="search" type="search" maxlength="100" /></label><button>Buscar publicaciones</button>
+          </form>
+          <button id="post-new" type="button">Nueva publicación</button>
+          <div class="gestion-grid">
+            <div><div id="post-list"></div><div class="gestion-actions"><button id="post-prev" type="button">Anteriores</button><button id="post-next" type="button">Siguientes</button></div></div>
+            <form id="post-editor" class="gestion-card">
+              <h3 id="post-editor-title">Nueva publicación</h3>
+              <label>Tipo<select name="kind"><option value="comunicado">Comunicado</option><option value="documento">Documento</option><option value="proyecto">Proyecto estudiantil</option><option value="horario">Horarios y equipo docente</option></select></label>
+              <label>Título<input name="title" required minlength="3" maxlength="200" /></label>
+              <label>Contenido (texto plano)<textarea name="body" required minlength="10" maxlength="20000" rows="8"></textarea></label>
+              <label>Carrera<select name="career"><option value="">Todas</option><option value="informatica">Informática</option><option value="madera">Madera y Mueble</option><option value="obras">Maestro Mayor de Obras</option></select></label>
+              <label>Destinatarios<select name="audience"><option value="comunidad">Comunidad</option><option value="alumnos">Estudiantes</option><option value="familias">Familias</option><option value="docentes">Docentes</option></select></label>
+              <label>Enlace de documento o recurso (HTTPS)<input name="attachment_url" type="url" maxlength="2048" /></label>
+              <label>Nombre del enlace / versión del documento<input name="attachment_label" maxlength="200" /></label>
+              <label>Subir PDF público (hasta 10 MB)<input id="document-file" type="file" accept="application/pdf,.pdf" /></label>
+              <button id="document-upload" type="button">Subir PDF y usar su enlace</button>
+              <label>Publicación (vacío = borrador, fecha futura = programada)<input name="published_at" type="datetime-local" /></label>
+              <label>Vencimiento opcional<input name="expires_at" type="datetime-local" /></label>
+              <p>Revisá las autorizaciones de imágenes y datos antes de publicar. Borrar la fecha de publicación retira el artículo, pero no elimina un PDF que ya es público.</p>
+              <button>Guardar publicación</button>
+              <div id="post-history" aria-label="Historial de publicación"></div>
+            </form>
+          </div>
+        </section>
+      </div>
+    </main>
+    <script src="assets/js/comunidad-config.js"></script>
+    <script src="assets/js/tema.js"></script>
+    <script type="module" src="assets/js/gestion-admin.mjs"></script>
+    <script type="module" src="assets/js/sitio-compartido.mjs"></script>
+  </body>
+</html>

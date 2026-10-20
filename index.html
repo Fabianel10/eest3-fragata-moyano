@@ -548,8 +548,7 @@
           <form
             class="formulario-contacto"
             name="contacto-institucional"
-            data-netlify="true"
-            netlify-honeypot="sitio-web"
+            data-backend="supabase"
             action="/"
             method="post"
           >
@@ -572,7 +571,26 @@
               Mensaje
               <textarea name="mensaje" rows="4" minlength="10" maxlength="5000" required></textarea>
             </label>
-            <button type="submit">Enviar consulta</button>
+            <div class="formulario-fila">
+              <label>Categoría
+                <select name="categoria">
+                  <option value="general">Consulta general</option>
+                  <option value="inscripciones">Inscripciones</option>
+                  <option value="carreras">Carreras</option>
+                  <option value="documentacion">Documentación</option>
+                </select>
+              </label>
+              <label>Carrera de interés (opcional)
+                <select name="carrera">
+                  <option value="">Sin especificar</option>
+                  <option value="informatica">Informática Personal y Profesional</option>
+                  <option value="madera">Industrialización de la Madera y el Mueble</option>
+                  <option value="obras">Maestro Mayor de Obras</option>
+                </select>
+              </label>
+            </div>
+            <button type="submit" disabled>Enviar consulta</button>
+            <noscript>Activá JavaScript para enviar tu consulta o utilizá los canales de Secretaría.</noscript>
             <input type="hidden" name="form-name" value="contacto-institucional" />
             <div hidden>
               <label>No completar este campo <input name="sitio-web" tabindex="-1" autocomplete="off" /></label>

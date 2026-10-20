@@ -32,6 +32,108 @@ composiciones se agregan bloques o se reemplaza una sección por bloques nuevos.
 Los formularios de contacto y mapa mantienen su integración técnica original.
 No se implementan campañas de correo, notas o gestión académica.
 
+## Gestión institucional
+
+La ampliación de 2026-10-20 agrega `gestion.html`, accesible desde las herramientas
+del editor, y la página pública `novedades.html`. Requiere la migración incremental
+`202610200005_gestion.sql`, **aplicada al proyecto real el 2026-10-20**. Sin ella,
+las páginas informan la falta de activación y no simulan datos.
+
+### Consultas privadas
+
+- Recepción anónima solo mediante `netlify/functions/contacto.mjs`, con validación
+  en servidor, control de origen, límite de tamaño, honeypot y límite persistente de
+  cinco consultas/IP/hora. No sustituye un servicio de mitigación de ataques a gran escala.
+- La función guarda por RPC `contact_submit`, accesible solo con la credencial de
+  servidor. No hay permiso de inserción directa para visitantes ni usuarios comunes.
+- Comprobante UUID y reintento con el mismo ID mientras la página siga abierta y
+  los campos no cambien. Reabrir la página o cambiar el contenido crea una consulta nueva.
+  Una respuesta incierta nunca se interpreta como recepción confirmada.
+- Bandeja con búsqueda por asunto, estados, páginas de 25 registros, responsable
+  administrativo, notas internas e historial de los últimos 50 cambios.
+- Actualizaciones con versión esperada: una sesión no sobrescribe a otra.
+- Eliminación definitiva autorizada de una consulta y sus notas. La institución
+  debe definir y ejecutar el plazo de retención; no se borra automáticamente información.
+- La IP no se guarda en claro: se utiliza HMAC-SHA256 con secreto de servidor para
+  los límites. Los contadores de más de un día se limpian en el próximo envío aceptado.
+- Guardar/gestionar una consulta **no envía correos**. Los avisos y respuestas
+  automáticas quedan para una etapa separada; el SMTP de Auth no se reutiliza
+  desde el navegador.
+
+### Publicaciones y documentos
+
+- Tipos: comunicado, documento, proyecto estudiantil y horarios/equipo docente.
+  No se inventan horarios ni nombres: administración incorpora información autorizada.
+- Clasificación por carrera y destinatario, textos planos, enlace HTTPS con nombre,
+  fecha de publicación opcional y vencimiento posterior.
+- Sin fecha: borrador privado. Fecha futura: publicación programada. Vencida:
+  excluida por RLS de la lectura pública. Los destinatarios son etiquetas, no roles
+  de acceso: todo lo publicado es público.
+- Búsqueda por título, filtros y páginas de 20 artículos públicos / 25 administrativos.
+- Cada guardado conserva una revisión privada inmutable; el editor muestra las
+  últimas diez. No se implementó restauración automática de esas publicaciones.
+- PDF de hasta 10 MB en `institutional-documents`, con nombre UUID, comprobación
+  de cabecera PDF, sin reemplazos ni borrado por la aplicación. La validación de tipo
+  no es un antivirus: revisar y autorizar el archivo antes de subirlo.
+- Los PDF son públicos por URL inmediatamente, aunque el artículo sea borrador o
+  venza. No subir datos personales, legajos o documentación sensible. Retirar un
+  artículo no revoca una URL previamente difundida. La eliminación excepcional del
+  archivo requiere un operador privado de Storage y revisar referencias existentes.
+- Los roles actuales no cambian. Solo administración puede guardar, publicar, subir
+  archivos o gestionar consultas. No se crean cuentas ni permisos automáticamente.
+
+### Calendario multianual
+
+El CMS ya acepta eventos de distintos años. El calendario permite elegir entre
+2000 y 2100 y solo muestra las fechas cargadas de ese año. La agenda se descarga
+como `.ics`, con eventos de día completo, fin exclusivo, escape de texto y plegado
+de líneas UTF-8. Es una instantánea descargada, no una suscripción sincronizada.
+Un año sin fechas se muestra vacío: no se copian feriados de 2026 a 2027.
+
+### Verificación de esta ampliación
+
+- Suite automatizada: incluye las seis migraciones en PostgreSQL embebido para
+  comprobar compatibilidad, además de las pruebas de recepción e interfaz.
+- Pruebas de recepción HTTP: formato, tamaño, origen, límites, fallos y comprobantes.
+- Pruebas de RLS/RPC: consultas privadas, notas, eliminación, permisos, conflictos
+  de versión, auditoría de publicaciones, programación, vencimiento y bucket PDF.
+- Navegador local a 375 px: publicaciones sin HTML ejecutable ni overflow, guardado
+  de notas y de artículos con respuestas simuladas, y bloqueo del panel sin sesión.
+- Calendario local: cambio a 2027 sin inventar eventos y comprobación del contenido
+  y nombre del archivo `.ics` generado. Falta la importación real en un calendario externo.
+
+Las migraciones quinta y sexta se aplicaron con autorización al proyecto real.
+Las pruebas locales no sustituyen la comprobación de recepción en producción
+detallada en la entrega 1.7.0.
+
+### Notificaciones internas
+
+`notificaciones.html` requiere una cuenta autenticada. La migración
+`202610200006_notificaciones.sql` ya está aplicada. Los avisos se filtran por los
+intereses del perfil (`novedades`, `calendario`, `inscripciones`) y por una
+preferencia interna independiente del consentimiento de correo.
+
+- Cada cuenta marca sus propias lecturas; no puede consultar las de otras cuentas.
+- Se cargan hasta 25 avisos por página, con cursor estable y botón Actualizar.
+- Administración crea avisos manuales por tema, con programación y vencimiento.
+  Los reintentos de creación con el mismo identificador no duplican avisos.
+- Publicar un artículo genera un aviso de novedades. Editarlo conserva la misma
+  notificación y sus lecturas; retirar la fecha pública la oculta.
+- Los avisos automáticos se gestionan desde el artículo. Los manuales pueden
+  retirarse desde el centro de notificaciones. No se envían correo ni push.
+- Al cerrar sesión se vacían los paneles privados y se descartan respuestas
+  pendientes de la sesión anterior.
+
+### Asistente Skynet
+
+Skynet es un asistente guiado por doce temas, no un modelo generativo ni un
+operador humano. Sus respuestas y fuentes se mantienen en
+`assets/js/skynet-modelo.mjs`: cualquier nueva fecha o requisito necesita
+validación institucional. Las consultas no se transmiten ni persisten, y se
+conservan como máximo ocho turnos en la memoria de la página.
+El diálogo admite teclado, Escape, retorno de foco y borrado de conversación.
+No tiene permisos para cambiar cuentas, leer consultas o publicar contenido.
+
 ## Activación
 
 ### Estado del proyecto conectado

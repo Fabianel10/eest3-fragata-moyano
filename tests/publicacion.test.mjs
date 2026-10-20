@@ -21,10 +21,10 @@ test('Madera incluye las cinco fotos autorizadas, optimizadas y sin nombres pers
 });
 test('el paquete público excluye código de pruebas, fuentes y originales de fotos', async () => {
   execFileSync(process.execPath, ['tools/build.mjs'], { cwd: root });
-  for (const file of ['index.html','madera.html','admin.html','comunidad.html','assets/cms/catalogo.json','assets/images/Madera/taller-05.webp']) {
+  for (const file of ['index.html','madera.html','admin.html','comunidad.html','gestion.html','novedades.html','notificaciones.html','assets/js/notificaciones.mjs','assets/js/skynet.mjs','assets/js/skynet-modelo.mjs','assets/css/skynet.css','assets/js/calendario-export.mjs','assets/js/gestion-admin.mjs','assets/cms/catalogo.json','assets/images/Madera/taller-05.webp']) {
     await access(new URL(`dist/${file}`, root));
   }
-  for (const file of ['node_modules','tests','supabase','docs','.git','.netlify','.vscode','tools','package.json']) {
+  for (const file of ['node_modules','tests','supabase','docs','netlify','.git','.netlify','.vscode','tools','package.json']) {
     await assert.rejects(access(new URL(`dist/${file}`, root)), { code: 'ENOENT' });
   }
   assert.deepEqual((await readdir(new URL('dist/assets/images/Madera/', root))).sort(),

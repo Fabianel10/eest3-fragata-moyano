@@ -11,6 +11,7 @@ test('backend editorial: autorización, publicación, conflictos, historial y St
   await db.exec(`
     create role anon;
     create role authenticated;
+    create role service_role;
     create schema auth;
     create table auth.users(id uuid primary key, raw_user_meta_data jsonb not null);
     create function auth.uid() returns uuid language sql stable as
@@ -24,7 +25,7 @@ test('backend editorial: autorización, publicación, conflictos, historial y St
     grant usage on schema storage to anon, authenticated;
     grant select, insert, update, delete on storage.objects to anon, authenticated;
   `);
-  for (const file of ['202610060001_comunidad.sql', '202610060002_editorial.sql', '202610060003_catalogo.sql', '202610060004_carreras.sql']) {
+  for (const file of ['202610060001_comunidad.sql', '202610060002_editorial.sql', '202610060003_catalogo.sql', '202610060004_carreras.sql', '202610200005_gestion.sql', '202610200006_notificaciones.sql']) {
     if (file === '202610060004_carreras.sql') {
       await db.query("insert into public.cms_pages(slug,draft,version) values ('historia',$1,3)",
         [JSON.stringify(catalogo.historia.defaults)]);

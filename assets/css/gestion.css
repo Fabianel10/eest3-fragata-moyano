@@ -1,0 +1,17 @@
+.gestion-main { max-width: 1180px; margin: auto; padding: 2rem 1rem 5rem; }
+.gestion-main h2 { margin: 1.5rem 0 1rem; }
+.gestion-main nav, .gestion-filtros, .gestion-actions { display: flex; flex-wrap: wrap; gap: 1rem; align-items: end; margin: 1rem 0; }
+.gestion-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1.5rem; }
+.gestion-card { background: var(--surface); color: var(--text); border: 1px solid #8293a5; border-radius: 1rem; padding: 1.25rem; margin: 1rem 0; overflow-wrap: anywhere; }
+.gestion-main label { display: flex; flex-direction: column; gap: .4rem; margin: .75rem 0; }
+.gestion-main input, .gestion-main select, .gestion-main textarea { width: 100%; max-width: 100%; padding: .7rem; font: inherit; color: inherit; background: transparent; border: 1px solid #8293a5; border-radius: .4rem; }
+.gestion-main select option { color: CanvasText; background: Canvas; }
+.gestion-main button { padding: .65rem 1rem; border-radius: .5rem; cursor: pointer; font: inherit; }
+.gestion-main button:disabled { opacity: .6; cursor: wait; }
+.gestion-main :focus-visible { outline: 3px solid #078dcb; outline-offset: 3px; }
+.gestion-text { white-space: pre-wrap; }
+.gestion-main [role="status"] { padding: 1rem; border-left: 4px solid #078dcb; }
+.gestion-main [data-error="true"] { border-left-color: #c73737; }
+.gestion-meta { font-size: .9rem; }
+.gestion-main [hidden] { display: none !important; }
+@media (max-width: 760px) { .gestion-grid { grid-template-columns: minmax(0, 1fr); } }

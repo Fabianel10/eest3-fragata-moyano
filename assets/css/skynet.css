@@ -1,0 +1,17 @@
+.skynet-launcher { position: fixed; right: 18px; bottom: 18px; z-index: 900; background: #073c63; color: #fff; border: 2px solid #17b9df; border-radius: 28px; padding: 14px 20px; font: inherit; font-weight: 700; cursor: pointer; box-shadow: 0 6px 20px #071a2b44; }
+.skynet-dialog { width: min(640px, calc(100vw - 24px)); max-height: calc(100dvh - 32px); margin: auto; border: 1px solid #17b9df; border-radius: 18px; padding: 22px; color: var(--text, #132b42); background: var(--surface, #fff); overflow-y: auto; }
+.skynet-dialog::backdrop { background: #071a2bbd; }
+.skynet-header { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.skynet-dialog h2 { font-size: 1.65rem; }
+.skynet-dialog h3 { font-size: 1rem; overflow-wrap: anywhere; }
+.skynet-dialog p { margin: 12px 0; line-height: 1.6; }
+.skynet-dialog button { font: inherit; cursor: pointer; border: 1px solid #62849b; border-radius: 8px; padding: 9px 12px; color: inherit; background: var(--surface-soft, #eaf9ff); }
+.skynet-topics { display: flex; gap: 8px; flex-wrap: wrap; margin: 16px 0; }
+.skynet-topics button { font-size: .85rem; }
+.skynet-log { max-height: 32vh; overflow-y: auto; }
+.skynet-log article { padding: 14px; border: 1px solid #62849b; border-radius: 8px; margin: 12px 0; }
+.skynet-log a { display: block; margin: 8px 0; color: var(--text, #132b42); text-decoration: underline; }
+.skynet-dialog label { display: grid; gap: 8px; margin: 12px 0; }
+.skynet-dialog input { min-width: 0; width: 100%; font: inherit; padding: 12px; border: 1px solid #62849b; border-radius: 8px; color: inherit; background: var(--field-bg, #fff); }
+.skynet-dialog :focus-visible, .skynet-launcher:focus-visible { outline: 3px solid #087fa5; outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { .skynet-dialog { scroll-behavior: auto; } }

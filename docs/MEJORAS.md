@@ -21,9 +21,28 @@
 
 ## Prioridad alta
 
+### Ampliación 1.7.0 del 2026-10-20
+
+Implementados con autorización de activación: bandeja privada de consultas
+en Supabase, comunicados/documentos/proyectos/horarios, programación y vencimiento,
+historial editorial, PDF públicos y calendario multianual con exportación `.ics`.
+El contacto nuevo utiliza Supabase; las migraciones quinta y sexta ya se aplicaron.
+Se agregan notificaciones internas por intereses y Skynet, asistente guiado
+sin IA generativa y sin almacenar conversaciones. Ver [activación y pruebas reales](DESPLIEGUE_COLABORADORES.md#activación-de-la-gestión-institucional-preparada).
+
+Siguientes etapas todavía no implementadas:
+
+1. Avisos de recepción y campañas por intereses con cola persistente, reintentos,
+   bajas y trazabilidad, después de confirmar proveedor y responsables.
+2. Separación de editor/revisor con revisión de permisos y aprobación institucional.
+3. Preinscripción solo tras definir requisitos, retención, responsables y tratamiento
+   de menores; no recibir documentación sensible en el contacto público.
+4. Monitoreo centralizado con política de datos, auditoría de accesibilidad con
+   personas usuarias y simulacro de recuperación completa de backups.
+
 - Definir responsables para actualizar cada contenido: secretaría, preceptoría, docentes y equipo directivo.
 - Reemplazar datos de contacto, horarios y enlaces de ejemplo por información oficial confirmada.
-- Asignar responsables para revisar las consultas recibidas en Netlify Forms y
+- Asignar responsables para revisar las consultas recibidas en Gestión institucional y
   definir su conservación; configurar avisos de recepción si se necesitan.
 - Crear un calendario único con actos, mesas, inscripciones, reuniones, feriados y fechas de entrega.
 - Publicar comunicados con fecha, destinatario, adjuntos y vencimiento visible.

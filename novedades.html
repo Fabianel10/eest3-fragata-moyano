@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Comunicados, documentos, proyectos y horarios publicados por la EEST N°3 Fragata Moyano." />
+    <title>Comunicados y recursos | EEST N°3</title>
+    <link rel="icon" href="assets/images/logo.png" />
+    <link rel="stylesheet" href="assets/css/estilo.css" />
+    <link rel="stylesheet" href="assets/css/gestion.css" />
+  </head>
+  <body>
+    <a class="saltar-contenido" href="#contenido-principal">Saltar al contenido</a>
+    <main id="contenido-principal" class="gestion-main">
+      <nav aria-label="Institución"><a href="index.html">Inicio</a><a href="calendario.html">Calendario</a><a href="comunidad.html">Mi cuenta</a>
+        <button class="interruptor-tema" type="button" aria-pressed="false" aria-label="Activar modo oscuro">Claro / oscuro</button>
+      </nav>
+      <h1>Comunicados y recursos</h1>
+      <p>Información publicada por administración. Los horarios y documentos indican su fecha de actualización; ante dudas, consultá a Secretaría.</p>
+      <form id="public-filter" class="gestion-filtros" role="search">
+        <label>Buscar título<input name="search" type="search" maxlength="100" /></label>
+        <label>Tipo<select name="kind"><option value="">Todos</option><option value="comunicado">Comunicados</option><option value="documento">Documentos</option><option value="proyecto">Proyectos estudiantiles</option><option value="horario">Horarios y equipo docente</option></select></label>
+        <label>Carrera<select name="career"><option value="">Todas</option><option value="informatica">Informática</option><option value="madera">Madera y Mueble</option><option value="obras">Maestro Mayor de Obras</option></select></label>
+        <label>Destinatarios<select name="audience"><option value="">Todos</option><option value="comunidad">Comunidad</option><option value="alumnos">Estudiantes</option><option value="familias">Familias</option><option value="docentes">Docentes</option></select></label>
+        <button>Buscar</button>
+      </form>
+      <p id="public-status" role="status" tabindex="-1">Consultando publicaciones…</p>
+      <div id="public-list"></div>
+      <div class="gestion-actions"><button id="public-prev" type="button" disabled>Anteriores</button><button id="public-next" type="button" disabled>Siguientes</button></div>
+      <noscript>Activá JavaScript para consultar las publicaciones vigentes. Podés comunicarte con Secretaría mediante los canales del inicio.</noscript>
+    </main>
+    <script src="assets/js/comunidad-config.js"></script>
+    <script src="assets/js/tema.js"></script>
+    <script type="module" src="assets/js/novedades.mjs"></script>
+    <script type="module" src="assets/js/sitio-compartido.mjs"></script>
+  </body>
+</html>
