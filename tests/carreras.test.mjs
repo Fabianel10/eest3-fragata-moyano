@@ -43,7 +43,12 @@ test('las páginas incluyen todas las materias, referencias y servicios sin ruta
     for (const node of nodes(tree,n=>['img','script','link'].includes(n.tagName))) {
       const src = node.attrs.find(a=>['src','href'].includes(a.name))?.value;
       if (!src || /^(https:|#)/.test(src)) continue;
-      await readFile(new URL(`../${decodeURIComponent(src.split('?')[0])}`, import.meta.url));
+      const ruta = decodeURIComponent(src.split('?')[0]);
+      try {
+        await readFile(new URL(`../${ruta}`, import.meta.url));
+      } catch {
+        await readFile(new URL(`../public/${ruta}`, import.meta.url));
+      }
     }
   }
 });

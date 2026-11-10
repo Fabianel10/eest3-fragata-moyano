@@ -1,6 +1,15 @@
 # Hoja de ruta de organización
 
-## Después de v1.11.0
+## Implementado el 2026-11-10 (v1.12.0)
+
+- Códigos de recuperación 2FA de un solo uso.
+- Plantillas de respuesta y adjuntos por enlace.
+- Estado del servicio y exportación CSV de métricas.
+- Respaldo diario programado de contenido.
+- PWA/offline, RSS, JSON-LD, sinónimos y suscripción `.ics`.
+- Correo real verificado desde Netlify.
+
+## Después de v1.12.0
 
 ### Prioridad alta
 

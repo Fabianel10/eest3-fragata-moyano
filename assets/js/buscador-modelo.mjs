@@ -15,6 +15,23 @@ export const CARRERAS = Object.freeze({
   obras: 'Maestro Mayor de Obras'
 });
 export const POR_PAGINA = 20;
+export const SINONIMOS = Object.freeze({
+  informatica: ['computacion', 'tecnologia', 'sistemas'],
+  madera: ['carpinteria', 'mueble', 'maderera'],
+  obras: ['construccion', 'edificacion', 'planos'],
+  inscripcion: ['inscripciones', 'matricula', 'admision'],
+  horario: ['horarios', 'turnos', 'cronograma'],
+  documento: ['documentos', 'pdf', 'archivo'],
+  proyecto: ['proyectos', 'taller', 'trabajo']
+});
+function expandirTexto(texto) {
+  const normalizado = texto.toLocaleLowerCase('es');
+  const terminos = new Set([texto]);
+  for (const [clave, alternativas] of Object.entries(SINONIMOS)) {
+    if (normalizado.includes(clave)) alternativas.forEach((termino) => terminos.add(termino));
+  }
+  return [...terminos].slice(0, 6);
+}
 
 const fecha = (value) => {
   if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return '';
@@ -51,8 +68,10 @@ export function construirConsulta(input, config) {
   if (filtros.desde) params.set('result_date', `gte.${filtros.desde}`);
   if (filtros.hasta) params.set('result_date', `lte.${filtros.hasta}`);
   if (filtros.texto) {
-    const patron = searchPattern(filtros.texto);
-    params.set('or', `(title.ilike.${patron},summary.ilike.${patron},body.ilike.${patron})`);
+    const patrones = expandirTexto(filtros.texto).map(searchPattern);
+    params.set('or', `(${patrones.flatMap((patron) => [
+      `title.ilike.${patron}`, `summary.ilike.${patron}`, `body.ilike.${patron}`
+    ]).join(',')})`);
   }
   return `${config.supabaseUrl.replace(/\/$/, '')}/rest/v1/search_index?${params}`;
 }

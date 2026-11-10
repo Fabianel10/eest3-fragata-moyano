@@ -1,0 +1,15 @@
+{
+  "name": "EEST N°3 Fragata Moyano",
+  "short_name": "Técnica 3",
+  "description": "Portal institucional, comunicados y calendario de la EEST N°3 de San Fernando.",
+  "lang": "es-AR",
+  "start_url": "/index.html",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f4f7f9",
+  "theme_color": "#071a2b",
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

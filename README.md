@@ -6,7 +6,7 @@
 
 [Visitar el sitio](https://eest3sf.netlify.app) ·
 [Documentación](docs/README.md) ·
-[Entrega v1.11.0](archive/versiones/v1.11.0/README.md) ·
+[Entrega v1.12.0](archive/versiones/v1.12.0/README.md) ·
 [Historial](CHANGELOG.md)
 
 Proyecto desarrollado por estudiantes, con revisión técnica y seguimiento docente.
@@ -31,6 +31,7 @@ contenidos, licencias, autorizaciones de imagen y tratamiento de datos.
 | Métricas responsables | Conteos agregados de páginas, publicaciones y búsquedas sin cookies, IP ni términos de búsqueda |
 | Seguridad | 2FA TOTP opcional/exigible para administración y revisión de sesiones activas |
 | Accesibilidad | Auditoría automática, subtítulos WebVTT, foco y etiquetas accesibles |
+| PWA y sindicación | Manifest, service worker, página offline, RSS y suscripción `.ics` |
 | Skynet | Personaje PNG transparente, conversación guiada, nombre opcional, contexto de carrera, búsqueda de publicaciones e historial privado con consentimiento |
 | Servicios compartidos | Tema claro/oscuro, clima, fecha, música activada por la persona usuaria y redes |
 

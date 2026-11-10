@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="assets/css/estilo.css?v=20260925-19" />
     <link rel="stylesheet" href="assets/css/comunidad.css?v=20261006-1" />
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+      <link rel="manifest" href="manifest.webmanifest" />
   </head>
   <body class="comunidad-pagina">
     <a class="saltar-contenido" href="#contenido-principal">Saltar al contenido principal</a>
@@ -53,6 +54,8 @@
       <p>Si el equipo responde una consulta desde Gestión, el mensaje se guarda en el hilo privado de esa consulta y se encola para enviarse al correo indicado. El hilo conserva el mensaje inicial, las respuestas, la cuenta responsable, la fecha y los eventos técnicos de envío. Solo administración autorizada puede consultarlo. Las respuestas no se publican en el sitio.</p>
       <h2>Calendario y seguridad de la cuenta</h2>
       <p>Los eventos del calendario publicados son públicos e incluyen fuente y responsable institucional. La verificación en dos pasos es opcional; si la activás, el código TOTP se valida con Supabase Auth y no se guarda en el portal. Podés exigirla para operaciones de administración. La sección de sesiones muestra hasta 50 sesiones propias y permite cerrarlas; no expone sesiones de otras cuentas. Si perdés el factor, la recuperación requiere intervención de un operador autorizado.</p>
+      <h2>Recuperación, respaldos y modo offline</h2>
+      <p>Los códigos de recuperación de 2FA se muestran una sola vez y se guardan como hash de un solo uso; al usarlos se eliminan los factores TOTP y se desactiva la exigencia temporalmente. Los respaldos diarios guardan solo contenido editorial, publicaciones, calendario, plantillas e índice de búsqueda en un bucket privado; no incluyen consultas, perfiles, sesiones, métricas ni historial privado. La PWA cachea páginas públicas y una página offline; no cachea administración, gestión ni notificaciones.</p>
       <h2>Búsqueda global</h2>
       <p>El buscador consulta un índice público con páginas, carreras, publicaciones vigentes y eventos publicados del calendario. No incluye borradores, consultas privadas, perfiles ni documentos no publicados. Los filtros y resultados se procesan en tu navegador; el término de búsqueda no se guarda en las métricas.</p>
       <h2>Flujo editorial y trazabilidad</h2>

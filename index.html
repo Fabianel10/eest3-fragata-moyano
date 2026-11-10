@@ -29,6 +29,34 @@
     <meta property="og:url" content="https://eest3sf.netlify.app/" />
     <meta property="og:image" content="https://eest3sf.netlify.app/assets/images/og-institucional.jpg" />
     <meta name="twitter:card" content="summary_large_image" />
+      <link rel="manifest" href="manifest.webmanifest" />
+      <link rel="alternate" type="application/rss+xml" title="Comunicados EEST N°3" href="/feed.xml" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "EducationalOrganization",
+            "@id": "https://eest3sf.netlify.app/#escuela",
+            "name": "Escuela de Educación Secundaria Técnica N°3 Fragata Moyano",
+            "url": "https://eest3sf.netlify.app/",
+            "logo": "https://eest3sf.netlify.app/assets/images/logo.png",
+            "address": { "@type": "PostalAddress", "addressLocality": "San Fernando", "addressRegion": "Buenos Aires", "addressCountry": "AR" }
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://eest3sf.netlify.app/#sitio",
+            "url": "https://eest3sf.netlify.app/",
+            "name": "EEST N°3 Fragata Moyano",
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": "https://eest3sf.netlify.app/buscador.html?q={search_term_string}",
+              "query-input": "required name=search_term_string"
+            }
+          }
+        ]
+      }
+    </script>
   </head>
   <body>
     <a class="saltar-contenido" href="#contenido-principal">Saltar al contenido principal</a>

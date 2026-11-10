@@ -2,6 +2,36 @@
 
 Este proyecto utiliza [versionado semántico](https://semver.org/lang/es/).
 
+## [1.12.0] - 2026-11-10
+
+### Operación y seguridad
+
+- Códigos de recuperación TOTP de un solo uso; permiten retirar el factor y volver
+  a inscribirlo sin intervención de base de datos.
+- Estado del servicio en Gestión: cola, antigüedad, consultas nuevas, calendario y métricas.
+- Exportación CSV de métricas agregadas.
+- Respaldo diario programado de contenido en bucket privado `institutional-backups`.
+- Diagnóstico de correo, webhook de rebotes y envío real verificado en producción.
+
+### Consultas y calendario
+
+- Plantillas de respuesta reutilizables.
+- Adjuntos por enlace HTTPS con nombre y trazabilidad en el hilo.
+- Suscripción `.ics` a los eventos publicados.
+- PWA: manifest, service worker, página offline e iconos.
+
+### Descubrimiento y accesibilidad
+
+- RSS de comunicados en `/feed.xml`.
+- JSON-LD de organización educativa y sitio con SearchAction.
+- Sinónimos de búsqueda para informática, madera, obras, inscripciones, horarios y documentos.
+- Auditoría automática de accesibilidad sin hallazgos; checklist manual documentado.
+
+### Pendientes institucionales
+
+- Preinscripción: no se activa hasta definir requisitos, retención y tratamiento de menores.
+- Recurrencia de calendario y auditoría manual con lector de pantalla/teléfono real.
+
 ## [1.11.0] - 2026-11-10
 
 ### Correo transaccional avanzado

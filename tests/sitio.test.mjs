@@ -42,13 +42,16 @@ test('todos los recursos locales referenciados existen', async () => {
       for (const name of ['src', 'href']) {
         const value = values[name];
         if (!value || /^(#|https?:|mailto:|tel:|data:|javascript:)/i.test(value)) continue;
+        if (['/feed.xml', '/calendario.ics'].includes(value.split(/[?#]/)[0])) continue;
         if (name === 'href' && node.tagName === 'a') continue;
         referencias.push(value.split(/[?#]/)[0]);
       }
     });
     for (const value of referencias) {
-      const path = resolve(root.pathname, decodeURIComponent(value));
-      assert.ok(existsSync(path), `${file}: recurso inexistente ${value}`);
+      const limpio = decodeURIComponent(value);
+      const path = resolve(root.pathname, limpio);
+      const publicPath = resolve(root.pathname, 'public', limpio.replace(/^\.?\//, ''));
+      assert.ok(existsSync(path) || existsSync(publicPath), `${file}: recurso inexistente ${value}`);
     }
   }
 });
@@ -149,5 +152,5 @@ test('las páginas del CMS cargan un único módulo de tema', async () => {
 
 test('los archivos de la raíz no publican originales ni material sin referencia', async () => {
   const archivos = await readdir(new URL('public/', root));
-  assert.deepEqual(archivos.sort(), ['404.html', 'robots.txt', 'sitemap.xml']);
+  assert.deepEqual(archivos.sort(), ['404.html', 'icons', 'manifest.webmanifest', 'offline.html', 'robots.txt', 'sitemap.xml', 'sw.js']);
 });

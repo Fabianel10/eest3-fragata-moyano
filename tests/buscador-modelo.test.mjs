@@ -21,6 +21,9 @@ test('buscador: normaliza filtros, construye PostgREST y valida resultados', () 
   assert.match(url, /offset=60/);
   assert.match(url, /or=%28title\.ilike/);
   assert.doesNotMatch(url, /texto=/);
+  const sinonimos = construirConsulta({ texto: 'informatica' }, config);
+  assert.match(sinonimos, /computacion/);
+  assert.match(sinonimos, /sistemas/);
 
   const rows = validarResultados([
     { id: 'pagina:inicio', kind: 'pagina', title: 'Inicio', summary: 'Portal', career: '', url: 'index.html', result_date: null },

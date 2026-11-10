@@ -118,27 +118,68 @@ async function contactDetail(request) {
     item.append(node('p', message.direction === 'inbound' ? 'Consulta recibida' : 'Respuesta institucional', 'gestion-meta'),
       node('p', message.body, 'gestion-text'),
       node('p', new Date(message.created_at).toLocaleString('es-AR'), 'gestion-meta'));
+    if (message.attachment_url && /^https:\/\//.test(message.attachment_url)) {
+      const adjunto = node('a', message.attachment_label || 'Ver adjunto');
+      adjunto.href = message.attachment_url; adjunto.target = '_blank'; adjunto.rel = 'noopener noreferrer';
+      item.append(adjunto);
+    }
     card.append(item);
   }
   const reply = node('div', '', 'gestion-respuesta');
   reply.append(node('h4', 'Responder por correo'));
+  const templates = resultado(await sessionRequest(client.from('contact_reply_templates')
+    .select('id,title,body').order('title', { ascending: true }))) || [];
+  const templateSelect = node('select');
+  const emptyOption = node('option', 'Elegir plantilla…'); emptyOption.value = ''; templateSelect.append(emptyOption);
+  for (const template of templates) {
+    const option = node('option', template.title); option.value = template.id; option.dataset.body = template.body; templateSelect.append(option);
+  }
+  const templateLabel = node('label', 'Plantilla de respuesta'); templateLabel.append(templateSelect);
   const subject = node('input');
   subject.type = 'text'; subject.maxLength = 200; subject.value = request.subject.startsWith('Re:') ? request.subject : `Re: ${request.subject}`;
   const subjectLabel = node('label', 'Asunto'); subjectLabel.append(subject);
   const body = node('textarea'); body.rows = 7; body.maxLength = 10000;
   const bodyLabel = node('label', 'Mensaje'); bodyLabel.append(body);
-  reply.append(subjectLabel, bodyLabel, button('Enviar respuesta y guardar en el hilo', async () => {
-    if (body.value.trim().length < 10) { status('Escribí una respuesta de al menos 10 caracteres.', true); return; }
-    if (!confirm('¿Enviar esta respuesta al correo de la persona consultante? Quedará registrada en el hilo y en la cola de correo.')) return;
-    const result = resultado(await sessionRequest(client.rpc('contact_reply', {
-      p_request_id: request.id, p_expected_version: request.version,
-      p_subject: subject.value.trim(), p_body: body.value.trim(), p_request_key: crypto.randomUUID()
-    })));
-    const updated = result.request;
-    await contactDetail(updated);
-    await loadContacts();
-    status('Respuesta guardada en el hilo y encolada para envío. Revisá Correo y cola.');
-  }));
+  const attachmentUrl = node('input'); attachmentUrl.type = 'url'; attachmentUrl.maxLength = 2048;
+  attachmentUrl.placeholder = 'https://… (opcional)';
+  const attachmentUrlLabel = node('label', 'Enlace de adjunto público (opcional)'); attachmentUrlLabel.append(attachmentUrl);
+  const attachmentName = node('input'); attachmentName.type = 'text'; attachmentName.maxLength = 200;
+  const attachmentNameLabel = node('label', 'Nombre del adjunto'); attachmentNameLabel.append(attachmentName);
+  templateSelect.addEventListener('change', () => {
+    const option = templateSelect.selectedOptions[0];
+    if (!option?.value) return;
+    body.value = option.dataset.body || '';
+  });
+  const replyKey = crypto.randomUUID();
+  reply.append(templateLabel, subjectLabel, bodyLabel, attachmentUrlLabel, attachmentNameLabel,
+    button('Guardar como plantilla', async () => {
+      if (body.value.trim().length < 10) { status('El cuerpo de la plantilla es demasiado corto.', true); return; }
+      resultado(await sessionRequest(client.from('contact_reply_templates').insert({
+        title: subject.value.replace(/^Re:\s*/i, '').slice(0, 120) || 'Respuesta institucional',
+        body: body.value.trim()
+      })));
+      status('Plantilla guardada.');
+      await contactDetail(request);
+    }),
+    button('Enviar respuesta y guardar en el hilo', async () => {
+      if (body.value.trim().length < 10) { status('Escribí una respuesta de al menos 10 caracteres.', true); return; }
+      if (attachmentUrl.value.trim() && !/^https:\/\//.test(attachmentUrl.value.trim())) {
+        status('El adjunto debe ser un enlace HTTPS público.', true); return;
+      }
+      if (attachmentUrl.value.trim() && !attachmentName.value.trim()) {
+        status('Indicá el nombre del adjunto.', true); return;
+      }
+      if (!confirm('¿Enviar esta respuesta al correo de la persona consultante? Quedará registrada en el hilo y en la cola de correo.')) return;
+      const result = resultado(await sessionRequest(client.rpc('contact_reply', {
+        p_request_id: request.id, p_expected_version: request.version,
+        p_subject: subject.value.trim(), p_body: body.value.trim(), p_request_key: replyKey,
+        p_attachment_url: attachmentUrl.value.trim(), p_attachment_label: attachmentName.value.trim()
+      })));
+      const updated = result.request;
+      await contactDetail(updated);
+      await loadContacts();
+      status('Respuesta guardada en el hilo y encolada para envío. Revisá Correo y cola.');
+    }));
   card.append(reply);
 }
 async function loadContacts() {
@@ -274,12 +315,22 @@ $('metrics-filter').addEventListener('submit', (event) => {
   event.preventDefault();
   operation(loadMetrics);
 });
+$('metrics-export').addEventListener('click', () => {
+  if (!lastMetricsRows.length) { status('Actualizá las métricas antes de exportar.', true); return; }
+  const csv = ['metrica,destino,carrera,total,ultimo_dia', ...lastMetricsRows.map((row) => [row.metric,row.target,row.career,row.total,row.last_day].map((value) => `"${String(value ?? '').replaceAll('"','""')}"`).join(','))].join('\n');
+  const blob = new Blob([`\ufeff${csv}\n`], { type: 'text/csv;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const link = node('a'); link.href = url; link.download = `metricas-eest3-${new Date().toISOString().slice(0,10)}.csv`;
+  document.body.append(link); link.click(); link.remove(); URL.revokeObjectURL(url);
+  status('Métricas exportadas en CSV.');
+});
 
 const CALENDAR_TYPES = {
   feriado: 'Feriado', local: 'Asueto local', docente: 'Jornada docente',
   turistico: 'Puente turístico', efemeride: 'Efeméride', tecnica: 'Formación técnica'
 };
 let calendarEditing = null;
+let lastMetricsRows = [];
 function editCalendar(event = null) {
   calendarEditing = event;
   const form = $('calendar-editor');
@@ -320,6 +371,7 @@ async function loadCalendar() {
 }
 $('calendar-new').addEventListener('click', () => editCalendar(null));
 $('calendar-refresh').addEventListener('click', () => operation(loadCalendar));
+$('backup-refresh').addEventListener('click', () => operation(loadBackups));
 $('calendar-editor').addEventListener('submit', (event) => {
   event.preventDefault();
   operation(async () => {
@@ -358,6 +410,24 @@ $('calendar-delete').addEventListener('click', () => operation(async () => {
   await loadCalendar();
   status('Evento eliminado.');
 }));
+
+
+async function loadBackups() {
+  const target = $('backup-list');
+  target.replaceChildren(node('p', 'Cargando respaldos…'));
+  const rows = resultado(await sessionRequest(client.from('backup_snapshots')
+    .select('id,created_at,path,size_bytes,tables').order('created_at', { ascending: false }).limit(10))) || [];
+  target.replaceChildren();
+  if (!rows.length) target.append(node('p', 'Todavía no hay respaldos automáticos.'));
+  for (const row of rows) {
+    const card = node('article', '', 'gestion-card');
+    card.append(node('h3', new Date(row.created_at).toLocaleString('es-AR')),
+      node('p', row.path, 'gestion-meta'),
+      node('p', `${(Number(row.size_bytes) / 1024).toFixed(1)} KB · ${Object.entries(row.tables || {}).map(([key, value]) => `${key}: ${value}`).join(' · ')}`, 'gestion-meta'));
+    target.append(card);
+  }
+  $('backup-status').textContent = `${rows.length} respaldos recientes. Descarga y restauración desde Supabase Storage con un operador autorizado.`;
+}
 
 const ROLE_LABELS = {
   comunidad: 'Comunidad', alumno: 'Alumno/a', profesor: 'Profesor/a',
@@ -464,6 +534,19 @@ async function loadMetrics() {
   const tablas = $('metrics-tables');
   resumen.replaceChildren(node('p', 'Consultando métricas…'));
   const rows = resultado(await sessionRequest(client.rpc('metrics_summary', { p_days: days }))) || [];
+  lastMetricsRows = rows;
+  const health = resultado(await sessionRequest(client.rpc('system_health'))) || {};
+  const healthTarget = $('system-health');
+  healthTarget.replaceChildren(
+    tarjetaMetrica('Cola pendiente', health.queue_pending ?? 0, health.queue_failed ? `${health.queue_failed} fallidos/rebotados` : 'Sin fallos'),
+    tarjetaMetrica('Antigüedad máxima', `${health.oldest_pending_minutes ?? 0} min`, 'Cola pendiente/en proceso'),
+    tarjetaMetrica('Consultas nuevas', health.contacts_new ?? 0, `${health.contacts_total ?? 0} consultas en total`),
+    tarjetaMetrica('Calendario publicado', health.calendar_published ?? 0, 'Eventos visibles'),
+    tarjetaMetrica('Métricas de hoy', health.metrics_today ?? 0, health.admins_without_mfa ? `${health.admins_without_mfa} admin sin exigir 2FA` : 'Cobertura 2FA completa')
+  );
+  if (Number(health.queue_failed) > 0 || Number(health.oldest_pending_minutes) > 30) {
+    healthTarget.prepend(node('p', 'Atención: revisá la cola de correo; hay fallos o mensajes demorados.', 'gestion-card'));
+  }
   const total = (metric) => rows.filter((row) => row.metric === metric)
     .reduce((sum, row) => sum + Number(row.total), 0);
   resumen.replaceChildren(
@@ -509,7 +592,7 @@ async function start() {
       if (event === 'SIGNED_OUT') {
         revision++;
         $('gestion-workspace').hidden = true;
-        for (const id of ['contact-list', 'contact-detail', 'post-list', 'post-history', 'calendar-list', 'team-list', 'email-list', 'email-summary', 'metrics-summary', 'metrics-tables']) $(id)?.replaceChildren();
+        for (const id of ['contact-list', 'contact-detail', 'post-list', 'post-history', 'calendar-list', 'backup-list', 'team-list', 'email-list', 'email-summary', 'metrics-summary', 'metrics-tables']) $(id)?.replaceChildren();
         $('contact-detail').dataset.dirty = 'false';
         editor.reset(); activePost = null; dirty = false; admins = []; role = 'comunidad'; currentUserId = '';
         status('Sesión cerrada. Volvé a iniciar sesión desde Mi cuenta.');
@@ -534,6 +617,7 @@ async function start() {
         await loadContacts();
         await loadPosts();
         await loadCalendar();
+        await loadBackups();
         await loadTeam();
         await loadEmail();
       }

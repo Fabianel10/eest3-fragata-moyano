@@ -130,6 +130,14 @@ export async function completarSitio() {
   if (needsWeather) await import('./clima.js');
   if (needsPlayer || ['galeria.html','informatica.html','madera.html','obras.html'].some(file => location.pathname.endsWith(`/${file}`))) iniciarReproductor();
 }
+
+if ('serviceWorker' in navigator && location.protocol === 'https:') {
+  const archivo = location.pathname.split('/').pop() || 'index.html';
+  if (!['admin.html', 'gestion.html', 'notificaciones.html'].includes(archivo)) {
+    navigator.serviceWorker.register('/sw.js').catch((error) => console.error('Service worker:', error.name));
+  }
+}
+
 if (!document.querySelector('script[src*="cms-publico.mjs"]')) {
   completarSitio().catch(error => {
     console.error(error);

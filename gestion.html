@@ -22,7 +22,7 @@
       <p id="gestion-status" role="status" tabindex="-1">Verificando acceso del equipo editorial…</p>
       <div id="gestion-workspace" hidden>
         <p>Consultas privadas, publicaciones y métricas agregadas. Los avisos de recepción por correo se encolan con trazabilidad; las campañas masivas no forman parte de esta versión.</p>
-        <nav aria-label="Secciones de gestión"><a href="#consultas">Consultas</a><a href="#publicaciones">Comunicados, documentos y proyectos</a><a href="#calendario">Calendario</a><a href="#equipo">Equipo editorial</a><a href="#correo">Correo y cola</a><a href="#metricas">Métricas</a></nav>
+        <nav aria-label="Secciones de gestión"><a href="#consultas">Consultas</a><a href="#publicaciones">Comunicados, documentos y proyectos</a><a href="#calendario">Calendario</a><a href="#respaldos">Respaldos</a><a href="#equipo">Equipo editorial</a><a href="#correo">Correo y cola</a><a href="#metricas">Métricas</a></nav>
         <section id="consultas" aria-labelledby="consultas-title" data-gestion="admin">
           <h2 id="consultas-title">Bandeja privada</h2>
           <form id="contact-filter" class="gestion-filtros">
@@ -88,6 +88,13 @@
             </form>
           </div>
         </section>
+        <section id="respaldos" aria-labelledby="respaldos-title" data-gestion="admin">
+          <h2 id="respaldos-title">Respaldos de contenido</h2>
+          <p>La función programada guarda un JSON diario con contenido editorial, publicaciones, calendario, plantillas e índice de búsqueda. No incluye consultas, perfiles, sesiones, métricas ni historial privado. Los archivos quedan en el bucket privado <code>institutional-backups</code>.</p>
+          <div class="gestion-actions"><button id="backup-refresh" type="button">Actualizar respaldos</button></div>
+          <p id="backup-status" class="gestion-meta" role="status"></p>
+          <div id="backup-list"></div>
+        </section>
         <section id="equipo" aria-labelledby="equipo-title" data-gestion="admin">
           <h2 id="equipo-title">Equipo editorial</h2>
           <p>Los roles separan edición, revisión y publicación. Una cuenta editora prepara borradores; una revisora aprueba o rechaza; solo administración publica. Los cambios quedan auditados.</p>
@@ -110,8 +117,10 @@
           <form id="metrics-filter" class="gestion-filtros">
             <label>Período<select name="days"><option value="7">7 días</option><option value="30" selected>30 días</option><option value="90">90 días</option><option value="365">365 días</option></select></label>
             <button>Actualizar métricas</button>
+            <button id="metrics-export" type="button">Exportar CSV</button>
           </form>
           <p id="metrics-status" class="gestion-meta" role="status"></p>
+          <div id="system-health" class="gestion-grid"></div>
           <div id="metrics-summary" class="gestion-grid"></div>
           <div id="metrics-tables"></div>
         </section>

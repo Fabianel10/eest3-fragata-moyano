@@ -27,7 +27,7 @@ test('el paquete público excluye código de pruebas, fuentes y originales de fo
   for (const file of ['assets/images/skynet.png', 'assets/js/skynet-servicios.mjs']) {
     await access(new URL(`dist/${file}`, root));
   }
-  for (const file of ['robots.txt', 'sitemap.xml', '404.html', 'assets/images/og-institucional.jpg']) {
+  for (const file of ['robots.txt', 'sitemap.xml', '404.html', 'manifest.webmanifest', 'sw.js', 'offline.html', 'icons/icon-192.png', 'icons/icon-512.png', 'assets/images/og-institucional.jpg']) {
     await access(new URL(`dist/${file}`, root));
   }
   await assert.rejects(access(new URL('dist/assets/images/image.png', root)), { code: 'ENOENT' });

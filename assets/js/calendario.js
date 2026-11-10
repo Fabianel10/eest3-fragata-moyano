@@ -247,7 +247,11 @@ downloadCalendar.addEventListener('click', async () => {
     yearStatus.textContent = 'No se pudo exportar la agenda. Revisá las fechas e intentá nuevamente.';
   } finally { downloadCalendar.disabled = false; }
 });
-yearControls.append(yearLabel, changeYear, downloadCalendar, yearStatus);
+const subscribeCalendar = document.createElement('a');
+subscribeCalendar.href = '/calendario.ics';
+subscribeCalendar.textContent = 'Suscribirse (.ics)';
+subscribeCalendar.className = 'calendario-suscripcion';
+yearControls.append(yearLabel, changeYear, downloadCalendar, subscribeCalendar, yearStatus);
 monthSelector.before(yearControls);
 updateYearLabel();
 

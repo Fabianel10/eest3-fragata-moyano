@@ -101,7 +101,9 @@ restricción de IP para la API. **No alcanza con autorizar una IP individual**: 
 funciones de Netlify usan salida dinámica. Se observaron, entre otras, `3.147.59.242`
 y `13.184.249.207`. La opción estable es desactivar la restricción de IP para la API
 o usar un proxy con IP fija. La restricción de SMTP es independiente de la de API.
-Mientras el diagnóstico falle, mantener `EMAIL_ENABLED=false`.
+La institución desactivó la restricción de IP de la API y el envío real desde
+Netlify quedó verificado (`sent`) el 2026-11-10. Si se vuelve a activar la
+restricción, revisar el diagnóstico antes de habilitar la cola.
 
 Mantener `EMAIL_ENABLED=false` hasta probar la cola con datos técnicos. El endpoint
 programado `/.netlify/functions/procesar-correo` se ejecuta cada cinco minutos.

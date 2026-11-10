@@ -20,7 +20,7 @@
     X-Frame-Options = "SAMEORIGIN"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
-    Content-Security-Policy = "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https://*.supabase.co https://openweathermap.org; media-src 'self' https://*.supabase.co; connect-src 'self' https://*.supabase.co https://api.open-meteo.com; frame-src 'self' https://www.google.com; manifest-src 'self'; upgrade-insecure-requests"
+    Content-Security-Policy = "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https://*.supabase.co https://openweathermap.org; media-src 'self' https://*.supabase.co; connect-src 'self' https://*.supabase.co https://api.open-meteo.com; frame-src 'self' https://www.google.com; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests"
     Cache-Control = "public, max-age=0, must-revalidate"
 
 # Recursos versionados por consulta (?v=...). Una semana de caché reduce
@@ -49,3 +49,15 @@
   for = "/notificaciones.html"
   [headers.values]
     Cache-Control = "no-store"
+
+# Feed RSS de comunicados generado por función.
+[[redirects]]
+  from = "/feed.xml"
+  to = "/.netlify/functions/feed"
+  status = 200
+
+# Suscripción al calendario publicada por función.
+[[redirects]]
+  from = "/calendario.ics"
+  to = "/.netlify/functions/calendario"
+  status = 200

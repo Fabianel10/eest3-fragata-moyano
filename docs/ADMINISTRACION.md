@@ -32,6 +32,27 @@ composiciones se agregan bloques o se reemplaza una sección por bloques nuevos.
 Los formularios de contacto y mapa mantienen su integración técnica original.
 No se implementan campañas de correo, notas o gestión académica.
 
+## Recuperación de 2FA y estado operativo
+
+- Tras verificar TOTP, la cuenta puede generar ocho códigos de recuperación de un
+  solo uso. Se muestran una vez y se guardan como hash. Un código válido elimina los
+  factores TOTP y desactiva la exigencia de 2FA; luego hay que volver a inscribir el
+  factor. La institución debe definir quién autoriza y registra una recuperación.
+- Gestión → Métricas incluye estado de cola, antigüedad, consultas nuevas, calendario
+  y métricas del día. Exporta CSV.
+- Gestión → Respaldos muestra los snapshots diarios de contenido. El bucket
+  `institutional-backups` es privado; descarga y restauración requieren un operador
+  autorizado de Supabase. No incluye consultas, perfiles ni historial privado.
+- La PWA cachea la portada y recursos públicos, con página offline. No cachea
+  administración, gestión ni notificaciones.
+
+## Plantillas y adjuntos de respuesta
+
+En la respuesta de una consulta se puede elegir una plantilla, guardar el texto
+actual como plantilla nueva y agregar un enlace HTTPS público con nombre. El hilo
+conserva el adjunto y la cola lo incluye en texto y HTML. No se suben archivos desde
+la respuesta: usar un documento ya autorizado y público.
+
 ## Respuestas e hilo de consultas
 
 Gestión → Bandeja privada permite responder por correo sin salir del panel:
