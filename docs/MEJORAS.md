@@ -1,5 +1,29 @@
 # Hoja de ruta de organización
 
+## Después de v1.11.0
+
+### Prioridad alta
+
+1. **Correo con IP estable**: desactivar la restricción de IP de API de Brevo o pasar
+   a Resend/proxy con IP fija. Sin eso, Netlify no puede enviar aunque la clave sea válida.
+2. **Recuperación de 2FA**: códigos de respaldo y procedimiento institucional para
+   cuentas que pierdan el autenticador; luego evaluar exigir AAL2 a todo el equipo.
+3. **Respuestas con adjuntos y plantillas**: respuestas frecuentes, archivos autorizados
+   y confirmación de lectura, manteniendo el hilo y la cola.
+4. **Auditoría manual de accesibilidad**: lector de pantalla, contraste medido,
+   teclado, zoom 200 % y dispositivos reales.
+5. **Monitoreo**: errores de funciones, cola detenida, rebotes y disponibilidad.
+
+### Prioridad media
+
+6. Calendario recurrente, suscripción `.ics` y recordatorios.
+7. PWA/modo offline para comunicados y calendario.
+8. Métricas con series históricas y exportación CSV.
+9. Backups programados y simulacro de restauración.
+10. Preinscripción informativa con retención y tratamiento de menores.
+11. RSS/Atom y JSON-LD.
+12. Búsqueda con sinónimos, sin acentos y resaltado.
+
 ## Implementado el 2026-11-10 (v1.11.0)
 
 - Correo HTML con reply-to, alertas, rebotes, bajas y diagnóstico de proveedor.
