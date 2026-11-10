@@ -139,6 +139,8 @@ test('la configuración de Netlify declara seguridad y caché', async () => {
   assert.match(config, /Cache-Control = "public, max-age=604800/);
   assert.match(config, /publish = "dist"/);
   assert.match(config, /directory = "netlify\/functions"/);
+  assert.match(config, /application\/manifest\+json/);
+  assert.match(config, /Service-Worker-Allowed/);
 });
 
 test('las páginas del CMS cargan un único módulo de tema', async () => {

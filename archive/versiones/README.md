@@ -14,3 +14,4 @@ Cada carpeta documenta una versión entregada del sitio. La fuente de verdad del
 | [1.10.2](v1.10.2/README.md) | 2026-11-10 | `v1.10.2` | Diagnóstico de correo y restricción de IP de Brevo |
 | [1.11.0](v1.11.0/README.md) | 2026-11-10 | `v1.11.0` | Correo avanzado, respuestas, calendario, accesibilidad y 2FA |
 | [1.12.0](v1.12.0/README.md) | 2026-11-10 | `v1.12.0` | Recuperación 2FA, monitoreo, PWA, RSS, respaldos y adjuntos |
+| [1.12.1](v1.12.1/README.md) | 2026-11-10 | `v1.12.1` | MIME de PWA y service worker |

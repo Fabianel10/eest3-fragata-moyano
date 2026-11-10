@@ -61,3 +61,15 @@
   from = "/calendario.ics"
   to = "/.netlify/functions/calendario"
   status = 200
+
+# PWA: MIME correcto y service worker sin caché larga.
+[[headers]]
+  for = "/manifest.webmanifest"
+  [headers.values]
+    Content-Type = "application/manifest+json; charset=utf-8"
+    Cache-Control = "public, max-age=3600"
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache"
+    Service-Worker-Allowed = "/"

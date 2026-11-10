@@ -2,6 +2,14 @@
 
 Este proyecto utiliza [versionado semántico](https://semver.org/lang/es/).
 
+## [1.12.1] - 2026-11-10
+
+### PWA
+
+- `Content-Type: application/manifest+json` para el manifest.
+- `Service-Worker-Allowed: /` y `Cache-Control: no-cache` para `sw.js`.
+- Verificación de producción del manifest, service worker, RSS y calendario `.ics`.
+
 ## [1.12.0] - 2026-11-10
 
 ### Operación y seguridad
