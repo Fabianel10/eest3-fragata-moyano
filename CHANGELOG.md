@@ -2,6 +2,17 @@
 
 Este proyecto utiliza [versionado semántico](https://semver.org/lang/es/).
 
+## [1.10.2] - 2026-11-10
+
+### Correo
+
+- Diagnóstico `npm run correo:check -- --netlify` para validar proveedor y remitente
+  sin enviar mensajes.
+- Errores de Brevo/Resend incluyen el detalle del proveedor para trazabilidad.
+- Documentada la restricción de IP de la API de Brevo y el enlace de autorización.
+- Producción verificada: la clave existe, pero Brevo bloquea la IP de salida;
+  `EMAIL_ENABLED` queda en `false` hasta corregir la restricción.
+
 ## [1.10.1] - 2026-11-10
 
 ### Correo

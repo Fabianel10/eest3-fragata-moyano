@@ -6,7 +6,7 @@
 
 [Visitar el sitio](https://eest3sf.netlify.app) ·
 [Documentación](docs/README.md) ·
-[Entrega v1.10.1](archive/versiones/v1.10.1/README.md) ·
+[Entrega v1.10.2](archive/versiones/v1.10.2/README.md) ·
 [Historial](CHANGELOG.md)
 
 Proyecto desarrollado por estudiantes, con revisión técnica y seguimiento docente.

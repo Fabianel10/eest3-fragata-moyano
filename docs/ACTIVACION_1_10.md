@@ -90,6 +90,19 @@ La configuración SMTP interna de Supabase Auth no se reutiliza automáticamente
 la API de Management devuelve un secreto que no sirve como contraseña SMTP.
 Usar una credencial de proveedor dedicada y verificar el remitente antes de activar.
 
+### Diagnóstico del proveedor
+
+```sh
+npm run correo:check -- --netlify
+```
+
+El comando valida la clave y el remitente sin enviar correos. Si Brevo responde
+`401` con un mensaje de IP no reconocida, hay que desactivar la restricción de IP
+para la API o autorizar la IP de salida en
+`https://app.brevo.com/security/auth`. La restricción de SMTP es independiente de
+la restricción de API. Mientras el diagnóstico falle, mantener `EMAIL_ENABLED=false`
+para no acumular reintentos fallidos.
+
 Mantener `EMAIL_ENABLED=false` hasta probar la cola con datos técnicos. El endpoint
 programado `/.netlify/functions/procesar-correo` se ejecuta cada cinco minutos.
 También se puede disparar manualmente:

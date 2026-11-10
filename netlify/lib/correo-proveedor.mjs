@@ -57,7 +57,10 @@ export function crearEnviador({ env = process.env, fetcher = fetch, smtpFactory 
         signal
       });
       const data = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(`Brevo rechazó el envío (${response.status}).`);
+      if (!response.ok) {
+        const detalle = limpiar(data.message || data.error || '', 200);
+        throw new Error(`Brevo rechazó el envío (${response.status})${detalle ? `: ${detalle}` : ''}`);
+      }
       return { id: limpiar(data.messageId, 300) || 'brevo-ok' };
     }
     if (provider === 'resend') {
@@ -68,7 +71,10 @@ export function crearEnviador({ env = process.env, fetcher = fetch, smtpFactory 
         signal
       });
       const data = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(`Resend rechazó el envío (${response.status}).`);
+      if (!response.ok) {
+        const detalle = limpiar(data.message || data.error || '', 200);
+        throw new Error(`Resend rechazó el envío (${response.status})${detalle ? `: ${detalle}` : ''}`);
+      }
       return { id: limpiar(data.id, 300) || 'resend-ok' };
     }
     const info = await smtp.sendMail({ from: `${fromName} <${from}>`, to, subject, text });
