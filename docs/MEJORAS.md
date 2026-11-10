@@ -1,6 +1,58 @@
 # Hoja de ruta de organización
 
+## Implementado el 2026-11-10 (v1.10.0)
+
+- Flujo editor/revisor con estados, aprobación, publicación atribuida y auditoría de roles.
+- Buscador global con vista PostgREST, filtros y RLS.
+- Cola persistente de correo transaccional con reintentos, eventos y bajas.
+- Panel de métricas agregadas sin datos personales ni cookies.
+- Nuevas pruebas de roles, búsqueda, métricas y correo.
+
+Las funciones que siguen en la lista son las próximas etapas, no parte de esta entrega.
+
+## Mejoras aplicadas el 2026-11-10
+
+- Optimización de medios: galería 4K, video, audio, logo y portada; el paquete
+  público quedó en ~16 MB y mantiene los nombres de archivo usados por el CMS.
+- Portada sin imágenes de Unsplash; se usan fotos locales de las especialidades.
+- `public/` con `robots.txt`, `sitemap.xml` y `404.html`; metadatos canonical y Open Graph.
+- Cabeceras de seguridad y caché en Netlify; `.env.example` para el backend.
+- Tema unificado en un solo módulo y nuevas pruebas de estructura, SEO y rendimiento.
+- Documento de [arquitectura](ARQUITECTURA.md) con la separación frontend/backend.
+
+## Próximas funciones recomendadas
+
+### Prioridad alta
+
+1. **Respuestas y campañas por intereses**: la cola ya envía avisos y comprobantes;
+   falta un flujo institucional para responder consultas y campañas con consentimiento,
+   bajas y trazabilidad de rebotes. Requiere responsables y proveedor definitivo.
+2. **Calendario editable desde Gestión** con fuente oficial, responsable y fecha de
+   actualización visible; hoy el calendario base está en el código y el CMS.
+3. **Preinscripción informativa** solo después de definir requisitos, retención y
+   tratamiento de menores; no recibir documentación sensible por el formulario público.
+4. **Accesibilidad**: auditoría con lector de pantalla, subtítulos del video y
+   contraste en ambos temas; registrar hallazgos y correcciones.
+
+### Prioridad media
+
+5. **Respaldos programados**: exportación automática de contenido editorial y prueba
+   de restauración completa, no solo descarga manual.
+6. **PWA / modo offline** para comunicados y calendario, con caché versionada y aviso
+   de contenido desactualizado.
+7. **Paneles de métricas por tendencia** con series de 12 meses y exportación CSV,
+   manteniendo la retención y el diseño sin datos personales.
+8. **Monitoreo de cola y alertas** para fallos repetidos del proveedor de correo.
+
+### Prioridad baja
+
+10. **Internacionalización** español/inglés para información institucional básica.
+11. **Mapa interactivo de talleres** con imágenes y recorrido accesible.
+12. **Formularios de contacto por área** con enrutamiento a responsables, manteniendo
+   el mismo RPC y límites antiabuso.
+
 ## Implementado en esta entrega
+
 
 - Entrega 1.4.0: comunidad y Auth, CMS de siete páginas, backend Supabase real
   y tres carreras con estructura curricular y referencias.

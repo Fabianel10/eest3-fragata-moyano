@@ -62,18 +62,23 @@ export function createClient() {
       if ((current?.version || 0) !== args.expected_version) return fail('40001');
       let page;
       if (name === 'cms_save_draft') {
-        page = { slug: args.page_slug, draft: structuredClone(args.document), version: (current?.version || 0) + 1 };
+        page = { slug: args.page_slug, draft: structuredClone(args.document), version: (current?.version || 0) + 1, status: 'borrador' };
+      } else if (name === 'cms_submit_review') {
+        page = { ...current, status: 'en_revision', version: current.version + 1, submitted_by: user.id, review_note: args.note || null };
+      } else if (name === 'cms_review') {
+        page = { ...current, status: args.decision, version: current.version + 1, reviewed_by: user.id, review_note: args.note || null };
       } else if (name === 'cms_publish') {
-        page = { ...current, version: current.version + 1 };
+        if (current.status !== 'aprobado') return fail('22023');
+        page = { ...current, status: 'publicado', version: current.version + 1 };
         data.published[args.page_slug] = { content: page.draft, version: page.version, published_at: new Date().toISOString() };
       } else {
         const row = data.history.find((r) => r.id === args.revision_id);
-        page = { ...current, draft: structuredClone(row.content), version: current.version + 1 };
+        page = { ...current, draft: structuredClone(row.content), version: current.version + 1, status: 'borrador' };
       }
       data.pages[args.page_slug] = page;
       data.history.push({
         id: data.history.length + 1, slug: page.slug, content: structuredClone(page.draft), version: page.version,
-        action: name === 'cms_publish' ? 'publish' : name === 'cms_restore' ? 'restore' : 'save',
+        action: name === 'cms_publish' ? 'publish' : name === 'cms_restore' ? 'restore' : name === 'cms_submit_review' ? 'submit' : name === 'cms_review' ? (args.decision === 'aprobado' ? 'approve' : 'reject') : 'save',
         created_at: new Date().toISOString(), created_by: user.id
       });
       write(data);

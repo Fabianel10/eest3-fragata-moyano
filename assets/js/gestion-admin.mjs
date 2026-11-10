@@ -5,6 +5,8 @@ const $ = (id) => document.getElementById(id);
 const editor = $('post-editor');
 let client;
 let admins = [];
+let role = 'comunidad';
+let currentUserId = '';
 let activePost;
 let newPostId;
 let dirty = false;
@@ -235,10 +237,154 @@ for (const type of ['contact', 'post']) {
 window.addEventListener('beforeunload', event => {
   if (dirty || $('contact-detail').dataset.dirty === 'true') { event.preventDefault(); event.returnValue = ''; }
 });
+$('team-refresh').addEventListener('click', () => operation(loadTeam));
+$('email-refresh').addEventListener('click', () => operation(loadEmail));
+$('metrics-filter').addEventListener('submit', (event) => {
+  event.preventDefault();
+  operation(loadMetrics);
+});
+const ROLE_LABELS = {
+  comunidad: 'Comunidad', alumno: 'Alumno/a', profesor: 'Profesor/a',
+  editor: 'Editor/a', revisor: 'Revisor/a', administrador: 'Administrador/a'
+};
+function tarjetaMetrica(titulo, valor, detalle = '') {
+  const card = node('article', '', 'gestion-card');
+  card.append(node('p', titulo, 'gestion-meta'), node('strong', String(valor)), detalle ? node('p', detalle, 'gestion-meta') : '');
+  return card;
+}
+function listaMetrica(titulo, filas, etiqueta = (fila) => fila.target) {
+  const card = node('article', '', 'gestion-card');
+  card.append(node('h3', titulo));
+  if (!filas.length) { card.append(node('p', 'Sin datos en el período.')); return card; }
+  const lista = node('ul');
+  for (const fila of filas.slice(0, 12)) {
+    const item = node('li', `${etiqueta(fila)} · ${Number(fila.total).toLocaleString('es-AR')}`);
+    item.className = 'gestion-metrica-fila';
+    lista.append(item);
+  }
+  card.append(lista);
+  return card;
+}
+async function loadTeam() {
+  const target = $('team-list');
+  const estado = $('team-status');
+  target.replaceChildren(node('p', 'Cargando equipo…'));
+  const rows = resultado(await sessionRequest(client.from('profiles')
+    .select('id,full_name,role').order('full_name'))) || [];
+  target.replaceChildren();
+  if (!rows.length) target.append(node('p', 'No hay perfiles para mostrar.'));
+  for (const profile of rows) {
+    const fila = node('div', '', 'gestion-equipo-fila');
+    fila.append(node('strong', profile.full_name || 'Cuenta sin nombre'));
+    const selector = choose('Rol', ROLE_LABELS, profile.role);
+    selector.input.disabled = profile.id === currentUserId;
+    fila.append(selector.wrapper);
+    fila.append(button('Guardar rol', async () => {
+      const nuevo = selector.input.value;
+      const nota = $('team-note').value.trim();
+      if (nuevo === profile.role) { estado.textContent = 'El rol no cambió.'; return; }
+      if (!confirm(`¿Cambiar el rol de ${profile.full_name || 'esta cuenta'} a ${ROLE_LABELS[nuevo]}?`)) return;
+      resultado(await sessionRequest(client.rpc('profile_role_set', {
+        target_id: profile.id, new_role: nuevo, note: nota
+      })));
+      $('team-note').value = '';
+      await loadTeam();
+      estado.textContent = 'Rol actualizado y registrado en el historial.';
+    }));
+    target.append(fila);
+  }
+  const history = resultado(await sessionRequest(client.from('profile_role_history')
+    .select('id,previous_role,new_role,note,created_at').order('id', { ascending: false }).limit(10))) || [];
+  const card = node('div', '', 'gestion-historial');
+  card.append(node('h3', 'Últimos cambios de rol'));
+  if (!history.length) card.append(node('p', 'Todavía no hay cambios registrados.'));
+  for (const entry of history) {
+    card.append(node('p', `${new Date(entry.created_at).toLocaleString('es-AR')} · ${ROLE_LABELS[entry.previous_role] || entry.previous_role} → ${ROLE_LABELS[entry.new_role] || entry.new_role}${entry.note ? ` · ${entry.note}` : ''}`, 'gestion-text'));
+  }
+  target.append(card);
+}
+async function loadEmail() {
+  const resumen = $('email-summary');
+  const lista = $('email-list');
+  const estado = $('email-status');
+  resumen.replaceChildren(node('p', 'Consultando cola…'));
+  const data = resultado(await sessionRequest(client.rpc('email_admin_summary'))) || {};
+  resumen.replaceChildren(
+    tarjetaMetrica('Pendientes', data.pending, 'En espera de envío o reintento'),
+    tarjetaMetrica('En proceso', data.sending, 'Reclamados por el procesador'),
+    tarjetaMetrica('Enviados', data.sent, 'Confirmados por el proveedor'),
+    tarjetaMetrica('Fallidos', data.failed, 'Requieren revisión'),
+    tarjetaMetrica('Cancelados', data.cancelled, 'Bajas voluntarias'),
+    tarjetaMetrica('Destinatarios activos', data.recipients, 'Equipo con avisos habilitados')
+  );
+  lista.replaceChildren();
+  if (!Array.isArray(data.recent) || !data.recent.length) {
+    lista.append(node('p', 'La cola está vacía.'));
+    estado.textContent = 'Cola consultada.';
+    return;
+  }
+  for (const item of data.recent) {
+    const card = node('article', '', 'gestion-card');
+    card.append(node('h3', `${item.kind === 'contact_receipt' ? 'Comprobante' : 'Aviso de consulta'} · ${item.status}`),
+      node('p', `Destinatario: ${item.recipient}`),
+      node('p', `Intentos: ${item.attempts} · ${new Date(item.created_at).toLocaleString('es-AR')}`, 'gestion-meta'));
+    if (item.last_error) card.append(node('p', `Último error: ${item.last_error}`, 'gestion-text'));
+    if (['failed', 'cancelled'].includes(item.status)) {
+      card.append(button('Reintentar envío', async () => {
+        if (!confirm('¿Volver a encolar este correo? Se reinician los intentos.')) return;
+        resultado(await sessionRequest(client.rpc('email_retry', { item_id: item.id })));
+        await loadEmail();
+        estado.textContent = 'Correo reencolado para el próximo procesamiento.';
+      }));
+    }
+    lista.append(card);
+  }
+  estado.textContent = 'Cola consultada.';
+}
+async function loadMetrics() {
+  const days = Number($('metrics-filter').elements.namedItem('days').value) || 30;
+  const estado = $('metrics-status');
+  const resumen = $('metrics-summary');
+  const tablas = $('metrics-tables');
+  resumen.replaceChildren(node('p', 'Consultando métricas…'));
+  const rows = resultado(await sessionRequest(client.rpc('metrics_summary', { p_days: days }))) || [];
+  const total = (metric) => rows.filter((row) => row.metric === metric)
+    .reduce((sum, row) => sum + Number(row.total), 0);
+  resumen.replaceChildren(
+    tarjetaMetrica('Páginas vistas', total('page_view').toLocaleString('es-AR'), `Últimos ${days} días`),
+    tarjetaMetrica('Publicaciones abiertas', total('post_view').toLocaleString('es-AR'), 'Aperturas desde el catálogo'),
+    tarjetaMetrica('Búsquedas usadas', total('search_used').toLocaleString('es-AR'), 'Sin guardar el texto buscado')
+  );
+  tablas.replaceChildren();
+  const paginas = rows.filter((row) => row.metric === 'page_view').sort((a, b) => Number(b.total) - Number(a.total));
+  const publicaciones = rows.filter((row) => row.metric === 'post_view').sort((a, b) => Number(b.total) - Number(a.total));
+  const busquedas = rows.filter((row) => row.metric === 'search_used').sort((a, b) => Number(b.total) - Number(a.total));
+  const ids = publicaciones.map((row) => row.target).filter((id) => /^[a-f0-9-]{36}$/i.test(id));
+  const titulos = new Map();
+  if (ids.length) {
+    const posts = resultado(await sessionRequest(client.from('institutional_posts')
+      .select('id,title').in('id', ids))) || [];
+    for (const post of posts) titulos.set(post.id, post.title);
+  }
+  const etiquetaPagina = (row) => row.target.replaceAll('-', ' ');
+  tablas.append(
+    listaMetrica('Páginas más visitadas', paginas, etiquetaPagina),
+    listaMetrica('Publicaciones más abiertas', publicaciones, (row) => titulos.get(row.target) || row.target),
+    listaMetrica('Búsquedas por tipo', busquedas, (row) => {
+      const tipo = row.target ? (row.target.charAt(0).toUpperCase() + row.target.slice(1)) : 'Todos los tipos';
+      const carrera = row.career ? ` · ${row.career}` : '';
+      return `${tipo}${carrera}`;
+    })
+  );
+  estado.textContent = `Métricas agregadas de los últimos ${days} días. No se guardaron datos personales ni términos de búsqueda.`;
+}
 async function authorize() {
   const { user } = resultado(await sessionRequest(client.auth.getUser()));
   const profile = resultado(await sessionRequest(client.from('profiles').select('role').eq('id', user.id).single()));
-  if (profile.role !== 'administrador') throw new Error('Administrator permission required');
+  if (!['administrador', 'editor', 'revisor'].includes(profile.role)) throw new Error('Editorial team permission required');
+  role = profile.role;
+  currentUserId = user.id;
+  return profile.role;
 }
 async function start() {
   try {
@@ -247,21 +393,42 @@ async function start() {
       if (event === 'SIGNED_OUT') {
         revision++;
         $('gestion-workspace').hidden = true;
-        for (const id of ['contact-list', 'contact-detail', 'post-list', 'post-history']) $(id).replaceChildren();
+        for (const id of ['contact-list', 'contact-detail', 'post-list', 'post-history', 'team-list', 'email-list', 'email-summary', 'metrics-summary', 'metrics-tables']) $(id)?.replaceChildren();
         $('contact-detail').dataset.dirty = 'false';
-        editor.reset(); activePost = null; dirty = false; admins = [];
+        editor.reset(); activePost = null; dirty = false; admins = []; role = 'comunidad'; currentUserId = '';
         status('Sesión cerrada. Volvé a iniciar sesión desde Mi cuenta.');
       }
     });
     await authorize();
-    editPost(null);
-    admins = resultado(await sessionRequest(client.from('profiles').select('id,full_name').eq('role', 'administrador').order('full_name')));
+    const admin = role === 'administrador';
+    document.querySelectorAll('[data-gestion="admin"]').forEach((section) => { section.hidden = !admin; });
+    document.querySelectorAll('[data-gestion="team"]').forEach((section) => { section.hidden = false; });
+    if (!admin) {
+      for (const id of ['consultas', 'publicaciones', 'equipo', 'correo']) {
+        document.querySelector(`nav[aria-label="Secciones de gestión"] a[href="#${id}"]`)?.setAttribute('hidden', '');
+      }
+    }
+    if (admin) {
+      editPost(null);
+      admins = resultado(await sessionRequest(client.from('profiles').select('id,full_name').eq('role', 'administrador').order('full_name')));
+    }
     $('gestion-workspace').hidden = false;
-    await operation(async () => { await loadContacts(); await loadPosts(); status('Gestión disponible para administración.'); });
+    await operation(async () => {
+      if (admin) {
+        await loadContacts();
+        await loadPosts();
+        await loadTeam();
+        await loadEmail();
+      }
+      await loadMetrics();
+      status(admin
+        ? 'Gestión disponible para administración.'
+        : `Sesión de ${ROLE_LABELS[role] || role}. Podés consultar métricas; la edición de páginas está en el editor.`);
+    });
   } catch (error) {
     if (error.name === 'AbortError') return;
     console.error('Acceso a gestión:', error.code || error.name);
-    status('Acceso restringido. Iniciá sesión con una cuenta administrativa habilitada.', true);
+    status('Acceso restringido. Iniciá sesión con una cuenta del equipo editorial habilitada.', true);
   }
 }
 start();

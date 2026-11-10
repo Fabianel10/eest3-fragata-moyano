@@ -723,8 +723,8 @@
             },
             "f167": {
               "kind": "image",
-              "value": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1100&q=85",
-              "alt": "Estudiante trabajando con tecnología informática"
+              "value": "assets/images/informatica.jpg",
+              "alt": "Imagen de la especialidad Informática Personal y Profesional"
             },
             "f168": {
               "kind": "text",
@@ -740,8 +740,8 @@
             },
             "f171": {
               "kind": "image",
-              "value": "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1100&q=85",
-              "alt": "Mueble contemporáneo de madera en proceso de diseño"
+              "value": "assets/images/madera%20y%20mueble.jpg",
+              "alt": "Imagen de la especialidad Industrialización de la Madera y el Mueble"
             },
             "f172": {
               "kind": "text",
@@ -757,8 +757,8 @@
             },
             "f175": {
               "kind": "image",
-              "value": "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1100&q=85",
-              "alt": "Profesionales revisando planos de una obra"
+              "value": "assets/images/mayor%20de%20obra.jpg",
+              "alt": "Imagen de la especialidad Maestro Mayor de Obras"
             },
             "f176": {
               "kind": "text",

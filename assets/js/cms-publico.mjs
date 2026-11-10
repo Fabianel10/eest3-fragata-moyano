@@ -7,12 +7,12 @@ const slug = Object.keys(ARCHIVOS).find((key) => ARCHIVOS[key] === file);
 window.CMS_ESCAPE = escaparHTML;
 const scripts = {
   inicio: ['tema.js', 'script.js', 'contacto.js'],
-  historia: ['navegacion.js', 'historia.js'],
-  galeria: ['navegacion.js', 'clima.js', 'galeria.js'],
-  calendario: ['navegacion.js', 'clima.js', 'calendario.js'],
-  informatica: ['navegacion.js', 'clima.js', 'galeria.js'],
-  madera: ['navegacion.js', 'clima.js', 'galeria.js'],
-  obras: ['navegacion.js', 'clima.js', 'galeria.js']
+  historia: ['tema.js', 'navegacion.js', 'historia.js'],
+  galeria: ['tema.js', 'navegacion.js', 'clima.js', 'galeria.js'],
+  calendario: ['tema.js', 'navegacion.js', 'clima.js', 'calendario.js'],
+  informatica: ['tema.js', 'navegacion.js', 'clima.js', 'galeria.js'],
+  madera: ['tema.js', 'navegacion.js', 'clima.js', 'galeria.js'],
+  obras: ['tema.js', 'navegacion.js', 'clima.js', 'galeria.js']
 };
 function aviso(message) {
   console.error('CMS:', message);
@@ -20,7 +20,7 @@ function aviso(message) {
   node.className = 'cms-public-error';
   node.setAttribute('role', 'status');
   node.textContent = message;
-  document.querySelector('main').prepend(node);
+  (document.querySelector('main') || document.body).prepend(node);
 }
 async function activarScripts() {
   for (const file of scripts[slug]) {

@@ -9,6 +9,16 @@
     <link rel="stylesheet" href="assets/css/estilo.css?v=20260925-19" />
     <link rel="stylesheet" href="assets/css/comunidad.css?v=20261006-1" />
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="canonical" href="https://eest3sf.netlify.app/comunidad.html" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="EEST N°3 Fragata Moyano" />
+    <meta property="og:locale" content="es_AR" />
+    <meta property="og:title" content="Comunidad | EEST N°3 Fragata Moyano" />
+    <meta property="og:description" content="Tu espacio en la comunidad de la EEST N°3: cuenta, acceso y preferencias." />
+    <meta property="og:url" content="https://eest3sf.netlify.app/comunidad.html" />
+    <meta property="og:image" content="https://eest3sf.netlify.app/assets/images/og-institucional.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#071a2b" />
   </head>
   <body class="comunidad-pagina">
     <a class="saltar-contenido" href="#contenido-principal">Saltar al contenido principal</a>
@@ -53,7 +63,7 @@
             <a href="#login" data-vista="login" aria-current="page">Iniciar sesión</a>
             <a href="#registro" data-vista="registro">Crear cuenta</a>
           </div>
-          <section data-panel="login" aria-labelledby="titulo-login">
+          <section id="login" data-panel="login" aria-labelledby="titulo-login">
             <h3 id="titulo-login" tabindex="-1">Qué bueno verte de nuevo.</h3>
             <p class="portal-subtitulo">Ingresá a tu espacio y seguí conectado/a.</p>
             <form id="form-login" class="portal-form">
@@ -67,7 +77,7 @@
             <p class="portal-pie-form">¿Todavía no tenés cuenta? <a href="#registro">Sumate a la comunidad</a></p>
             <div class="portal-nota"><strong>¿Sos administrador/a?</strong><p>Ingresá con tu cuenta institucional habilitada. Los permisos de administración no se obtienen desde el registro público.</p></div>
           </section>
-          <section data-panel="registro" aria-labelledby="titulo-registro" hidden>
+          <section id="registro" data-panel="registro" aria-labelledby="titulo-registro" hidden>
             <h3 id="titulo-registro" tabindex="-1">Hay un lugar para vos.</h3>
             <p class="portal-subtitulo">Creá tu cuenta. No hace falta ser parte de la escuela para sumarte.</p>
             <form id="form-registro" class="portal-form">
@@ -95,7 +105,7 @@
             </form>
             <p class="portal-pie-form">Ya sos parte. <a href="#login">Iniciá sesión</a></p>
           </section>
-          <section data-panel="recuperar" aria-labelledby="titulo-recuperar" hidden>
+          <section id="recuperar" data-panel="recuperar" aria-labelledby="titulo-recuperar" hidden>
             <a class="portal-link" href="#login">← Volver al acceso</a>
             <h3 id="titulo-recuperar" tabindex="-1">Volvamos a conectar.</h3>
             <p class="portal-subtitulo">Te enviaremos un enlace para elegir una nueva contraseña.</p>
@@ -105,7 +115,7 @@
               <button class="portal-primary" type="submit">Enviar enlace de recuperación</button>
             </form>
           </section>
-          <section data-panel="nueva-password" aria-labelledby="titulo-nueva-password" hidden>
+          <section id="nueva-password-panel" data-panel="nueva-password" aria-labelledby="titulo-nueva-password" hidden>
             <h3 id="titulo-nueva-password" tabindex="-1">Un nuevo comienzo.</h3>
             <p class="portal-subtitulo">Elegí una contraseña nueva para proteger tu cuenta.</p>
             <form id="form-nueva-password" class="portal-form">

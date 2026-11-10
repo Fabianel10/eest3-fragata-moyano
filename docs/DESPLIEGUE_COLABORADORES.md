@@ -9,6 +9,8 @@ de cuentas y contenidos es Supabase. Se generan solo los archivos públicos en `
 - Netlify: sitio `eest3sf`, conectado a `Fabianel10/eest3-fragata-moyano`, rama `main`.
 - Node: 22. Instalación: `npm ci`. Verificación: `npm test`. Empaquetado: `npm run build`.
 - `netlify.toml` ejecuta `npm test && npm run build` y publica `dist`.
+  También define CSP, permisos, caché de assets y `no-store` para las pantallas privadas.
+  Los archivos de `public/` (`robots.txt`, `sitemap.xml`, `404.html`) se copian a la raíz.
 - El posprocesado HTML se desactiva para conservar rutas `.html` y referencias CMS.
 - Desactivar también **Pretty URLs** en la configuración del sitio Netlify si
   estaba habilitado antes de incorporar `netlify.toml`; reconstruir después.
@@ -96,6 +98,37 @@ Antes de aplicar, confirmar con `to_regclass('public.skynet_turns')` y
 RLS, permisos de RPC y que la lectura anónima esté denegada. No escribir chats reales
 para probar. Preferir comprobaciones transaccionales con rollback y datos técnicos.
 No otorgar consentimiento a otras personas ni reutilizar una sesión ajena.
+
+### Migraciones 8 a 11: equipo, búsqueda, métricas y correo
+
+Aplicar en orden, una sola vez:
+
+1. `202611100008_equipo_editorial.sql`: roles editor/revisor, estados de revisión,
+   atribución de publicación e historial de roles. **No reejecutar**.
+2. `202611100009_busqueda_global.sql`: tabla curada y vista `search_index`.
+3. `202611100010_metricas.sql`: agregados diarios y RPC de métricas.
+4. `202611100011_correo_cola.sql`: cola persistente, eventos, bajas y trigger de consultas.
+
+Antes de aplicar la 11, verificar que `auth.users.email` esté disponible para las
+cuentas del equipo y definir `EMAIL_PROVIDER`, `EMAIL_FROM` y la API key en Netlify.
+La migración no envía correos por sí sola: solo encola. Mantener `EMAIL_ENABLED=false`
+hasta verificar la cola con datos técnicos. El procesador programado requiere
+`EMAIL_ENABLED=true` y una cuenta de Netlify con funciones programadas disponibles.
+Probar una baja con un token de prueba y luego cancelar o eliminar el registro técnico.
+No usar correos reales de estudiantes para probar.
+
+Después de aplicar, comprobar:
+
+- `to_regclass('public.email_outbox')`, `to_regclass('public.search_index')` y
+  `to_regclass('public.metrics_daily')` existen.
+- `select public.email_admin_summary()` funciona solo con una cuenta administradora.
+- `search_index` no devuelve borradores ni publicaciones vencidas.
+- `metrics_daily` no tiene columnas de IP, sesión, cookie o user-agent.
+- Los roles editor/revisor se asignan desde Gestión y no por autorregistro.
+
+Reversión: un deploy anterior no elimina tablas ni migraciones. Desactivar
+`EMAIL_ENABLED`, ocultar la interfaz nueva y conservar los datos para una eliminación
+controlada. No borrar el esquema como rollback.
 
 Reversión: volver a un deploy validado no elimina datos ni revoca consentimiento.
 Deshabilitar la interfaz en un nuevo deploy si fuera necesario y conservar las

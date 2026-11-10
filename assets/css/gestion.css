@@ -13,5 +13,12 @@
 .gestion-main [role="status"] { padding: 1rem; border-left: 4px solid #078dcb; }
 .gestion-main [data-error="true"] { border-left-color: #c73737; }
 .gestion-meta { font-size: .9rem; }
+.gestion-equipo-fila { display: grid; grid-template-columns: minmax(0, 1fr) minmax(180px, 240px) auto; gap: 1rem; align-items: end; padding: .75rem 0; border-bottom: 1px solid #8293a555; }
+.gestion-equipo-fila label { margin: 0; }
+.gestion-historial { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #8293a555; }
+.gestion-metrica-fila { margin: .35rem 0; }
+.gestion-card strong { display: block; font-size: 1.8rem; line-height: 1.1; margin: .25rem 0; }
+.gestion-main [data-gestion="admin"][hidden], .gestion-main [data-gestion="team"][hidden] { display: none !important; }
+@media (max-width: 620px) { .gestion-equipo-fila { grid-template-columns: 1fr; } }
 .gestion-main [hidden] { display: none !important; }
 @media (max-width: 760px) { .gestion-grid { grid-template-columns: minmax(0, 1fr); } }

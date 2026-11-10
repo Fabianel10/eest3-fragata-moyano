@@ -9,10 +9,14 @@
     "test": "node --test tests/*.test.mjs",
     "dev": "node tools/serve.mjs",
     "build": "node tools/build.mjs",
+    "check": "npm test && npm run build",
+    "db:apply": "node --env-file-if-exists=.env tools/aplicar-migraciones.mjs",
+    "db:apply:api": "node --env-file-if-exists=.env tools/aplicar-migraciones-api.mjs",
     "cms:catalog": "node tools/cms-catalog.mjs"
   },
   "devDependencies": {
     "@electric-sql/pglite": "0.3.14",
-    "parse5": "7.3.0"
+    "parse5": "7.3.0",
+    "pg": "^8.13.1"
   }
 }

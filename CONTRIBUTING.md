@@ -6,7 +6,8 @@ institucionales existentes.
 
 ## Preparación
 
-1. Leer el [README](README.md) y el [índice técnico](docs/README.md).
+1. Leer el [README](README.md), la [arquitectura](docs/ARQUITECTURA.md) y el
+   [índice técnico](docs/README.md).
 2. Usar Node.js 22 o superior. Ejecutar `npm ci`, `npm test` y `npm run dev`.
 3. Crear una rama descriptiva: `feat/nombre`, `fix/nombre` o `docs/nombre`.
 4. Confirmar el entorno: la configuración local puede apuntar a producción.
@@ -31,6 +32,7 @@ institucionales existentes.
   cuando corresponda. El cliente no reemplaza las validaciones de PostgreSQL.
 - Aplicar a producción solo con autorización y preflight de esquema.
 - No crear roles ni conceder permisos institucionales como efecto de una prueba.
+- Documentar las variables de entorno en `.env.example`; nunca versionar valores reales.
 
 ## Evidencias obligatorias del Pull Request
 

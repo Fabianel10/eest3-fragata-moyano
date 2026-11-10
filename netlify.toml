@@ -11,8 +11,41 @@
 [build.processing]
   skip_processing = true
 
+# Cabeceras generales de seguridad. El sitio es estático; las fuentes externas
+# permitidas son las que ya usa el proyecto (Supabase, tipografías y clima).
 [[headers]]
   for = "/*"
   [headers.values]
     X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
     Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+    Content-Security-Policy = "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https://*.supabase.co https://openweathermap.org; media-src 'self' https://*.supabase.co; connect-src 'self' https://*.supabase.co https://api.open-meteo.com; frame-src 'self' https://www.google.com; manifest-src 'self'; upgrade-insecure-requests"
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Recursos versionados por consulta (?v=...). Una semana de caché reduce
+# peticiones sin arriesgar contenido editorial.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800, stale-while-revalidate=86400"
+
+# El catálogo editorial se regenera en cada compilación: ventana corta.
+[[headers]]
+  for = "/assets/cms/*"
+  [headers.values]
+    Cache-Control = "public, max-age=300, must-revalidate"
+
+# Los documentos y páginas privadas nunca deben quedar en caché compartida.
+[[headers]]
+  for = "/admin.html"
+  [headers.values]
+    Cache-Control = "no-store"
+[[headers]]
+  for = "/gestion.html"
+  [headers.values]
+    Cache-Control = "no-store"
+[[headers]]
+  for = "/notificaciones.html"
+  [headers.values]
+    Cache-Control = "no-store"

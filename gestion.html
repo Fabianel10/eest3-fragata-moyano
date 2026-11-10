@@ -14,16 +14,16 @@
     <main id="contenido-principal" class="gestion-main">
       <nav aria-label="Gestión institucional">
         <a href="admin.html">Editor de páginas</a><a href="comunidad.html">Mi cuenta</a>
-        <a href="novedades.html">Ver publicaciones</a><a href="index.html">Inicio</a>
+        <a href="novedades.html">Ver publicaciones</a><a href="buscador.html">Buscar</a><a href="index.html">Inicio</a>
         <a href="notificaciones.html">Administrar notificaciones</a>
         <button class="interruptor-tema" type="button" aria-pressed="false" aria-label="Activar modo oscuro">Claro / oscuro</button>
       </nav>
       <h1>Gestión institucional</h1>
-      <p id="gestion-status" role="status" tabindex="-1">Verificando acceso administrativo…</p>
+      <p id="gestion-status" role="status" tabindex="-1">Verificando acceso del equipo editorial…</p>
       <div id="gestion-workspace" hidden>
-        <p>Consultas privadas y contenido público son espacios separados. Los avisos de recepción por correo y las campañas no se activan desde este panel.</p>
-        <nav aria-label="Secciones de gestión"><a href="#consultas">Consultas</a><a href="#publicaciones">Comunicados, documentos y proyectos</a></nav>
-        <section id="consultas" aria-labelledby="consultas-title">
+        <p>Consultas privadas, publicaciones y métricas agregadas. Los avisos de recepción por correo se encolan con trazabilidad; las campañas masivas no forman parte de esta versión.</p>
+        <nav aria-label="Secciones de gestión"><a href="#consultas">Consultas</a><a href="#publicaciones">Comunicados, documentos y proyectos</a><a href="#equipo">Equipo editorial</a><a href="#correo">Correo y cola</a><a href="#metricas">Métricas</a></nav>
+        <section id="consultas" aria-labelledby="consultas-title" data-gestion="admin">
           <h2 id="consultas-title">Bandeja privada</h2>
           <form id="contact-filter" class="gestion-filtros">
             <label>Estado<select name="status"><option value="">Todos</option><option value="nueva">Nueva</option><option value="revision">En revisión</option><option value="respondida">Respondida</option><option value="cerrada">Cerrada</option></select></label>
@@ -34,7 +34,7 @@
           <div class="gestion-grid"><div id="contact-list"></div><div id="contact-detail"></div></div>
           <div class="gestion-actions"><button id="contact-prev" type="button">Anteriores</button><button id="contact-next" type="button">Siguientes</button></div>
         </section>
-        <section id="publicaciones" aria-labelledby="publicaciones-title">
+        <section id="publicaciones" aria-labelledby="publicaciones-title" data-gestion="admin">
           <h2 id="publicaciones-title">Publicaciones institucionales</h2>
           <p>Todo lo publicado es público, incluidos los PDF del bucket de documentos. No subir legajos, firmas, DNI, notas ni documentación sensible. La selección de destinatario es una etiqueta, no una restricción de acceso.</p>
           <form id="post-filter" class="gestion-filtros">
@@ -62,6 +62,33 @@
               <div id="post-history" aria-label="Historial de publicación"></div>
             </form>
           </div>
+        </section>
+        <section id="equipo" aria-labelledby="equipo-title" data-gestion="admin">
+          <h2 id="equipo-title">Equipo editorial</h2>
+          <p>Los roles separan edición, revisión y publicación. Una cuenta editora prepara borradores; una revisora aprueba o rechaza; solo administración publica. Los cambios quedan auditados.</p>
+          <div class="gestion-actions"><button id="team-refresh" type="button">Actualizar equipo</button></div>
+          <label>Nota del próximo cambio (opcional)<input id="team-note" maxlength="200" /></label>
+          <p id="team-status" class="gestion-meta" role="status"></p>
+          <div id="team-list" class="gestion-card"></div>
+        </section>
+        <section id="correo" aria-labelledby="correo-title" data-gestion="admin">
+          <h2 id="correo-title">Correo y cola</h2>
+          <p>Los avisos de recepción se encolan en Supabase y se envían con reintentos exponenciales. Si la cola está desactivada, las consultas igual se guardan en la bandeja. Las bajas se gestionan desde el enlace del correo.</p>
+          <div class="gestion-actions"><button id="email-refresh" type="button">Actualizar cola</button></div>
+          <p id="email-status" class="gestion-meta" role="status"></p>
+          <div id="email-summary" class="gestion-grid"></div>
+          <div id="email-list"></div>
+        </section>
+        <section id="metricas" aria-labelledby="metricas-title" data-gestion="team">
+          <h2 id="metricas-title">Métricas responsables</h2>
+          <p>Conteos agregados por día, sin IP, cookies, sesiones, user-agent ni términos de búsqueda. Retención máxima: 365 días. No se usan servicios de analítica de terceros.</p>
+          <form id="metrics-filter" class="gestion-filtros">
+            <label>Período<select name="days"><option value="7">7 días</option><option value="30" selected>30 días</option><option value="90">90 días</option><option value="365">365 días</option></select></label>
+            <button>Actualizar métricas</button>
+          </form>
+          <p id="metrics-status" class="gestion-meta" role="status"></p>
+          <div id="metrics-summary" class="gestion-grid"></div>
+          <div id="metrics-tables"></div>
         </section>
       </div>
     </main>

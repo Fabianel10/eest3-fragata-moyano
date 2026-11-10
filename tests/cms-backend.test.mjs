@@ -25,7 +25,7 @@ test('backend editorial: autorización, publicación, conflictos, historial y St
     grant usage on schema storage to anon, authenticated;
     grant select, insert, update, delete on storage.objects to anon, authenticated;
   `);
-  for (const file of ['202610060001_comunidad.sql', '202610060002_editorial.sql', '202610060003_catalogo.sql', '202610060004_carreras.sql', '202610200005_gestion.sql', '202610200006_notificaciones.sql', '202610200007_skynet.sql']) {
+  for (const file of ['202610060001_comunidad.sql', '202610060002_editorial.sql', '202610060003_catalogo.sql', '202610060004_carreras.sql', '202610200005_gestion.sql', '202610200006_notificaciones.sql', '202610200007_skynet.sql', '202611100008_equipo_editorial.sql']) {
     if (file === '202610060004_carreras.sql') {
       await db.query("insert into public.cms_pages(slug,draft,version) values ('historia',$1,3)",
         [JSON.stringify(catalogo.historia.defaults)]);
@@ -58,11 +58,19 @@ test('backend editorial: autorización, publicación, conflictos, historial y St
   }
   const save = (slug, doc, version, uid = admin) => como('authenticated', uid, () =>
     db.query('select public.cms_save_draft($1,$2::jsonb,$3) as page', [slug, JSON.stringify(doc), version]));
-  const publish = (slug, version, uid = admin) => como('authenticated', uid, () =>
-    db.query('select public.cms_publish($1,$2) as page', [slug, version]));
+  const submit = (slug, version, uid = admin) => como('authenticated', uid, () =>
+    db.query('select public.cms_submit_review($1,$2,$3) as page', [slug, version, 'Listo para revisión']));
+  const review = (slug, version, uid = admin) => como('authenticated', uid, () =>
+    db.query('select public.cms_review($1,$2,$3,$4) as page', [slug, version, 'aprobado', 'Aprobado']));
+  const publish = async (slug, version, uid = admin) => {
+    const sent = await submit(slug, version, uid);
+    const reviewed = await review(slug, sent.rows[0].page.version, uid);
+    return como('authenticated', uid, () =>
+      db.query('select public.cms_publish($1,$2) as page', [slug, reviewed.rows[0].page.version]));
+  };
   try {
     await t.test('solo administración puede guardar; anónimos no leen borradores', async () => {
-      await assert.rejects(save('inicio', catalogo.inicio.defaults, 0, alumno), /Administrator/);
+      await assert.rejects(save('inicio', catalogo.inicio.defaults, 0, alumno), /Editor permission/);
       await assert.rejects(como('anon', null, () => db.query('select * from public.cms_pages')), /permission denied/);
       const result = await como('authenticated', alumno, () => db.query('select * from public.cms_pages'));
       assert.equal(result.rows.length, 0);
@@ -74,7 +82,7 @@ test('backend editorial: autorización, publicación, conflictos, historial y St
         const result = await save(slug, page.defaults, 0);
         assert.equal(result.rows[0].page.version, 1);
       }
-      const publicRows = await como('anon', null, () => db.query('select * from public.cms_published'));
+      const publicRows = await como('anon', null, () => db.query('select slug,content,version,published_at from public.cms_published'));
       assert.equal(publicRows.rows.length, 0);
       const protectedRows = await como('authenticated', alumno, () => db.query('select * from public.cms_revisions'));
       assert.equal(protectedRows.rows.length, 0);
@@ -121,7 +129,7 @@ test('backend editorial: autorización, publicación, conflictos, historial y St
     });
     await t.test('las tres carreras publican con permisos y detectan conflictos independientemente', async () => {
       for (const slug of ['informatica', 'madera', 'obras']) {
-        await assert.rejects(publish(slug, 1, alumno), /Administrator/);
+        await assert.rejects(submit(slug, 1, alumno), /Editor permission/);
         await publish(slug, 1);
         await assert.rejects(save(slug, catalogo[slug].defaults, 1), /version conflict/);
         const result = await como('anon', null, () =>
@@ -130,28 +138,28 @@ test('backend editorial: autorización, publicación, conflictos, historial y St
       }
     });
     await t.test('publicación expone solo la instantánea y exige versión actual', async () => {
-      await assert.rejects(publish('inicio', 2, alumno), /Administrator/);
+      await assert.rejects(como('authenticated', alumno, () => db.query('select public.cms_publish($1,$2) as page', ['inicio', 2])), /Administrator/);
       await assert.rejects(publish('inicio', 1), /version conflict/);
       const result = await publish('inicio', 2);
-      assert.equal(result.rows[0].page.version, 3);
+      assert.equal(result.rows[0].page.version, 5);
       const rows = await como('anon', null, () => db.query("select content from public.cms_published where slug='inicio'"));
       assert.equal(rows.rows[0].content.title, 'Título editado');
       const next = structuredClone(catalogo.inicio.defaults);
       next.title = 'Borrador no público';
-      await save('inicio', next, 3);
+      await save('inicio', next, 5);
       const published = await como('anon', null, () => db.query("select content->>'title' as title from public.cms_published where slug='inicio'"));
       assert.equal(published.rows[0].title, 'Título editado');
     });
     await t.test('restauración conserva historial y no modifica la publicación', async () => {
       const first = await db.query("select id from public.cms_revisions where slug='inicio' order by id limit 1");
       const result = await como('authenticated', admin, () => db.query(
-        "select public.cms_restore('inicio',$1,4) as page", [first.rows[0].id]));
-      assert.equal(result.rows[0].page.version, 5);
+        "select public.cms_restore('inicio',$1,6) as page", [first.rows[0].id]));
+      assert.equal(result.rows[0].page.version, 7);
       assert.equal(result.rows[0].page.draft.title, catalogo.inicio.defaults.title);
       const published = await db.query("select content->>'title' as title from public.cms_published where slug='inicio'");
       assert.equal(published.rows[0].title, 'Título editado');
       const actions = await db.query("select action from public.cms_revisions where slug='inicio' order by id");
-      assert.deepEqual(actions.rows.map((r) => r.action), ['save', 'save', 'publish', 'save', 'restore']);
+      assert.deepEqual(actions.rows.map((r) => r.action), ['save', 'save', 'submit', 'approve', 'publish', 'save', 'restore']);
       await assert.rejects(como('authenticated', admin, () =>
         db.query("select public.cms_restore('historia',$1,1)", [first.rows[0].id])), /not found/);
     });

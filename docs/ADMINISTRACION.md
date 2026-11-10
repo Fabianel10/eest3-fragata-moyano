@@ -32,6 +32,59 @@ composiciones se agregan bloques o se reemplaza una sección por bloques nuevos.
 Los formularios de contacto y mapa mantienen su integración técnica original.
 No se implementan campañas de correo, notas o gestión académica.
 
+## Flujo editorial con revisión
+
+La migración `202611100008_equipo_editorial.sql` agrega roles y estados:
+
+| Rol | Puede |
+| --- | --- |
+| Editor/a | Guardar borradores, subir medios, enviar a revisión y restaurar versiones |
+| Revisor/a | Leer borradores, aprobar o rechazar con nota; no edita contenido |
+| Administrador/a | Todo lo anterior y publicar una versión aprobada |
+
+Estados de página: `borrador`, `en_revision`, `aprobado`, `rechazado` y `publicado`.
+Guardar una edición invalida una aprobación anterior y vuelve a `borrador`. Publicar
+exige `aprobado`; la publicación registra `published_by`, `approved_by`, versión y nota.
+Cada acción (`save`, `submit`, `approve`, `reject`, `publish`, `restore`) queda en
+`cms_revisions` con rol, autor, fecha y nota. La asignación de roles se hace desde
+Gestión institucional → Equipo editorial y queda auditada en `profile_role_history`.
+No se puede cambiar el propio rol ni dejar el sistema sin una cuenta administradora.
+
+## Búsqueda global
+
+`buscador.html` consulta la vista pública `search_index` de Supabase. Reúne páginas,
+carreras, publicaciones vigentes y eventos del calendario publicado; excluye borradores
+y contenido vencido mediante RLS. Filtra por tipo, carrera y rango de fechas.
+La vista usa `security_invoker` para no saltar las políticas de las tablas de origen.
+El texto buscado no se guarda en métricas.
+
+## Correo transaccional y bajas
+
+La migración `202611100011_correo_cola.sql` crea una cola persistente. Al recibir una
+consulta se encola un aviso para administración/revisión y un comprobante para la
+persona consultante. El procesamiento:
+
+- reclama lotes con `email_claim` y evita dobles envíos;
+- reintenta con espera exponencial y límite de intentos;
+- registra `email_events` con cada intento, envío, fallo o baja;
+- permite reintento manual desde Gestión;
+- incluye un enlace de baja con token para el equipo; la baja cancela pendientes
+  y no afecta consultas ya recibidas.
+
+Variables necesarias en Netlify: `EMAIL_ENABLED`, `EMAIL_PROVIDER` (`brevo` o
+`resend`), `EMAIL_FROM`, `EMAIL_FROM_NAME`, la API key correspondiente y
+`EMAIL_QUEUE_SECRET`. El endpoint programado `procesar-correo.mjs` se ejecuta cada cinco minutos.
+El endpoint `procesar-correo-manual.mjs` permite un disparo manual autenticado. `baja.mjs` procesa
+el enlace público de baja. Ver `.env.example`.
+
+## Métricas responsables
+
+`metrics_daily` guarda únicamente día, tipo, destino permitido y cantidad. No hay IP,
+cookies, sesión, user-agent ni texto de búsqueda. El navegador registra una página
+una vez por sesión y respeta Do Not Track. La retención es de 365 días y la purga se
+ejecuta al registrar actividad. El equipo editorial consulta agregados desde
+Gestión → Métricas; la tabla no es legible directamente por el cliente.
+
 ## Gestión institucional
 
 La ampliación de 2026-10-20 agrega `gestion.html`, accesible desde las herramientas
@@ -56,9 +109,9 @@ las páginas informan la falta de activación y no simulan datos.
   debe definir y ejecutar el plazo de retención; no se borra automáticamente información.
 - La IP no se guarda en claro: se utiliza HMAC-SHA256 con secreto de servidor para
   los límites. Los contadores de más de un día se limpian en el próximo envío aceptado.
-- Guardar/gestionar una consulta **no envía correos**. Los avisos y respuestas
-  automáticas quedan para una etapa separada; el SMTP de Auth no se reutiliza
-  desde el navegador.
+- Guardar/gestionar una consulta **no envía una respuesta** al remitente. La cola
+  transaccional envía un aviso interno y un comprobante de recepción; una respuesta
+  redactada por una persona requiere un canal institucional separado.
 
 ### Publicaciones y documentos
 
@@ -79,8 +132,9 @@ las páginas informan la falta de activación y no simulan datos.
   venza. No subir datos personales, legajos o documentación sensible. Retirar un
   artículo no revoca una URL previamente difundida. La eliminación excepcional del
   archivo requiere un operador privado de Storage y revisar referencias existentes.
-- Los roles actuales no cambian. Solo administración puede guardar, publicar, subir
-  archivos o gestionar consultas. No se crean cuentas ni permisos automáticamente.
+- Los roles editor, revisor y administrador se asignan desde Gestión. Solo el equipo
+  editorial accede a borradores, medios y métricas; la comunidad no obtiene permisos
+  por seleccionar un perfil.
 
 ### Calendario multianual
 

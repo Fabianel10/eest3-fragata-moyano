@@ -26,6 +26,18 @@ let historyOffset = 0;
 let previewContent;
 let previewSlug;
 let fieldCounter = 0;
+let perfilRol = 'comunidad';
+let estadoPagina = 'borrador';
+let notaRevision = '';
+let enviadoPor = null;
+let revisadoPor = null;
+const ROLE_LABELS = {
+  editor: 'Editor/a', revisor: 'Revisor/a', administrador: 'Administrador/a'
+};
+const ESTADO_LABELS = {
+  borrador: 'Borrador', en_revision: 'En revisión', aprobado: 'Aprobado',
+  rechazado: 'Rechazado', publicado: 'Publicado'
+};
 
 async function cambiarPagina(next) {
   const previous = slug;
@@ -70,22 +82,40 @@ async function operacion(action) {
   finally { busy = false; actualizarControles(); }
 }
 function actualizarControles() {
-  $('#admin-editor-fields').disabled = busy;
+  const bloqueado = estadoPagina === 'en_revision';
+  const puedeEditar = ['editor', 'administrador'].includes(perfilRol) && !bloqueado;
+  const puedeEnviar = ['editor', 'administrador'].includes(perfilRol) &&
+    ['borrador', 'rechazado'].includes(estadoPagina);
+  const puedeRevisar = ['revisor', 'administrador'].includes(perfilRol) && estadoPagina === 'en_revision';
+  const puedePublicar = perfilRol === 'administrador' && estadoPagina === 'aprobado';
+  $('#admin-editor-fields').disabled = busy || !puedeEditar;
   $('#admin-pagina-selector').disabled = busy;
-  $('#admin-guardar').disabled = busy || !dirty;
-  $('#admin-publicar').disabled = busy || dirty || version === 0;
+  $('#admin-guardar').disabled = busy || !puedeEditar || !dirty;
+  $('#admin-enviar').hidden = !['editor', 'administrador'].includes(perfilRol);
+  $('#admin-enviar').disabled = busy || !puedeEnviar || dirty || version === 0;
+  $('#admin-aprobar').hidden = !['revisor', 'administrador'].includes(perfilRol);
+  $('#admin-aprobar').disabled = busy || !puedeRevisar || dirty;
+  $('#admin-rechazar').hidden = !['revisor', 'administrador'].includes(perfilRol);
+  $('#admin-rechazar').disabled = busy || !puedeRevisar || dirty;
+  $('#admin-publicar').hidden = perfilRol !== 'administrador';
+  $('#admin-publicar').disabled = busy || !puedePublicar || dirty;
   $('#admin-recargar').disabled = busy;
   $('#admin-exportar').disabled = busy || !content;
-  $('#admin-importar').disabled = busy || !catalogo;
-  $('#admin-agregar').disabled = busy || !content || content.blocks.length >= 60;
+  $('#admin-importar').disabled = busy || !catalogo || !puedeEditar;
+  $('#admin-agregar').disabled = busy || !puedeEditar || !content || content.blocks.length >= 60;
+  $('#admin-tipo-bloque').disabled = busy || !puedeEditar;
   $('#admin-preview-update').disabled = busy || !content;
   $('#admin-bloques').querySelectorAll('button').forEach((button) => {
-    button.disabled = busy || button.dataset.limite === 'true';
+    button.disabled = busy || !puedeEditar || button.dataset.limite === 'true';
   });
-  $('#admin-cambios').textContent = dirty ? 'Cambios sin guardar · actualizá la vista previa' : 'Sin cambios pendientes';
+  $('#admin-cambios').textContent = dirty
+    ? 'Cambios sin guardar · actualizá la vista previa'
+    : puedeEditar ? 'Sin cambios pendientes' : 'Modo revisión: contenido de solo lectura';
   $('#admin-version').textContent = version
     ? `Borrador v${version} · ${publicado ? `publicada v${publicado.version}` : 'sin publicación'}`
     : 'Plantilla inicial · sin borrador';
+  $('#admin-flujo').textContent = `Estado: ${ESTADO_LABELS[estadoPagina] || estadoPagina} · Rol: ${ROLE_LABELS[perfilRol] || perfilRol}` +
+    (notaRevision ? ` · Nota: ${notaRevision}` : '');
 }
 function cambio() { dirty = true; actualizarControles(); }
 function confirmar(message) {
@@ -107,6 +137,37 @@ function confirmar(message) {
     $('#admin-confirmacion-no').addEventListener('click', no);
     dialog.addEventListener('cancel', cancelar);
     $('#admin-confirmacion-no').focus();
+  });
+}
+function pedirNota(titulo, texto, requerida = false) {
+  const dialog = $('#admin-revision-dialog');
+  $('#admin-revision-title').textContent = titulo;
+  $('#admin-revision-texto').textContent = texto;
+  const nota = $('#admin-revision-nota');
+  nota.value = '';
+  nota.oninput = () => nota.setCustomValidity('');
+  dialog.showModal();
+  return new Promise((resolve) => {
+    const finish = (ok) => {
+      const value = nota.value.trim();
+      if (ok && requerida && !value) {
+        nota.setCustomValidity('Ingresá una nota para continuar.');
+        nota.reportValidity();
+        return;
+      }
+      dialog.close();
+      $('#admin-revision-confirmar').removeEventListener('click', si);
+      $('#admin-revision-cancelar').removeEventListener('click', no);
+      dialog.removeEventListener('cancel', cancelar);
+      resolve(ok ? { nota: value } : null);
+    };
+    const si = () => finish(true);
+    const no = () => finish(false);
+    const cancelar = (event) => { event.preventDefault(); finish(false); };
+    $('#admin-revision-confirmar').addEventListener('click', si);
+    $('#admin-revision-cancelar').addEventListener('click', no);
+    dialog.addEventListener('cancel', cancelar);
+    nota.focus();
   });
 }
 function boton(text, action, clase = 'admin-btn') {
@@ -478,16 +539,18 @@ async function renderHistorial(append = false) {
     list = element('ul', '', 'admin-history-list'); list.id = 'admin-history-list'; body.append(list);
   }
   const rows = resultado(await cliente.from('cms_revisions')
-    .select('id,version,action,created_at,created_by').eq('slug', slug)
+    .select('id,version,action,actor_role,note,created_at,created_by').eq('slug', slug)
     .order('id', { ascending: false }).range(historyOffset, historyOffset + 19));
   if (selection !== 'history' || slug !== pageSlug || !list.isConnected) return;
   historyOffset += rows.length;
   $('#admin-history-more')?.remove();
   if (!rows.length && !append) list.append(element('li', 'Todavía no hay versiones guardadas.'));
+  const acciones = { save: 'Borrador', submit: 'Envío a revisión', approve: 'Aprobación', reject: 'Rechazo', publish: 'Publicación', restore: 'Restauración' };
   for (const row of rows) {
     const item = element('li');
-    item.append(element('strong', `Versión ${row.version} · ${{ save: 'Borrador', publish: 'Publicación', restore: 'Restauración' }[row.action]}`),
-      element('p', `${new Date(row.created_at).toLocaleString('es-AR')} · Autor: ${row.created_by || 'Cuenta eliminada'}`));
+    item.append(element('strong', `Versión ${row.version} · ${acciones[row.action] || row.action}`),
+      element('p', `${new Date(row.created_at).toLocaleString('es-AR')} · Rol: ${ROLE_LABELS[row.actor_role] || row.actor_role || 'sin dato'}`));
+    if (row.note) item.append(element('p', `Nota: ${row.note}`));
     item.append(boton('Restaurar como borrador', () => operacion(async () => {
       if (!await confirmar('¿Restaurar esta versión como borrador? Los cambios locales sin guardar se perderán. La página pública no se modifica.')) return;
       const page = resultado(await cliente.rpc('cms_restore', { page_slug: slug, revision_id: row.id, expected_version: version }));
@@ -507,6 +570,10 @@ function actualizarPagina(page) {
   validarDocumento(draft);
   content = draft;
   version = page.version;
+  estadoPagina = page.status || 'borrador';
+  notaRevision = page.review_note || '';
+  enviadoPor = page.submitted_by || null;
+  revisadoPor = page.reviewed_by || null;
   dirty = false;
   selection = 'ajustes';
   mediaTarget = null;
@@ -586,12 +653,42 @@ $('#admin-guardar').addEventListener('click', () => operacion(async () => {
 }));
 $('#admin-publicar').addEventListener('click', () => operacion(async () => {
   if (dirty) throw new Error('Guardá el borrador antes de publicar.');
+  if (estadoPagina !== 'aprobado') throw new Error('La página necesita aprobación institucional antes de publicarse.');
   if (!await confirmar(`¿Publicar ${PAGINAS[slug]}? Todas las personas verán este contenido al volver a cargar la página.`)) return;
   const page = resultado(await cliente.rpc('cms_publish', { page_slug: slug, expected_version: version }));
   publicado = { version: page.version };
   actualizarPagina(page);
-  aviso('Página publicada. Abrí la versión pública para verificar el resultado.');
+  aviso('Página publicada con aprobación registrada. Abrí la versión pública para verificar el resultado.');
 }));
+$('#admin-enviar').addEventListener('click', () => operacion(async () => {
+  if (dirty) throw new Error('Guardá el borrador antes de enviarlo a revisión.');
+  const resultadoNota = await pedirNota('Enviar a revisión',
+    'La página quedará bloqueada para edición hasta que una persona revisora apruebe o rechace. Podés incluir una nota con el alcance del cambio.');
+  if (!resultadoNota) return;
+  const page = resultado(await cliente.rpc('cms_submit_review', {
+    page_slug: slug, expected_version: version, note: resultadoNota.nota
+  }));
+  actualizarPagina(page);
+  aviso('Página enviada a revisión. Se registró la persona y la fecha del envío.');
+}));
+for (const [id, decision, label] of [['admin-aprobar', 'aprobado', 'Aprobar'], ['admin-rechazar', 'rechazado', 'Rechazar']]) {
+  $(`#${id}`).addEventListener('click', () => operacion(async () => {
+    const resultadoNota = await pedirNota(`${label} publicación`,
+      decision === 'aprobado'
+        ? 'La aprobación habilita a administración a publicar esta versión. Podés dejar una nota de revisión.'
+        : 'El rechazo devuelve la página al equipo editor con tu nota. La nota es obligatoria.',
+      decision === 'rechazado');
+    if (!resultadoNota) return;
+    if (!await confirmar(`¿${label} la versión actual de ${PAGINAS[slug]}?`)) return;
+    const page = resultado(await cliente.rpc('cms_review', {
+      page_slug: slug, expected_version: version, decision, note: resultadoNota.nota
+    }));
+    actualizarPagina(page);
+    aviso(decision === 'aprobado'
+      ? 'Página aprobada. Administración ya puede publicarla.'
+      : 'Página rechazada con nota. El equipo editor puede corregir y volver a enviar.');
+  }));
+}
 $('#admin-recargar').addEventListener('click', () => operacion(async () => {
   if (dirty && !await confirmar('¿Descartar cambios locales y cargar el borrador del servidor?')) return;
   await cargarPagina(); aviso('Borrador recargado.');
@@ -628,8 +725,11 @@ document.querySelectorAll('a:not([target])').forEach((link) => link.addEventList
 async function autorizar() {
   const { user } = resultado(await cliente.auth.getUser());
   const profile = resultado(await cliente.from('profiles').select('role,full_name').eq('id', user.id).single());
-  if (profile.role !== 'administrador') throw new Error('Tu cuenta no tiene permisos de administración. Contactá a la institución.');
-  $('#admin-identidad').textContent = profile.full_name;
+  if (!['editor', 'revisor', 'administrador'].includes(profile.role)) {
+    throw new Error('Tu cuenta no pertenece al equipo editorial. Contactá a la institución.');
+  }
+  perfilRol = profile.role;
+  $('#admin-identidad').textContent = `${profile.full_name} · ${ROLE_LABELS[perfilRol] || perfilRol}`;
 }
 async function iniciar() {
   if (!configurado()) {
@@ -648,6 +748,7 @@ async function iniciar() {
       if (event === 'SIGNED_OUT') {
         workspace.hidden = true; gate.hidden = false;
         content = null; dirty = false; mediaTarget = null; previewContent = null;
+        perfilRol = 'comunidad'; estadoPagina = 'borrador'; notaRevision = '';
         body.replaceChildren(); $('#admin-bloques').replaceChildren(); frame.src = 'about:blank';
         $('#admin-gate-texto').textContent = 'La sesión se cerró. Iniciá sesión para continuar. Los cambios locales no se publicaron.';
       } else if (event === 'SIGNED_IN') {
@@ -662,7 +763,7 @@ async function iniciar() {
     });
   } catch (error) {
     $('#admin-gate-texto').textContent = error.code === 'session_not_found' || error.name === 'AuthSessionMissingError'
-      ? 'Iniciá sesión con tu cuenta institucional de administrador/a para continuar.' : mensajeError(error);
+      ? 'Iniciá sesión con una cuenta del equipo editorial para continuar.' : mensajeError(error);
   }
 }
 iniciar();

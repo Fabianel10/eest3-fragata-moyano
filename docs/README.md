@@ -11,7 +11,7 @@ La portada técnica del proyecto es el [README principal](../README.md).
 | --- | --- |
 | Comunidad | [Cuentas y preferencias](COMUNIDAD.md), [Skynet](SKYNET.md) y [privacidad del sitio](https://eest3sf.netlify.app/privacidad.html) |
 | Administración | [Flujo editorial, consultas y notificaciones](ADMINISTRACION.md) |
-| Operación técnica | [Configuración, migraciones y despliegue](DESPLIEGUE_COLABORADORES.md) |
+| Operación técnica | [Arquitectura](ARQUITECTURA.md), [activación v1.10](ACTIVACION_1_10.md), [configuración, migraciones y despliegue](DESPLIEGUE_COLABORADORES.md) |
 | Estudiantes y colaboradores | [Contribución](../CONTRIBUTING.md), [hoja de ruta](MEJORAS.md) y [entregas](../archive/versiones/README.md) |
 
 ## Componentes y fuentes de verdad
@@ -21,6 +21,10 @@ La portada técnica del proyecto es el [README principal](../README.md).
   inicial, no un reemplazo silencioso de publicaciones reales.
 - **Acceso:** Supabase Auth y roles autorizados en perfiles; no metadatos editables.
 - **Contacto:** Netlify Function → RPC privado → bandeja administrativa de Supabase.
+- **Correo:** trigger de consultas → cola persistente → procesador programado → Brevo/Resend.
+- **Búsqueda:** vista pública `search_index` con RLS y filtros por tipo, carrera y fecha.
+- **Métricas:** agregados diarios sin identidad, consultados por el equipo editorial.
+- **Flujo editorial:** roles editor/revisor/administrador, estados y auditoría de publicación.
 - **Historial Skynet:** RPC autenticados, RLS por propietario, consentimiento separado
   para conversación y nombre recordado.
 - **Despliegue:** Netlify vinculado a GitHub; comprobar SHA, estado `ready` y recursos.

@@ -51,7 +51,7 @@ for (const module of ['gestion-admin', 'notificaciones']) {
       rpc: query
     };
     const context = {
-      document: { getElementById: get, createElement: element },
+      document: { getElementById: get, createElement: element, querySelectorAll: () => [] },
       window: { addEventListener() {} },
       obtenerCliente: async () => client,
       resultado: result => { if (result.error) throw result.error; return result.data; },

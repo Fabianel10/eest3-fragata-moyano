@@ -1,5 +1,6 @@
 import { iniciarReproductor } from './reproductor-compartido.mjs';
 import { startSkynet } from './skynet.mjs';
+import { iniciarMetricasPublicas } from './metricas.mjs';
 
 const carreras = [
   ['informatica.html', 'Informática Personal y Profesional'],
@@ -7,12 +8,15 @@ const carreras = [
   ['obras.html', 'Maestro Mayor de Obras']
 ];
 export async function completarSitio() {
+  iniciarMetricasPublicas();
   startSkynet();
   if (document.querySelector('[data-sitio-completo]')) return;
-  const style = document.createElement('link');
-  style.rel = 'stylesheet';
-  style.href = 'assets/css/carreras.css';
-  document.head.append(style);
+  if (!document.querySelector('link[href*="carreras.css"]')) {
+    const style = document.createElement('link');
+    style.rel = 'stylesheet';
+    style.href = 'assets/css/carreras.css';
+    document.head.append(style);
+  }
   const institutional = document.createElement('link');
   institutional.rel = 'stylesheet';
   institutional.href = 'assets/css/estilo.css?v=20260925-19';
@@ -90,6 +94,7 @@ export async function completarSitio() {
   resources.className = 'sitio-carreras';
   resources.setAttribute('aria-label', 'Comunicados y recursos');
   for (const [href, text] of [
+    ['buscador.html', 'Buscar en el sitio'],
     ['novedades.html', 'Comunicados y recursos'],
     ['novedades.html?kind=documento', 'Documentos'],
     ['novedades.html?kind=proyecto', 'Proyectos estudiantiles'],
@@ -114,7 +119,8 @@ export async function completarSitio() {
     template.innerHTML = components.footer;
     wrapper.append(template.content.querySelector('.contador-visitas'), template.content.querySelector('.redes-sociales'));
   }
-  document.querySelector('main').after(wrapper);
+  const anchor = document.querySelector('main');
+  if (anchor) anchor.after(wrapper); else document.body.append(wrapper);
   if (!hasCounter && !window.CMS_PREVIEW) {
     const key = 'eest3-visitas-dispositivo';
     const visits = (Number.parseInt(localStorage.getItem(key) || '0', 10) || 0) + 1;
@@ -130,6 +136,7 @@ if (!document.querySelector('script[src*="cms-publico.mjs"]')) {
     const message = document.createElement('p');
     message.setAttribute('role', 'status');
     message.textContent = error.message;
-    document.querySelector('main').after(message);
+    const anchor = document.querySelector('main');
+    if (anchor) anchor.after(message); else document.body.append(message);
   });
 }

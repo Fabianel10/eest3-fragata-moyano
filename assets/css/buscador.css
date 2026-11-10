@@ -1,0 +1,42 @@
+.buscador-main {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: clamp(24px, 5vw, 64px) 20px 72px;
+}
+.buscador-encabezado { max-width: 760px; }
+.buscador-encabezado h1 { margin: 8px 0 12px; }
+.buscador-form {
+  display: grid;
+  gap: 14px;
+  margin: 28px 0 18px;
+  padding: 20px;
+  border: 1px solid color-mix(in srgb, currentColor 18%, transparent);
+  border-radius: 18px;
+  background: color-mix(in srgb, currentColor 3%, transparent);
+}
+.buscador-form .fila { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; }
+.buscador-form label { display: grid; gap: 6px; font-weight: 600; }
+.buscador-form input, .buscador-form select { width: 100%; }
+.buscador-acciones { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.buscador-acciones button { font: inherit; cursor: pointer; border-radius: 10px; padding: .7rem 1rem; }
+.buscador-secundario { border: 1px solid color-mix(in srgb, currentColor 28%, transparent); background: transparent; color: inherit; }
+.buscador-paginacion button { font: inherit; cursor: pointer; border-radius: 10px; padding: .7rem 1rem; border: 1px solid color-mix(in srgb, currentColor 28%, transparent); background: transparent; color: inherit; }
+.buscador-estado { min-height: 1.5em; }
+.buscador-lista { display: grid; gap: 14px; margin: 20px 0; padding: 0; list-style: none; }
+.buscador-resultado {
+  padding: 18px 20px;
+  border: 1px solid color-mix(in srgb, currentColor 16%, transparent);
+  border-radius: 16px;
+  background: color-mix(in srgb, currentColor 2%, transparent);
+}
+.buscador-resultado h2 { margin: 0 0 6px; font-size: clamp(1.05rem, 2vw, 1.35rem); }
+.buscador-resultado h2 a { text-decoration: none; }
+.buscador-resultado h2 a:hover, .buscador-resultado h2 a:focus-visible { text-decoration: underline; }
+.buscador-meta { display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 0 0 8px; font-size: .85rem; opacity: .78; }
+.buscador-resultado p { margin: 0; }
+.buscador-paginacion { display: flex; justify-content: space-between; gap: 12px; margin-top: 22px; }
+.buscador-paginacion button[disabled] { opacity: .45; }
+@media (max-width: 640px) {
+  .buscador-form { padding: 16px; }
+  .buscador-paginacion { flex-direction: column; }
+}

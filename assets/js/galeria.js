@@ -1,4 +1,3 @@
-const themeButton = document.querySelector('.interruptor-tema');
 const sliderMedia = document.querySelector('.slider-medio');
 const sliderType = document.querySelector('.slider-tipo');
 const sliderTitle = document.querySelector('.slider-titulo');
@@ -20,22 +19,6 @@ gallery.setAttribute('aria-roledescription', 'carrusel');
 backgroundAudio.src =
   'assets/audio/Argentina%20%20%20Cancion%20de%20la%20Selecci%C3%B3n%20Argentina%202026.mp3';
 backgroundAudio.volume = 0.35;
-
-const setTheme = (isDark) => {
-  document.body.classList.toggle('tema-oscuro', isDark);
-  document.documentElement.classList.toggle('tema-oscuro', isDark);
-  themeButton?.setAttribute('aria-pressed', String(isDark));
-  themeButton?.setAttribute('aria-label', isDark ? 'Activar modo claro' : 'Activar modo oscuro');
-  localStorage.setItem('tema-eest3', isDark ? 'oscuro' : 'claro');
-};
-
-const savedTheme = localStorage.getItem('tema-eest3');
-setTheme(
-  savedTheme ? savedTheme === 'oscuro' : window.matchMedia('(prefers-color-scheme: dark)').matches
-);
-themeButton?.addEventListener('click', () =>
-  setTheme(!document.body.classList.contains('tema-oscuro'))
-);
 
 const mediaPath = 'assets/images/imagenes nuevas/';
 const galleryItems = [

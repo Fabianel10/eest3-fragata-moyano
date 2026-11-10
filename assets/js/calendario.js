@@ -1,4 +1,3 @@
-const themeButton = document.querySelector('.interruptor-tema');
 const monthSelector = document.querySelector('.selector-meses');
 const calendarGrid = document.querySelector('.grilla-dias');
 const calendarMonthTitle = document.querySelector('.calendario-mes-titulo h3');
@@ -10,22 +9,6 @@ const featuredTitle = document.querySelector('.titulo-destacado');
 const featuredDescription = document.querySelector('.descripcion-destacada');
 const selectedDateLabel = document.querySelector('.fecha-seleccionada');
 const visitCounter = document.querySelector('.numero-visitas');
-
-const setTheme = (isDark) => {
-  document.body.classList.toggle('tema-oscuro', isDark);
-  document.documentElement.classList.toggle('tema-oscuro', isDark);
-  themeButton?.setAttribute('aria-pressed', String(isDark));
-  themeButton?.setAttribute('aria-label', isDark ? 'Activar modo claro' : 'Activar modo oscuro');
-  localStorage.setItem('tema-eest3', isDark ? 'oscuro' : 'claro');
-};
-
-const savedTheme = localStorage.getItem('tema-eest3');
-setTheme(
-  savedTheme ? savedTheme === 'oscuro' : window.matchMedia('(prefers-color-scheme: dark)').matches
-);
-themeButton?.addEventListener('click', () =>
-  setTheme(!document.body.classList.contains('tema-oscuro'))
-);
 
 const calendarEvents = [
   ['2026-01-01', 'Año Nuevo', 'feriado'],

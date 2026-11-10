@@ -2,6 +2,75 @@
 
 Este proyecto utiliza [versionado semántico](https://semver.org/lang/es/).
 
+## [1.10.0] - 2026-11-10
+
+### Flujo editorial
+
+- Roles `editor`, `revisor` y `administrador`; asignación auditada desde Gestión.
+- Estados de página: borrador, en revisión, aprobado, rechazado y publicado.
+- Envío a revisión con nota, aprobación/rechazo y publicación solo con aprobación.
+- Registro de autor, rol, fecha, nota, quién aprobó y quién publicó cada versión.
+- Migración `202611100008_equipo_editorial.sql`.
+
+### Búsqueda global
+
+- Nueva página `buscador.html` y vista PostgREST `search_index`.
+- Índice de páginas, carreras, publicaciones vigentes y eventos del calendario publicado.
+- Filtros por tipo, carrera y rango de fechas; RLS respetada con `security_invoker`.
+- Migración `202611100009_busqueda_global.sql`.
+
+### Métricas responsables
+
+- Conteos diarios de páginas, publicaciones y búsquedas sin IP, cookies ni términos.
+- Respeto de Do Not Track, retención de 365 días y panel en Gestión.
+- Migración `202611100010_metricas.sql`.
+
+### Correo transaccional
+
+- Cola persistente con avisos de consultas, comprobante al remitente, reintentos
+  exponenciales, eventos de trazabilidad, reintento manual y bajas por token.
+- Endpoints `procesar-correo.mjs` (programado/cron) y `baja.mjs`.
+- Adaptadores Brevo y Resend; variables documentadas en `.env.example`.
+- Migración `202611100011_correo_cola.sql`.
+
+### Calidad y documentación
+
+- Nuevas pruebas de roles, búsqueda, métricas y correo. Total: 118 pruebas aprobadas.
+- Guías de arquitectura, administración y despliegue actualizadas.
+- Política de privacidad ampliada para correo, búsqueda y métricas agregadas.
+- Consolida las mejoras de rendimiento, SEO y seguridad preparadas como 1.9.0.
+- Migraciones aplicadas y despliegue de producción verificado el 2026-11-10.
+
+
+## [1.9.0] - 2026-11-10
+
+### Rendimiento y contenido
+
+- Galería, video institucional, audio, logo e imágenes de portada optimizados:
+  el paquete público baja de ~68 MB a ~16 MB sin cambiar nombres ni romper
+  referencias del CMS.
+- Se elimina la dependencia de imágenes de Unsplash en la portada; las carreras
+  usan recursos locales y descripciones accesibles.
+- El build excluye `assets/images/image.png` y los originales de Madera que no
+  deben publicarse.
+- Se agrega `public/` para `robots.txt`, `sitemap.xml` y `404.html`.
+- Metadatos canonical, Open Graph y Twitter Card en las páginas públicas.
+
+### Seguridad y operación
+
+- Cabeceras CSP, Permissions-Policy, X-Frame-Options y caché diferenciada en
+  `netlify.toml`; las pantallas privadas no se cachean.
+- `.env.example`, `.editorconfig` y `.nvmrc` para reproducibilidad.
+- Documento de [arquitectura](docs/ARQUITECTURA.md) con la frontera frontend/backend.
+
+### Calidad
+
+- Lógica de tema unificada en `tema.js`; se elimina la duplicación en galería,
+  calendario e historia.
+- Nuevas pruebas de recursos locales, SEO, presupuesto de medios, build público
+  y configuración de Netlify. Total: 90 pruebas aprobadas.
+
+
 ## [1.8.0] - 2026-10-20
 
 ### Skynet

@@ -8,7 +8,9 @@ const types = {
   '.js': 'text/javascript; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8',
   '.json': 'application/json; charset=utf-8', '.mp4': 'video/mp4',
   '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg',
-  '.webp': 'image/webp', '.svg': 'image/svg+xml', '.mp3': 'audio/mpeg'
+  '.webp': 'image/webp', '.svg': 'image/svg+xml', '.mp3': 'audio/mpeg',
+  '.xml': 'application/xml; charset=utf-8', '.txt': 'text/plain; charset=utf-8',
+  '.webmanifest': 'application/manifest+json; charset=utf-8', '.ico': 'image/x-icon'
 };
 const server = createServer(async (request, response) => {
   if (!['GET', 'HEAD'].includes(request.method)) {
@@ -22,7 +24,14 @@ const server = createServer(async (request, response) => {
       response.writeHead(403).end('Acceso denegado');
       return;
     }
-    const body = await readFile(path);
+    let body;
+    try {
+      body = await readFile(path);
+    } catch (error) {
+      if (!['ENOENT', 'EISDIR', 'ENOTDIR'].includes(error.code)) throw error;
+      // Paridad con Netlify: los archivos de public/ se publican en la raíz.
+      body = await readFile(resolve(root, 'public', `.${pathname}`));
+    }
     response.writeHead(200, {
       'Content-Type': types[extname(path)] || 'application/octet-stream',
       'Content-Length': body.length

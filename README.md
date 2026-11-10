@@ -6,7 +6,7 @@
 
 [Visitar el sitio](https://eest3sf.netlify.app) ·
 [Documentación](docs/README.md) ·
-[Entrega v1.8.0](archive/versiones/v1.8.0/README.md) ·
+[Entrega v1.10.0](archive/versiones/v1.10.0/README.md) ·
 [Historial](CHANGELOG.md)
 
 Proyecto desarrollado por estudiantes, con revisión técnica y seguimiento docente.
@@ -20,11 +20,15 @@ contenidos, licencias, autorizaciones de imagen y tratamiento de datos.
 | --- | --- |
 | Institución y carreras | Inicio, historia, galerías y páginas de Informática, Madera y Mueble y Maestro Mayor de Obras; diseños curriculares y materias de 4.º a 7.º |
 | Comunidad | Registro, confirmación de correo, login, recuperación y solicitud de perfil; aprobación institucional de permisos |
-| Administración editorial | Edición de siete páginas por bloques, imágenes, medios, borradores, publicación, historial y respaldos JSON |
+| Administración editorial | Edición de siete páginas por bloques, imágenes, medios, borradores, revisión, aprobación, publicación, historial y respaldos JSON |
+| Flujo editorial | Roles editor, revisor y administrador; envío a revisión, aprobación/rechazo con nota y registro de quién publicó cada versión |
 | Gestión | Consultas privadas, responsables, notas, auditoría, control de concurrencia y eliminación |
 | Recursos públicos | Comunicados, documentos PDF, proyectos y horarios con filtros, programación y vencimiento |
+| Buscador global | Índice público de páginas, carreras, publicaciones y calendario con filtros por tipo, carrera y fecha |
 | Calendario | Selector multianual y exportación iCalendar de las fechas cargadas |
 | Notificaciones | Avisos internos por intereses, preferencias, lecturas privadas y sincronización de publicaciones |
+| Correo transaccional | Cola persistente de avisos de consultas, comprobante al remitente, reintentos, bajas y trazabilidad |
+| Métricas responsables | Conteos agregados de páginas, publicaciones y búsquedas sin cookies, IP ni términos de búsqueda |
 | Skynet | Personaje PNG transparente, conversación guiada, nombre opcional, contexto de carrera, búsqueda de publicaciones e historial privado con consentimiento |
 | Servicios compartidos | Tema claro/oscuro, clima, fecha, música activada por la persona usuaria y redes |
 
@@ -70,6 +74,7 @@ npm run build
 | `npm run dev` | Servidor de desarrollo estático en el puerto 4173 |
 | `npm test` | Pruebas Node, contratos HTML y PostgreSQL embebido mediante PGlite |
 | `npm run build` | Paquete público aislado en `dist/` |
+| `npm run check` | Ejecuta pruebas y build, igual que la verificación de Netlify |
 | `npm run cms:catalog` | Regenera catálogo y manifiestos; requiere revisión de compatibilidad antes de usarlo |
 
 **Atención:** el frontend local utiliza el Supabase configurado; no es una base de
@@ -81,13 +86,15 @@ No abrir los módulos con `file://`.
 
 ```text
 *.html                    Páginas públicas y herramientas privadas
+public/                   robots.txt, sitemap.xml y página 404
 assets/
   cms/                    Catálogo editorial y datos iniciales
   css/                    Estilos generales y de módulos
   js/                     Módulos ES y lógica de interfaz
   images/                 Identidad, galerías y personaje Skynet
   audio/                  Recursos del reproductor
-netlify/functions/        Endpoint privado de contacto
+netlify/functions/        Endpoints privados: contacto, cola de correo y bajas
+netlify/lib/              Adaptadores y lógica compartida del backend
 supabase/migrations/      Evolución incremental del esquema, RPC y RLS
 tests/                    Pruebas automatizadas
 tools/                    Servidor local, build y herramientas de contenido
@@ -95,6 +102,10 @@ docs/                     Guías vigentes de uso, operación y contribución
 archive/versiones/        Evidencias y corrección docente por entrega
 .github/workflows/        Verificación de CI
 ```
+
+La frontera entre capas, los flujos de datos y las reglas de seguridad se detallan
+en [Arquitectura](docs/ARQUITECTURA.md). La puesta en marcha de roles, búsqueda,
+métricas y correo está en [Activación v1.10](docs/ACTIVACION_1_10.md).
 
 El navegador sirve HTML/CSS/JavaScript sin framework de frontend. Supabase aporta
 Auth, PostgreSQL, PostgREST y Storage; Netlify aloja el sitio y ejecuta la función de

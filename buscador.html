@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Buscador del portal de la EEST N°3: comunicados, documentos, proyectos, horarios, carreras, páginas y calendario." />
+    <title>Buscar en el sitio | EEST N°3 Fragata Moyano</title>
+    <meta name="theme-color" content="#071a2b" />
+    <link rel="icon" type="image/png" href="assets/images/logo.png" />
+    <link rel="canonical" href="https://eest3sf.netlify.app/buscador.html" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="EEST N°3 Fragata Moyano" />
+    <meta property="og:locale" content="es_AR" />
+    <meta property="og:title" content="Buscar en el sitio | EEST N°3 Fragata Moyano" />
+    <meta property="og:description" content="Buscador del portal de la EEST N°3: comunicados, documentos, proyectos, horarios, carreras, páginas y calendario." />
+    <meta property="og:url" content="https://eest3sf.netlify.app/buscador.html" />
+    <meta property="og:image" content="https://eest3sf.netlify.app/assets/images/og-institucional.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="stylesheet" href="assets/css/estilo.css?v=20260925-19" />
+    <link rel="stylesheet" href="assets/css/gestion.css" />
+    <link rel="stylesheet" href="assets/css/buscador.css" />
+  </head>
+  <body>
+    <a class="saltar-contenido" href="#contenido-principal">Saltar al contenido</a>
+    <main id="contenido-principal" class="buscador-main">
+      <nav aria-label="Sitio">
+        <a href="index.html">Inicio</a><a href="novedades.html">Comunicados</a>
+        <a href="calendario.html">Calendario</a><a href="comunidad.html">Mi cuenta</a>
+        <button class="interruptor-tema" type="button" aria-pressed="false" aria-label="Activar modo oscuro">Claro / oscuro</button>
+      </nav>
+      <header class="buscador-encabezado">
+        <p class="eyebrow">Buscador institucional</p>
+        <h1>Encontrá lo que necesitás.</h1>
+        <p>Buscá en comunicados, documentos, proyectos, horarios, carreras, páginas y fechas del calendario. Los resultados muestran solo contenido público y vigente.</p>
+      </header>
+      <form id="buscador-form" class="buscador-form" role="search">
+        <label>Palabra o frase
+          <input id="buscar-texto" name="q" type="search" maxlength="80" autocomplete="off" placeholder="Ej.: inscripción, taller, horarios" />
+        </label>
+        <div class="fila">
+          <label>Tipo
+            <select id="buscar-tipo" name="kind">
+              <option value="">Todos</option>
+              <option value="pagina">Páginas</option>
+              <option value="carrera">Carreras</option>
+              <option value="comunicado">Comunicados</option>
+              <option value="documento">Documentos</option>
+              <option value="proyecto">Proyectos estudiantiles</option>
+              <option value="horario">Horarios y equipo docente</option>
+              <option value="evento">Eventos del calendario</option>
+            </select>
+          </label>
+          <label>Carrera
+            <select id="buscar-carrera" name="career">
+              <option value="">Todas</option>
+              <option value="informatica">Informática</option>
+              <option value="madera">Madera y Mueble</option>
+              <option value="obras">Maestro Mayor de Obras</option>
+            </select>
+          </label>
+          <label>Desde
+            <input id="buscar-desde" name="from" type="date" />
+          </label>
+          <label>Hasta
+            <input id="buscar-hasta" name="to" type="date" />
+          </label>
+        </div>
+        <div class="buscador-acciones">
+          <button class="btn-principal" type="submit">Buscar</button>
+          <button id="buscador-limpiar" class="buscador-secundario" type="button">Limpiar filtros</button>
+        </div>
+      </form>
+      <p id="buscador-estado" class="buscador-estado" role="status" aria-live="polite" tabindex="-1">Preparando la búsqueda…</p>
+      <ol id="buscador-resultados" class="buscador-lista" aria-label="Resultados de búsqueda"></ol>
+      <div class="buscador-paginacion">
+        <button id="buscador-anterior" type="button" disabled>Anteriores</button>
+        <button id="buscador-siguiente" type="button" disabled>Siguientes</button>
+      </div>
+      <noscript>Activá JavaScript para buscar en el catálogo. También podés consultar Comunicados y Calendario desde la navegación.</noscript>
+    </main>
+    <script src="assets/js/comunidad-config.js"></script>
+    <script src="assets/js/tema.js"></script>
+    <script type="module" src="assets/js/buscador.mjs"></script>
+    <script type="module" src="assets/js/sitio-compartido.mjs"></script>
+  </body>
+</html>

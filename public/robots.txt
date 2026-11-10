@@ -1,0 +1,8 @@
+# Portal institucional EEST N.º 3 «Fragata Moyano»
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /gestion.html
+Disallow: /notificaciones.html
+
+Sitemap: https://eest3sf.netlify.app/sitemap.xml

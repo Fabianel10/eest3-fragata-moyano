@@ -24,9 +24,9 @@
       <section id="admin-gate" class="admin-gate">
         <p class="eyebrow">Administración institucional</p>
         <h2>La escuela, en tus manos.</h2>
-        <p id="admin-gate-texto" role="status">Verificando tu acceso…</p>
+        <p id="admin-gate-texto" role="status">Verificando tu acceso al equipo editorial…</p>
         <a class="btn-principal" href="comunidad.html#login">Iniciar sesión</a>
-        <p class="admin-ayuda">Solo las cuentas habilitadas como administrador/a pueden editar y publicar. No hay acceso de demostración ni permisos concedidos desde el navegador.</p>
+        <p class="admin-ayuda">Solo las cuentas habilitadas como editor/a, revisor/a o administrador/a pueden acceder. Los permisos se asignan desde Gestión institucional; no hay acceso de demostración ni permisos concedidos desde el navegador.</p>
       </section>
       <p id="admin-estado" class="admin-estado" role="status" aria-live="polite" tabindex="-1" hidden></p>
       <div id="admin-workspace" hidden>
@@ -36,12 +36,15 @@
         </section>
         <div class="admin-toolbar">
           <label>Página<select id="admin-pagina-selector"><option value="inicio">Inicio</option><option value="historia">Historia</option><option value="galeria">Galería</option><option value="calendario">Calendario</option><option value="informatica">Informática Personal y Profesional</option><option value="madera">Industrialización de la Madera y el Mueble</option><option value="obras">Maestro Mayor de Obras</option></select></label>
-          <div class="admin-version"><strong id="admin-version">Sin borrador</strong><span id="admin-cambios">Sin cambios pendientes</span></div>
+          <div class="admin-version"><strong id="admin-version">Sin borrador</strong><span id="admin-cambios">Sin cambios pendientes</span><span id="admin-flujo" class="admin-meta"></span></div>
           <button id="admin-recargar" type="button" class="admin-btn">Recargar</button>
           <button id="admin-exportar" type="button" class="admin-btn">Exportar respaldo</button>
           <button id="admin-importar" type="button" class="admin-btn">Importar respaldo</button>
           <input id="admin-backup-file" type="file" accept="application/json,.json" hidden />
           <button id="admin-guardar" type="button" class="admin-btn admin-btn-primary">Guardar borrador</button>
+          <button id="admin-enviar" type="button" class="admin-btn">Enviar a revisión</button>
+          <button id="admin-aprobar" type="button" class="admin-btn">Aprobar</button>
+          <button id="admin-rechazar" type="button" class="admin-btn">Rechazar</button>
           <button id="admin-publicar" type="button" class="admin-btn admin-btn-publish">Publicar página ↗</button>
         </div>
         <div class="admin-layout">
@@ -81,6 +84,12 @@
       <h3 id="admin-confirmacion-title">Confirmar acción</h3>
       <p id="admin-confirmacion-texto"></p>
       <div><button id="admin-confirmacion-no" class="admin-btn" type="button">Cancelar</button><button id="admin-confirmacion-si" class="admin-btn admin-btn-primary" type="button">Confirmar</button></div>
+    </dialog>
+    <dialog id="admin-revision-dialog">
+      <h3 id="admin-revision-title">Revisión editorial</h3>
+      <p id="admin-revision-texto"></p>
+      <label>Nota para el equipo (opcional, máximo 2000 caracteres)<textarea id="admin-revision-nota" maxlength="2000" rows="4"></textarea></label>
+      <div><button id="admin-revision-cancelar" class="admin-btn" type="button">Cancelar</button><button id="admin-revision-confirmar" class="admin-btn admin-btn-primary" type="button">Confirmar</button></div>
     </dialog>
     <noscript><p class="admin-estado">Necesitás activar JavaScript para administrar el sitio.</p></noscript>
     <script src="assets/js/tema.js?v=20261006-1"></script>

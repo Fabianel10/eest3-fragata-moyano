@@ -1,5 +1,7 @@
 import { obtenerCliente, resultado } from './supabase-cliente.mjs';
 import { POST_COLUMNS, POST_KINDS, CAREERS, searchPattern, safeAttachment } from './gestion-modelo.mjs';
+import { iniciarMetricasPublicas } from './metricas.mjs';
+iniciarMetricasPublicas();
 const $ = id => document.getElementById(id);
 let offset = 0;
 let total = 0;
@@ -40,6 +42,7 @@ async function load() {
     const posts = resultado(response);
     if (!Number.isInteger(response.count)) throw new Error('Missing publication count');
     total = response.count;
+    if (linkedPost && posts.length === 1) window.METRICAS?.publicacion(posts[0].id);
     for (const post of posts) {
       const card = node('article', '', 'gestion-card');
       card.append(node('h2', post.title), node('p', `${POST_KINDS[post.kind]} · ${CAREERS[post.career]} · ${post.audience}`, 'gestion-meta'),
