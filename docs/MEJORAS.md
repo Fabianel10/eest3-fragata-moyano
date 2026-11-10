@@ -1,5 +1,13 @@
 # Hoja de ruta de organización
 
+## Implementado el 2026-11-10 (v1.11.0)
+
+- Correo HTML con reply-to, alertas, rebotes, bajas y diagnóstico de proveedor.
+- Respuestas a consultas con hilo, idempotencia y estado respondida.
+- Calendario gestionable con fuente, responsable y fecha de actualización.
+- Auditoría automática de accesibilidad, subtítulos WebVTT y correcciones.
+- 2FA TOTP y revisión/cierre de sesiones activas.
+
 ## Implementado el 2026-11-10 (v1.10.0)
 
 - Flujo editor/revisor con estados, aprobación, publicación atribuida y auditoría de roles.

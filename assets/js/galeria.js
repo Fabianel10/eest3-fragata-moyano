@@ -153,7 +153,7 @@ const showSlide = (index) => {
 
   sliderMedia.innerHTML =
     item.type === 'video'
-      ? `<video class="slider-video" src="${window.CMS_ESCAPE(source)}" controls muted playsinline preload="metadata" aria-label="${window.CMS_ESCAPE(item.title)}"></video>`
+      ? `<video class="slider-video" src="${window.CMS_ESCAPE(source)}" controls muted playsinline preload="metadata" aria-label="${window.CMS_ESCAPE(item.title)}"><track kind="captions" src="assets/captions/recorrido-escuela.vtt" srclang="es" label="Español" default></track></video>`
       : `<img class="slider-imagen" src="${window.CMS_ESCAPE(source)}" alt="${window.CMS_ESCAPE(item.title)}" />`;
   sliderType.textContent = item.type === 'video' ? 'Video institucional' : 'Galería fotográfica';
   sliderTitle.textContent = item.title;

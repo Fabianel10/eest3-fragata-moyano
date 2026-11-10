@@ -9,6 +9,10 @@ const formularios = [...document.querySelectorAll('.portal-form')];
 let cliente;
 let usuarioActual = null;
 let revisionSesion = 0;
+let mfaFactorId = null;
+let mfaEnrolamientoId = null;
+let sesionActualId = null;
+let perfilActual = null;
 let recuperando = new URLSearchParams(location.search).get('recuperacion') === '1' ||
   new URLSearchParams(location.hash.slice(1)).get('type') === 'recovery';
 
@@ -20,7 +24,7 @@ function notificar(texto, tipo = 'info') {
 }
 
 function mostrarVista(vista, enfocar = false) {
-  const opciones = ['login', 'registro', 'recuperar', 'nueva-password'];
+  const opciones = ['login', 'registro', 'recuperar', 'nueva-password', 'mfa'];
   if (!opciones.includes(vista)) vista = 'login';
   if (vista === 'nueva-password' && !recuperando) vista = 'recuperar';
   publico.hidden = false;
@@ -141,6 +145,32 @@ enlazarFormulario('form-nueva-password', async (datos, form) => {
   await sincronizarSesion();
   notificar('Tu contraseña se actualizó correctamente.');
 });
+
+enlazarFormulario('form-mfa-login', async (datos, form) => {
+  const factors = comprobar(await cliente.auth.mfa.listFactors());
+  const lista = [...(factors.totp || []), ...(factors.all || [])]
+    .filter((factor) => factor.status === 'verified' && (factor.factor_type === 'totp' || factor.type === 'totp'));
+  if (!lista.length) throw new Error('No hay un factor de verificación configurado.');
+  const challenge = comprobar(await cliente.auth.mfa.challenge({ factorId: lista[0].id }));
+  comprobar(await cliente.auth.mfa.verify({
+    factorId: lista[0].id, challengeId: challenge.id, code: datos.get('code').trim()
+  }));
+  form.reset();
+  await sincronizarSesion();
+  notificar('Verificación en dos pasos completada.');
+});
+
+enlazarFormulario('form-mfa-verificar', async (datos, form) => {
+  if (!mfaEnrolamientoId) throw new Error('Iniciá la activación de 2FA primero.');
+  const challenge = comprobar(await cliente.auth.mfa.challenge({ factorId: mfaEnrolamientoId }));
+  comprobar(await cliente.auth.mfa.verify({
+    factorId: mfaEnrolamientoId, challengeId: challenge.id, code: datos.get('code').trim()
+  }));
+  mfaEnrolamientoId = null;
+  form.reset();
+  await sincronizarSesion();
+  notificar('Verificación en dos pasos activada.');
+});
 enlazarFormulario('form-preferencias', async (datos) => {
   if (!usuarioActual) throw new Error('Iniciá sesión para guardar tus preferencias.');
   const nombre = datos.get('nombre').trim();
@@ -154,7 +184,8 @@ enlazarFormulario('form-preferencias', async (datos) => {
   notificar('Tus preferencias quedaron guardadas.');
 });
 
-function pintarPerfil(perfil, usuario) {
+async function pintarPerfil(perfil, usuario) {
+  perfilActual = perfil;
   publico.hidden = true;
   cuenta.hidden = false;
   document.querySelector('#titulo-cuenta').textContent = `Hola, ${perfil.full_name.split(' ')[0]}.`;
@@ -162,7 +193,7 @@ function pintarPerfil(perfil, usuario) {
   document.querySelector('#cuenta-email').textContent = usuario.email;
   document.querySelector('#cuenta-rol').textContent = PERFILES[perfil.role];
   const solicitud = document.querySelector('#cuenta-solicitud');
-  solicitud.hidden = perfil.requested_role === perfil.role || perfil.role === 'administrador';
+  solicitud.hidden = perfil.requested_role === perfil.role || ['administrador', 'editor', 'revisor'].includes(perfil.role);
   solicitud.textContent = `Tu solicitud de perfil ${PERFILES[perfil.requested_role]} está pendiente de revisión. Mientras tanto, podés usar tu cuenta de comunidad.`;
   const form = document.querySelector('#form-preferencias');
   form.hidden = false;
@@ -172,7 +203,90 @@ function pintarPerfil(perfil, usuario) {
     input.checked = perfil.topics.includes(input.value);
   });
   panelAdmin.hidden = perfil.role !== 'administrador';
+  await Promise.all([cargarMfa(perfil), cargarSesiones()]);
 }
+
+async function cargarMfa(perfil) {
+  const estado = document.querySelector('#mfa-estado');
+  const factors = comprobar(await cliente.auth.mfa.listFactors());
+  const lista = [...(factors.totp || []), ...(factors.all || [])]
+    .filter((factor) => factor.status === 'verified' && (factor.factor_type === 'totp' || factor.type === 'totp'));
+  mfaFactorId = lista[0]?.id || null;
+  document.querySelector('#mfa-activar').hidden = Boolean(mfaFactorId);
+  document.querySelector('#mfa-desactivar').hidden = !mfaFactorId;
+  document.querySelector('#mfa-enrolamiento').hidden = true;
+  document.querySelector('#mfa-exigir').checked = Boolean(perfil.mfa_required);
+  document.querySelector('#mfa-exigir').disabled = !mfaFactorId;
+  estado.textContent = mfaFactorId
+    ? '2FA activa. La cuenta puede exigir el código al iniciar sesión.'
+    : '2FA no configurada. Activá un factor TOTP para proteger la cuenta.';
+}
+
+async function cargarSesiones() {
+  const lista = document.querySelector('#sesiones-lista');
+  lista.replaceChildren();
+  const rows = comprobar(await cliente.rpc('auth_sessions_list'));
+  sesionActualId = rows.find((row) => row.current)?.id || null;
+  if (!rows.length) { const item = document.createElement('li'); item.textContent = 'No hay sesiones visibles.'; lista.append(item); return; }
+  for (const row of rows) {
+    const item = document.createElement('li');
+    const agente = row.user_agent || 'Dispositivo sin datos';
+    item.append(document.createTextNode(`${agente.slice(0, 120)} · ${new Date(row.updated_at).toLocaleString('es-AR')}${row.current ? ' · Esta sesión' : ''}`));
+    if (!row.current) {
+      const cerrar = document.createElement('button');
+      cerrar.type = 'button'; cerrar.className = 'portal-secondary'; cerrar.textContent = 'Cerrar sesión';
+      cerrar.addEventListener('click', async () => {
+        if (!confirm('¿Cerrar esta sesión? El dispositivo tendrá que volver a iniciar sesión.')) return;
+        try { comprobar(await cliente.rpc('auth_session_revoke', { p_session_id: row.id })); await cargarSesiones(); notificar('Sesión cerrada.'); }
+        catch (error) { notificar(mensajeError(error), 'error'); }
+      });
+      item.append(cerrar);
+    }
+    lista.append(item);
+  }
+}
+
+document.querySelector('#mfa-activar').addEventListener('click', async () => {
+  try {
+    const data = comprobar(await cliente.auth.mfa.enroll({ factorType: 'totp', friendlyName: 'Portal EEST N°3' }));
+    mfaEnrolamientoId = data.id;
+    const totp = data.totp || data;
+    document.querySelector('#mfa-qr').src = totp.qr_code || totp.qrCode || '';
+    document.querySelector('#mfa-secreto').textContent = totp.secret || '';
+    document.querySelector('#mfa-enrolamiento').hidden = false;
+    document.querySelector('#mfa-activar').hidden = true;
+    document.querySelector('#mfa-estado').textContent = 'Escaneá el QR e ingresá el código para confirmar.';
+  } catch (error) { notificar(mensajeError(error), 'error'); }
+});
+document.querySelector('#mfa-desactivar').addEventListener('click', async () => {
+  if (!mfaFactorId || !confirm('¿Desactivar la verificación en dos pasos? La cuenta quedará protegida solo por contraseña.')) return;
+  try {
+    if (document.querySelector('#mfa-exigir').checked) {
+      comprobar(await cliente.rpc('profile_mfa_require', { p_required: false }));
+    }
+    comprobar(await cliente.auth.mfa.unenroll({ factorId: mfaFactorId }));
+    await sincronizarSesion();
+    notificar('Verificación en dos pasos desactivada.');
+  } catch (error) { notificar(mensajeError(error), 'error'); }
+});
+document.querySelector('#mfa-exigir').addEventListener('change', async (evento) => {
+  evento.target.disabled = true;
+  try {
+    comprobar(await cliente.rpc('profile_mfa_require', { p_required: evento.target.checked }));
+    notificar(evento.target.checked ? 'Se exigirá 2FA en el próximo acceso.' : 'La exigencia de 2FA quedó desactivada.');
+  } catch (error) {
+    evento.target.checked = !evento.target.checked;
+    notificar(mensajeError(error), 'error');
+  } finally { evento.target.disabled = false; }
+});
+document.querySelector('#sesiones-otras').addEventListener('click', async () => {
+  if (!sesionActualId || !confirm('¿Cerrar todas las demás sesiones de tu cuenta?')) return;
+  try {
+    const cantidad = comprobar(await cliente.rpc('auth_sessions_revoke_others', { p_current_session: sesionActualId }));
+    await cargarSesiones();
+    notificar(`Se cerraron ${cantidad} sesiones.`);
+  } catch (error) { notificar(mensajeError(error), 'error'); }
+});
 
 async function cargarSolicitudes() {
   const lista = document.querySelector('#admin-solicitudes');
@@ -238,11 +352,19 @@ async function sincronizarSesion() {
     mostrarVista('nueva-password', true);
     return;
   }
+  const assurance = comprobar(await cliente.auth.mfa.getAuthenticatorAssuranceLevel());
+  if (assurance.nextLevel === 'aal2' && assurance.currentLevel !== 'aal2') {
+    publico.hidden = false;
+    cuenta.hidden = true;
+    mostrarVista('mfa', true);
+    notificar('Ingresá el código de tu aplicación autenticadora para completar el acceso.');
+    return;
+  }
   // El servidor verifica la identidad y RLS decide qué perfil se puede leer.
   const { user } = comprobar(await cliente.auth.getUser());
   const perfil = comprobar(await cliente.from('profiles').select('*').eq('id', user.id).single());
   if (revision !== revisionSesion) return;
-  pintarPerfil(perfil, user);
+  await pintarPerfil(perfil, user);
   if (perfil.role === 'administrador') await cargarSolicitudes();
 }
 

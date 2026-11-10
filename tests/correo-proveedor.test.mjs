@@ -16,6 +16,7 @@ test('proveedor de correo: validación, Brevo, Resend y errores sin filtrar clav
   assert.throws(() => validarMensaje({ to: 'invalido', subject: 'Asunto', text: 'Mensaje' }), /Destinatario/);
   assert.throws(() => validarMensaje({ to: 'a@b.test', subject: '', text: 'Mensaje' }), /Asunto/);
   assert.throws(() => validarMensaje({ to: 'a@b.test', subject: 'Asunto', text: '' }), /Mensaje/);
+  assert.throws(() => validarMensaje({ to: 'a@b.test', subject: 'Asunto', text: 'Mensaje', replyTo: 'invalido' }), /Reply-to/);
   assert.throws(() => crearEnviador({ env: {}, fetcher: fetch }), /EMAIL_FROM/);
   assert.throws(() => crearEnviador({ env: { ...base, EMAIL_PROVIDER: 'otro' }, fetcher: fetch }), /brevo, resend o smtp/);
   assert.throws(() => crearEnviador({ env: { ...base, EMAIL_PROVIDER: 'smtp' }, fetcher: fetch }), /EMAIL_SMTP_HOST/);
@@ -28,12 +29,14 @@ test('proveedor de correo: validación, Brevo, Resend y errores sin filtrar clav
       return new Response(JSON.stringify({ messageId: 'brevo-123' }), { status: 201 });
     }
   });
-  assert.deepEqual(await brevo({ to: 'persona@example.test', subject: 'Hola', text: 'Mensaje' }), { id: 'brevo-123' });
+  assert.deepEqual(await brevo({ to: 'persona@example.test', subject: 'Hola', text: 'Mensaje', html: '<p>Hola</p>', replyTo: 'reply@example.test' }), { id: 'brevo-123' });
   assert.equal(capturado.url, 'https://api.brevo.com/v3/smtp/email');
   assert.equal(capturado.options.headers['api-key'], 'clave-simulada');
   const payload = JSON.parse(capturado.options.body);
   assert.deepEqual(payload.to, [{ email: 'persona@example.test' }]);
   assert.equal(payload.textContent, 'Mensaje');
+  assert.equal(payload.htmlContent, '<p>Hola</p>');
+  assert.deepEqual(payload.replyTo, { email: 'reply@example.test' });
 
   const resend = crearEnviador({
     env: { ...base, EMAIL_PROVIDER: 'resend', RESEND_API_KEY: 'resend-simulada' },
@@ -62,10 +65,12 @@ test('proveedor de correo: validación, Brevo, Resend y errores sin filtrar clav
       return { sendMail: async (mensaje) => { smtpMensaje = mensaje; return { messageId: 'smtp-1' }; } };
     }
   });
-  assert.deepEqual(await smtp({ to: 'persona@example.test', subject: 'Hola', text: 'Mensaje' }), { id: 'smtp-1' });
+  assert.deepEqual(await smtp({ to: 'persona@example.test', subject: 'Hola', text: 'Mensaje', html: '<p>Hola</p>', replyTo: 'reply@example.test' }), { id: 'smtp-1' });
   assert.equal(smtpConfig.port, 587);
   assert.equal(smtpConfig.secure, false);
   assert.equal(smtpMensaje.text, 'Mensaje');
+  assert.equal(smtpMensaje.html, '<p>Hola</p>');
+  assert.equal(smtpMensaje.replyTo, 'reply@example.test');
   assert.match(smtpMensaje.from, /EEST N°3/);
 });
 

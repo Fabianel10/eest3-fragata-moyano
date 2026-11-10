@@ -95,3 +95,7 @@ body.tema-oscuro.comunidad-pagina { --sky-deep: #70d8f2; }
   .perfil-selector small { font-size: .72rem; }
 }
 @media (prefers-reduced-motion: reduce) { .password-medidor span { transition: none; } }
+#mfa-qr { display: block; max-width: 190px; width: 100%; height: auto; margin: 12px 0; background: #fff; padding: 8px; border-radius: 12px; }
+#mfa-secreto { overflow-wrap: anywhere; }
+#sesiones-lista li { display: grid; gap: 6px; padding: 10px 0; border-bottom: 1px solid #8293a555; }
+#sesiones-lista button { justify-self: start; }

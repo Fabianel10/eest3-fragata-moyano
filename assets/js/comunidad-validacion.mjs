@@ -2,6 +2,8 @@ export const PERFILES = Object.freeze({
   comunidad: 'Comunidad',
   alumno: 'Alumno/a',
   profesor: 'Profesor/a',
+  editor: 'Editor/a',
+  revisor: 'Revisor/a',
   administrador: 'Administrador/a'
 });
 

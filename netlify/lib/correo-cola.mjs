@@ -36,7 +36,10 @@ export async function procesarCola({ env = process.env, fetcher = fetch, enviar,
   let fallidos = 0;
   for (const item of pendientes) {
     try {
-      const resultado = await sender({ to: item.recipient, subject: item.subject, text: item.body });
+      const resultado = await sender({
+        to: item.recipient, subject: item.subject, text: item.body,
+        html: item.html_body || null, replyTo: item.reply_to || null
+      });
       await llamarRpc(env, 'email_mark_sent', {
         item_id: item.id, provider_id: resultado?.id || 'sin-identificador'
       }, fetcher);

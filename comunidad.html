@@ -127,6 +127,17 @@
               <button class="portal-primary" type="submit">Guardar nueva contraseña</button>
             </form>
           </section>
+          <section id="mfa" data-panel="mfa" aria-labelledby="titulo-mfa" hidden>
+            <a class="portal-link" href="#login">← Volver al acceso</a>
+            <h3 id="titulo-mfa" tabindex="-1">Verificación en dos pasos.</h3>
+            <p class="portal-subtitulo">Ingresá el código de 6 dígitos de tu aplicación autenticadora para completar el acceso.</p>
+            <form id="form-mfa-login" class="portal-form">
+              <label for="mfa-login-code">Código de verificación</label>
+              <input id="mfa-login-code" name="code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" required />
+              <button class="portal-primary" type="submit">Verificar código</button>
+            </form>
+            <p class="portal-ayuda">Si perdiste el acceso al autenticador, contactá a la institución por un canal verificado.</p>
+          </section>
         </div>
         <section id="cuenta-panel" aria-labelledby="titulo-cuenta" hidden>
           <div class="cuenta-encabezado"><span id="cuenta-avatar" aria-hidden="true">T3</span><div><p class="eyebrow">Mi comunidad</p><h3 id="titulo-cuenta" tabindex="-1">Tu cuenta</h3></div></div>
@@ -148,6 +159,30 @@
             <p class="portal-ayuda">Las notificaciones internas están en “Mis notificaciones”. Todavía no enviamos campañas por correo ni activamos permisos del navegador.</p>
             <button class="portal-primary" type="submit">Guardar preferencias</button>
           </form>
+          <section id="mfa-cuenta" class="portal-nota" aria-labelledby="titulo-mfa-cuenta">
+            <h4 id="titulo-mfa-cuenta">Verificación en dos pasos</h4>
+            <p id="mfa-estado" role="status">Consultando configuración…</p>
+            <button id="mfa-activar" class="portal-secondary" type="button" hidden>Activar 2FA</button>
+            <div id="mfa-enrolamiento" hidden>
+              <p>Escaneá el código con tu aplicación autenticadora o ingresá la clave manual.</p>
+              <img id="mfa-qr" alt="Código QR para configurar la verificación en dos pasos" />
+              <p class="portal-ayuda">Clave manual: <code id="mfa-secreto"></code></p>
+              <form id="form-mfa-verificar" class="portal-form">
+                <label for="mfa-verificar-code">Código de 6 dígitos</label>
+                <input id="mfa-verificar-code" name="code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" required />
+                <button class="portal-primary" type="submit">Confirmar y activar</button>
+              </form>
+            </div>
+            <button id="mfa-desactivar" class="portal-secondary" type="button" hidden>Desactivar 2FA</button>
+            <label class="portal-check"><input id="mfa-exigir" type="checkbox" /> Exigir 2FA para las operaciones de administración</label>
+            <p class="portal-ayuda">Recomendado para cuentas administradoras. Si se exige, necesitás el código en cada inicio de sesión. La desactivación requiere primero quitar la exigencia.</p>
+          </section>
+          <section id="sesiones" class="portal-nota" aria-labelledby="titulo-sesiones">
+            <h4 id="titulo-sesiones">Sesiones activas</h4>
+            <ul id="sesiones-lista" class="admin-lista"><li>Cargando sesiones…</li></ul>
+            <button id="sesiones-otras" class="portal-secondary" type="button">Cerrar las demás sesiones</button>
+            <p class="portal-ayuda">Se muestran hasta 50 sesiones de tu cuenta. Cerrar una sesión invalida su acceso; no cambia tu contraseña.</p>
+          </section>
           <section id="admin-panel" class="portal-admin" aria-labelledby="titulo-admin" hidden>
             <a class="portal-primary" href="admin.html">Administrar el sitio <span aria-hidden="true">↗</span></a>
             <div class="admin-titulo"><h4 id="titulo-admin">Solicitudes de perfiles</h4><button id="admin-actualizar" class="portal-secondary" type="button">Actualizar</button></div>

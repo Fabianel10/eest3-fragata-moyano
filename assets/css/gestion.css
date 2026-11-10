@@ -22,3 +22,7 @@
 @media (max-width: 620px) { .gestion-equipo-fila { grid-template-columns: 1fr; } }
 .gestion-main [hidden] { display: none !important; }
 @media (max-width: 760px) { .gestion-grid { grid-template-columns: minmax(0, 1fr); } }
+.gestion-mensaje { border-left: 3px solid #078dcb; padding: .75rem 1rem; margin: .75rem 0; background: color-mix(in srgb, currentColor 4%, transparent); border-radius: .5rem; }
+.gestion-mensaje.outbound { border-left-color: #2f8f5b; }
+.gestion-mensaje p { margin: .35rem 0; }
+.gestion-respuesta { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #8293a555; }

@@ -12,3 +12,4 @@ Cada carpeta documenta una versión entregada del sitio. La fuente de verdad del
 | [1.10.0](v1.10.0/README.md) | 2026-11-10 | `v1.10.0` | Roles editoriales, búsqueda, métricas, correo y optimización |
 | [1.10.1](v1.10.1/README.md) | 2026-11-10 | `v1.10.1` | SMTP opcional y verificación de producción |
 | [1.10.2](v1.10.2/README.md) | 2026-11-10 | `v1.10.2` | Diagnóstico de correo y restricción de IP de Brevo |
+| [1.11.0](v1.11.0/README.md) | 2026-11-10 | `v1.11.0` | Correo avanzado, respuestas, calendario, accesibilidad y 2FA |

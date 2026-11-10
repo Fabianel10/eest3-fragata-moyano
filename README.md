@@ -6,7 +6,7 @@
 
 [Visitar el sitio](https://eest3sf.netlify.app) ·
 [Documentación](docs/README.md) ·
-[Entrega v1.10.2](archive/versiones/v1.10.2/README.md) ·
+[Entrega v1.11.0](archive/versiones/v1.11.0/README.md) ·
 [Historial](CHANGELOG.md)
 
 Proyecto desarrollado por estudiantes, con revisión técnica y seguimiento docente.
@@ -22,13 +22,15 @@ contenidos, licencias, autorizaciones de imagen y tratamiento de datos.
 | Comunidad | Registro, confirmación de correo, login, recuperación y solicitud de perfil; aprobación institucional de permisos |
 | Administración editorial | Edición de siete páginas por bloques, imágenes, medios, borradores, revisión, aprobación, publicación, historial y respaldos JSON |
 | Flujo editorial | Roles editor, revisor y administrador; envío a revisión, aprobación/rechazo con nota y registro de quién publicó cada versión |
-| Gestión | Consultas privadas, responsables, notas, auditoría, control de concurrencia y eliminación |
+| Gestión | Consultas privadas, responsables, notas, auditoría, hilo de respuestas por correo, control de concurrencia y eliminación |
 | Recursos públicos | Comunicados, documentos PDF, proyectos y horarios con filtros, programación y vencimiento |
 | Buscador global | Índice público de páginas, carreras, publicaciones y calendario con filtros por tipo, carrera y fecha |
-| Calendario | Selector multianual y exportación iCalendar de las fechas cargadas |
+| Calendario | Eventos gestionables con fuente y responsable, selector multianual y exportación iCalendar |
 | Notificaciones | Avisos internos por intereses, preferencias, lecturas privadas y sincronización de publicaciones |
 | Correo transaccional | Cola persistente de avisos de consultas, comprobante al remitente, reintentos, bajas y trazabilidad |
 | Métricas responsables | Conteos agregados de páginas, publicaciones y búsquedas sin cookies, IP ni términos de búsqueda |
+| Seguridad | 2FA TOTP opcional/exigible para administración y revisión de sesiones activas |
+| Accesibilidad | Auditoría automática, subtítulos WebVTT, foco y etiquetas accesibles |
 | Skynet | Personaje PNG transparente, conversación guiada, nombre opcional, contexto de carrera, búsqueda de publicaciones e historial privado con consentimiento |
 | Servicios compartidos | Tema claro/oscuro, clima, fecha, música activada por la persona usuaria y redes |
 
@@ -75,6 +77,7 @@ npm run build
 | `npm test` | Pruebas Node, contratos HTML y PostgreSQL embebido mediante PGlite |
 | `npm run build` | Paquete público aislado en `dist/` |
 | `npm run check` | Ejecuta pruebas y build, igual que la verificación de Netlify |
+| `npm run auditoria:a11y` | Auditoría automática de accesibilidad sobre todas las páginas |
 | `npm run cms:catalog` | Regenera catálogo y manifiestos; requiere revisión de compatibilidad antes de usarlo |
 
 **Atención:** el frontend local utiliza el Supabase configurado; no es una base de

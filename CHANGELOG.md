@@ -2,6 +2,39 @@
 
 Este proyecto utiliza [versionado semántico](https://semver.org/lang/es/).
 
+## [1.11.0] - 2026-11-10
+
+### Correo transaccional avanzado
+
+- Plantillas HTML accesibles, reply-to, alertas internas por fallos definitivos.
+- Webhook de rebotes/complaints con baja automática y trazabilidad.
+- Endpoint manual autenticado y diagnóstico `npm run correo:check`.
+- Soporte Brevo, Resend y SMTP autenticado.
+- La cola conserva HTML, reply-to, intentos, errores y eventos.
+
+### Respuestas y calendario
+
+- Respuesta a consultas desde Gestión, con hilo, idempotencia y estado `respondida`.
+- Calendario gestionable con fecha, tipo, descripción, fuente oficial, responsable,
+  publicación y fecha de actualización.
+- Los eventos publicados aparecen en el calendario, la búsqueda global y el `.ics`.
+
+### Accesibilidad y seguridad
+
+- Auditoría automatizada `npm run auditoria:a11y` sin hallazgos.
+- Pista de subtítulos WebVTT y nota descriptiva del video.
+- Corrección de jerarquía de encabezados y etiquetas de formularios.
+- 2FA TOTP para la cuenta, con opción de exigirla para administración.
+- Revisión y cierre de sesiones activas por RPC autenticados.
+- `is_community_admin` exige AAL2 cuando la cuenta activa `mfa_required`.
+
+### Calidad
+
+- 133 pruebas aprobadas.
+- Migraciones 12 a 15 aplicadas en producción.
+- Webhook transaccional creado en Brevo con eventos de entrega, rebote y baja.
+- Producción verificada: búsqueda, calendario, cola, respuestas, 2FA y sesiones.
+
 ## [1.10.2] - 2026-11-10
 
 ### Correo

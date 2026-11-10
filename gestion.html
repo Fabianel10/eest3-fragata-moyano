@@ -22,7 +22,7 @@
       <p id="gestion-status" role="status" tabindex="-1">Verificando acceso del equipo editorial…</p>
       <div id="gestion-workspace" hidden>
         <p>Consultas privadas, publicaciones y métricas agregadas. Los avisos de recepción por correo se encolan con trazabilidad; las campañas masivas no forman parte de esta versión.</p>
-        <nav aria-label="Secciones de gestión"><a href="#consultas">Consultas</a><a href="#publicaciones">Comunicados, documentos y proyectos</a><a href="#equipo">Equipo editorial</a><a href="#correo">Correo y cola</a><a href="#metricas">Métricas</a></nav>
+        <nav aria-label="Secciones de gestión"><a href="#consultas">Consultas</a><a href="#publicaciones">Comunicados, documentos y proyectos</a><a href="#calendario">Calendario</a><a href="#equipo">Equipo editorial</a><a href="#correo">Correo y cola</a><a href="#metricas">Métricas</a></nav>
         <section id="consultas" aria-labelledby="consultas-title" data-gestion="admin">
           <h2 id="consultas-title">Bandeja privada</h2>
           <form id="contact-filter" class="gestion-filtros">
@@ -60,6 +60,31 @@
               <p>Revisá las autorizaciones de imágenes y datos antes de publicar. Borrar la fecha de publicación retira el artículo, pero no elimina un PDF que ya es público.</p>
               <button>Guardar publicación</button>
               <div id="post-history" aria-label="Historial de publicación"></div>
+            </form>
+          </div>
+        </section>
+        <section id="calendario" aria-labelledby="calendario-title" data-gestion="admin">
+          <h2 id="calendario-title">Calendario institucional</h2>
+          <p>Las fechas publicadas aparecen en <a href="calendario.html">Calendario</a> y en el buscador. Cada evento conserva fuente, responsable y fecha de actualización. Los borradores no son públicos.</p>
+          <div class="gestion-actions"><button id="calendar-new" type="button">Nuevo evento</button><button id="calendar-refresh" type="button">Actualizar lista</button></div>
+          <p id="calendar-status" class="gestion-meta" role="status"></p>
+          <div class="gestion-grid">
+            <div id="calendar-list"></div>
+            <form id="calendar-editor" class="gestion-card">
+              <h3 id="calendar-editor-title">Nuevo evento</h3>
+              <input id="calendar-id" type="hidden" />
+              <input id="calendar-version" type="hidden" />
+              <label>Fecha<input id="calendar-date" name="event_date" type="date" min="2000-01-01" max="2100-12-31" required /></label>
+              <label>Título<input id="calendar-title" name="title" maxlength="300" required /></label>
+              <label>Tipo<select id="calendar-type" name="type"><option value="feriado">Feriado</option><option value="local">Asueto local</option><option value="docente">Jornada docente</option><option value="turistico">Puente turístico</option><option value="efemeride">Efeméride</option><option value="tecnica">Formación técnica</option></select></label>
+              <label>Descripción<textarea id="calendar-description" name="description" maxlength="2000" rows="4"></textarea></label>
+              <label>Fuente oficial<input id="calendar-source" name="source" maxlength="300" placeholder="Resolución, Secretaría, agenda oficial…" /></label>
+              <label>Responsable<input id="calendar-responsible" name="responsible" maxlength="200" placeholder="Área o persona responsable" /></label>
+              <label class="gestion-check"><input id="calendar-published" name="published" type="checkbox" /> Publicar en el calendario</label>
+              <p>La fecha de actualización se registra automáticamente. Para retirar una fecha, desmarcá “Publicar” y guardá.</p>
+              <button type="submit">Guardar evento</button>
+              <button id="calendar-delete" type="button" hidden>Eliminar evento</button>
+              <p id="calendar-editor-status" class="gestion-meta" role="status"></p>
             </form>
           </div>
         </section>

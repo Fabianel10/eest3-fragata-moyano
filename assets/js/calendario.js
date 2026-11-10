@@ -10,7 +10,7 @@ const featuredDescription = document.querySelector('.descripcion-destacada');
 const selectedDateLabel = document.querySelector('.fecha-seleccionada');
 const visitCounter = document.querySelector('.numero-visitas');
 
-const calendarEvents = [
+let calendarEvents = [
   ['2026-01-01', 'Año Nuevo', 'feriado'],
   ['2026-02-16', 'Carnaval', 'feriado'],
   ['2026-02-17', 'Carnaval', 'feriado'],
@@ -48,6 +48,8 @@ if (window.CMS_CONTENT) {
   calendarEvents.splice(0, calendarEvents.length,
     ...window.CMS_CONTENT.events.map((item) => [item.date, item.title, item.type]));
 }
+
+const eventMetadata = new Map();
 
 const monthNames = [
   'Enero',
@@ -127,6 +129,13 @@ const selectDate = (date, monthEvents) => {
     const editableEvent = window.CMS_CONTENT?.events.find((item) => item.date === date);
     if (editableEvent?.image) featuredImage.src = editableEvent.image;
     if (editableEvent?.description) featuredDescription.textContent = editableEvent.description;
+    const meta = eventMetadata.get(date);
+    if (meta) {
+      if (meta.description) featuredDescription.textContent = meta.description;
+      const detalle = [meta.source && `Fuente: ${meta.source}`, meta.responsible && `Responsable: ${meta.responsible}`]
+        .filter(Boolean).join(' · ');
+      if (detalle) featuredDescription.textContent += ` ${detalle}.`;
+    }
   } else {
     featuredImage.src = 'assets/images/ecuela.jpg';
     featuredImage.alt = 'Espacio educativo';
@@ -227,7 +236,7 @@ downloadCalendar.addEventListener('click', async () => {
   downloadCalendar.disabled = true;
   try {
     const { createCalendar } = await import('./calendario-export.mjs');
-    const events = window.CMS_CONTENT?.events || calendarEvents.map(([date, title]) => ({ date, title }));
+    const events = calendarEvents.map(([date, title]) => ({ date, title }));
     const url = URL.createObjectURL(new Blob([createCalendar(events, calendarYear)], { type: 'text/calendar;charset=utf-8' }));
     const link = document.createElement('a');
     link.href = url; link.download = `agenda-eest3-${calendarYear}.ics`;
@@ -241,6 +250,34 @@ downloadCalendar.addEventListener('click', async () => {
 yearControls.append(yearLabel, changeYear, downloadCalendar, yearStatus);
 monthSelector.before(yearControls);
 updateYearLabel();
+
+async function cargarEventosGestionados() {
+  const config = window.COMUNIDAD_CONFIG;
+  if (!config?.supabaseUrl || !config?.supabasePublishableKey) return;
+  try {
+    const response = await fetch(`${config.supabaseUrl.replace(/\/$/, '')}/rest/v1/calendar_events?select=id,event_date,title,type,description,source,responsible,updated_at&published=eq.true&order=event_date.asc`, {
+      headers: { apikey: config.supabasePublishableKey },
+      signal: AbortSignal.timeout(10000)
+    });
+    if (!response.ok) return;
+    const rows = await response.json();
+    if (!Array.isArray(rows)) return;
+    for (const row of rows) {
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(row.event_date || '') ||
+          !['feriado', 'local', 'docente', 'turistico', 'efemeride', 'tecnica'].includes(row.type) ||
+          typeof row.title !== 'string' || !row.title.trim()) continue;
+      if (!calendarEvents.some(([date, title]) => date === row.event_date && title === row.title)) {
+        calendarEvents.push([row.event_date, row.title, row.type]);
+      }
+      eventMetadata.set(row.event_date, row);
+    }
+    renderCalendar(Number(calendarMonthNumber.textContent) - 1);
+    updateYearLabel();
+  } catch (error) {
+    if (error.name !== 'AbortError') console.error('Calendario gestionado:', error.name);
+  }
+}
+cargarEventosGestionados();
 
 if (visitCounter && !window.CMS_PREVIEW) {
   const visitKey = 'eest3-visitas-dispositivo';

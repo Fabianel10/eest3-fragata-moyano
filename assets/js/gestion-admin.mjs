@@ -109,6 +109,37 @@ async function contactDetail(request) {
     .eq('request_id', request.id).order('id', { ascending: false }).limit(50)));
   card.append(node('h4', 'Últimos 50 cambios'));
   history.forEach(entry => card.append(node('p', `${new Date(entry.created_at).toLocaleString('es-AR')} · ${CONTACT_STATES[entry.status]} · ${entry.note}`, 'gestion-text')));
+
+  const thread = resultado(await sessionRequest(client.rpc('contact_thread', { target_request: request.id })));
+  card.append(node('h4', 'Hilo de la consulta'));
+  if (!thread.length) card.append(node('p', 'No hay mensajes.'));
+  for (const message of thread) {
+    const item = node('div', '', `gestion-mensaje ${message.direction}`);
+    item.append(node('p', message.direction === 'inbound' ? 'Consulta recibida' : 'Respuesta institucional', 'gestion-meta'),
+      node('p', message.body, 'gestion-text'),
+      node('p', new Date(message.created_at).toLocaleString('es-AR'), 'gestion-meta'));
+    card.append(item);
+  }
+  const reply = node('div', '', 'gestion-respuesta');
+  reply.append(node('h4', 'Responder por correo'));
+  const subject = node('input');
+  subject.type = 'text'; subject.maxLength = 200; subject.value = request.subject.startsWith('Re:') ? request.subject : `Re: ${request.subject}`;
+  const subjectLabel = node('label', 'Asunto'); subjectLabel.append(subject);
+  const body = node('textarea'); body.rows = 7; body.maxLength = 10000;
+  const bodyLabel = node('label', 'Mensaje'); bodyLabel.append(body);
+  reply.append(subjectLabel, bodyLabel, button('Enviar respuesta y guardar en el hilo', async () => {
+    if (body.value.trim().length < 10) { status('Escribí una respuesta de al menos 10 caracteres.', true); return; }
+    if (!confirm('¿Enviar esta respuesta al correo de la persona consultante? Quedará registrada en el hilo y en la cola de correo.')) return;
+    const result = resultado(await sessionRequest(client.rpc('contact_reply', {
+      p_request_id: request.id, p_expected_version: request.version,
+      p_subject: subject.value.trim(), p_body: body.value.trim(), p_request_key: crypto.randomUUID()
+    })));
+    const updated = result.request;
+    await contactDetail(updated);
+    await loadContacts();
+    status('Respuesta guardada en el hilo y encolada para envío. Revisá Correo y cola.');
+  }));
+  card.append(reply);
 }
 async function loadContacts() {
   const filter = new FormData($('contact-filter'));
@@ -243,6 +274,91 @@ $('metrics-filter').addEventListener('submit', (event) => {
   event.preventDefault();
   operation(loadMetrics);
 });
+
+const CALENDAR_TYPES = {
+  feriado: 'Feriado', local: 'Asueto local', docente: 'Jornada docente',
+  turistico: 'Puente turístico', efemeride: 'Efeméride', tecnica: 'Formación técnica'
+};
+let calendarEditing = null;
+function editCalendar(event = null) {
+  calendarEditing = event;
+  const form = $('calendar-editor');
+  form.reset();
+  $('calendar-id').value = event?.id || crypto.randomUUID();
+  $('calendar-version').value = String(event?.version || 0);
+  $('calendar-date').value = event?.event_date || new Date().toISOString().slice(0, 10);
+  $('calendar-title').value = event?.title || '';
+  $('calendar-type').value = event?.type || 'tecnica';
+  $('calendar-description').value = event?.description || '';
+  $('calendar-source').value = event?.source || '';
+  $('calendar-responsible').value = event?.responsible || '';
+  $('calendar-published').checked = Boolean(event?.published);
+  $('calendar-delete').hidden = !event;
+  $('calendar-editor-title').textContent = event ? `Editar evento · v${event.version}` : 'Nuevo evento';
+  $('calendar-editor-status').textContent = event?.updated_at
+    ? `Actualizado: ${new Date(event.updated_at).toLocaleString('es-AR')}` : 'Sin guardar.';
+}
+async function loadCalendar() {
+  const target = $('calendar-list');
+  target.replaceChildren(node('p', 'Cargando calendario…'));
+  const rows = resultado(await sessionRequest(client.from('calendar_events')
+    .select('*').order('event_date', { ascending: true }))) || [];
+  target.replaceChildren();
+  if (!rows.length) target.append(node('p', 'No hay eventos cargados.'));
+  for (const event of rows) {
+    const card = node('article', '', 'gestion-card');
+    card.append(
+      node('h3', event.title),
+      node('p', `${event.event_date} · ${CALENDAR_TYPES[event.type] || event.type} · ${event.published ? 'Publicado' : 'Borrador'} · v${event.version}`, 'gestion-meta'),
+      node('p', [event.source && `Fuente: ${event.source}`, event.responsible && `Responsable: ${event.responsible}`].filter(Boolean).join(' · ') || 'Sin fuente ni responsable registrados.', 'gestion-meta'),
+      node('p', `Actualizado: ${new Date(event.updated_at).toLocaleString('es-AR')}`, 'gestion-meta'),
+      button('Editar evento', () => editCalendar(event))
+    );
+    target.append(card);
+  }
+  $('calendar-status').textContent = `${rows.length} eventos cargados. Los borradores no aparecen en el sitio público.`;
+}
+$('calendar-new').addEventListener('click', () => editCalendar(null));
+$('calendar-refresh').addEventListener('click', () => operation(loadCalendar));
+$('calendar-editor').addEventListener('submit', (event) => {
+  event.preventDefault();
+  operation(async () => {
+    const form = $('calendar-editor');
+    if (!form.reportValidity()) return;
+    const document = {
+      event_date: $('calendar-date').value,
+      title: $('calendar-title').value.trim(),
+      type: $('calendar-type').value,
+      description: $('calendar-description').value.trim(),
+      source: $('calendar-source').value.trim(),
+      responsible: $('calendar-responsible').value.trim(),
+      published: $('calendar-published').checked
+    };
+    if (document.title.length < 3) { status('Ingresá un título de al menos 3 caracteres.', true); return; }
+    if (document.published && (!document.source.trim() || !document.responsible.trim())) {
+      status('Para publicar, indicá fuente oficial y responsable.', true); return;
+    }
+    const saved = resultado(await sessionRequest(client.rpc('calendar_event_save', {
+      event_id: $('calendar-id').value,
+      expected_version: Number($('calendar-version').value) || 0,
+      document
+    })));
+    editCalendar(saved);
+    await loadCalendar();
+    status('Evento guardado. Si está publicado, ya aparece en el calendario público y en el buscador.');
+  });
+});
+$('calendar-delete').addEventListener('click', () => operation(async () => {
+  if (!calendarEditing) return;
+  if (!confirm(`¿Eliminar definitivamente “${calendarEditing.title}”? Esta acción no se puede deshacer.`)) return;
+  resultado(await sessionRequest(client.rpc('calendar_event_delete', {
+    event_id: calendarEditing.id, expected_version: calendarEditing.version
+  })));
+  editCalendar(null);
+  await loadCalendar();
+  status('Evento eliminado.');
+}));
+
 const ROLE_LABELS = {
   comunidad: 'Comunidad', alumno: 'Alumno/a', profesor: 'Profesor/a',
   editor: 'Editor/a', revisor: 'Revisor/a', administrador: 'Administrador/a'
@@ -393,7 +509,7 @@ async function start() {
       if (event === 'SIGNED_OUT') {
         revision++;
         $('gestion-workspace').hidden = true;
-        for (const id of ['contact-list', 'contact-detail', 'post-list', 'post-history', 'team-list', 'email-list', 'email-summary', 'metrics-summary', 'metrics-tables']) $(id)?.replaceChildren();
+        for (const id of ['contact-list', 'contact-detail', 'post-list', 'post-history', 'calendar-list', 'team-list', 'email-list', 'email-summary', 'metrics-summary', 'metrics-tables']) $(id)?.replaceChildren();
         $('contact-detail').dataset.dirty = 'false';
         editor.reset(); activePost = null; dirty = false; admins = []; role = 'comunidad'; currentUserId = '';
         status('Sesión cerrada. Volvé a iniciar sesión desde Mi cuenta.');
@@ -417,6 +533,7 @@ async function start() {
       if (admin) {
         await loadContacts();
         await loadPosts();
+        await loadCalendar();
         await loadTeam();
         await loadEmail();
       }

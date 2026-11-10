@@ -126,6 +126,34 @@ Después de aplicar, comprobar:
 - `metrics_daily` no tiene columnas de IP, sesión, cookie o user-agent.
 - Los roles editor/revisor se asignan desde Gestión y no por autorregistro.
 
+
+
+### Migraciones 12 a 14: correo avanzado, respuestas, calendario y seguridad
+
+Aplicar en orden:
+
+1. `202611100012_correo_respuestas.sql`: HTML, reply-to, alertas, webhook, hilo y respuestas.
+2. `202611100013_calendario_gestion.sql`: eventos con fuente, responsable y publicación.
+3. `202611100014_seguridad_sesiones.sql`: 2FA exigible y revisión de sesiones.
+4. `202611100015_webhook_eventos.sql`: normalización de eventos camelCase de Brevo.
+
+Configurar en Netlify:
+
+```text
+EMAIL_WEBHOOK_SECRET=<secreto largo>
+```
+
+Configurar en Brevo el webhook de eventos apuntando a:
+
+```text
+https://eest3sf.netlify.app/.netlify/functions/webhook-correo?token=<secreto>
+```
+
+Verificar `contact_messages`, `calendar_events`, las nuevas columnas de
+`email_outbox` y los RPC `contact_reply`, `calendar_event_save`, `profile_mfa_require`
+y `auth_sessions_list`. Probar el hilo con una consulta técnica y limpiar los datos.
+No activar `EMAIL_ENABLED` hasta que `npm run correo:check -- --netlify` pase.
+
 Reversión: un deploy anterior no elimina tablas ni migraciones. Desactivar
 `EMAIL_ENABLED`, ocultar la interfaz nueva y conservar los datos para una eliminación
 controlada. No borrar el esquema como rollback.

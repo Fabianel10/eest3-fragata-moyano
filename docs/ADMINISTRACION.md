@@ -32,6 +32,69 @@ composiciones se agregan bloques o se reemplaza una sección por bloques nuevos.
 Los formularios de contacto y mapa mantienen su integración técnica original.
 No se implementan campañas de correo, notas o gestión académica.
 
+## Respuestas e hilo de consultas
+
+Gestión → Bandeja privada permite responder por correo sin salir del panel:
+
+- el hilo muestra el mensaje inicial y las respuestas institucionales;
+- la respuesta exige asunto y cuerpo, y se guarda en `contact_messages`;
+- la consulta pasa a `respondida`, incrementa su versión y conserva historial;
+- la respuesta se encola como `contact_reply` con HTML y reply-to;
+- un reintento con el mismo identificador no duplica el mensaje ni el correo;
+- solo administración puede leer el hilo o responder.
+
+La entrega real depende de que la cola de correo esté activa y el proveedor acepte
+el origen. Si el envío falla, la respuesta queda en el hilo y el error en la cola.
+
+## Calendario gestionable
+
+Gestión → Calendario permite crear y editar fechas con:
+
+- fecha, título, tipo, descripción;
+- fuente oficial y responsable;
+- borrador o publicado;
+- versión y fecha de actualización automática.
+
+Solo las fechas publicadas aparecen en el calendario público y en `search_index`.
+La eliminación es definitiva y requiere confirmación. La fuente y el responsable
+son obligatorios para publicar. Los eventos también se exportan en `.ics`.
+
+## 2FA y sesiones
+
+La cuenta puede activar un factor TOTP desde Comunidad → Verificación en dos pasos.
+Después puede exigir AAL2 para las operaciones de administración. Si se exige:
+
+- al iniciar sesión se solicita el código antes de habilitar el panel;
+- `is_community_admin()` devuelve falso con AAL1;
+- la exigencia se puede desactivar desde la cuenta para recuperar acceso.
+
+La sección Sesiones activas lista hasta 50 sesiones propias, marca la actual y
+permite cerrar una o todas las demás. Requiere una sesión autenticada. Si se pierde
+el factor TOTP, la recuperación debe hacerla un operador de Supabase; documentar
+quién asume esa responsabilidad antes de exigir 2FA a todas las cuentas.
+
+## Accesibilidad
+
+`npm run auditoria:a11y` revisa etiquetas, nombres accesibles, IDs, encabezados,
+referencias ARIA, iframes, tabindex y subtítulos. La entrega 1.11 no tiene hallazgos
+automáticos. El video incluye una pista WebVTT descriptiva. La revisión con lector
+de pantalla, teclado y teléfono físico sigue siendo manual; ver
+[Accesibilidad](ACCESIBILIDAD.md).
+
+## Correo avanzado
+
+La cola envía HTML y texto, usa reply-to cuando corresponde, registra eventos de
+entrega/rebote/complaint y genera una alerta interna si un mensaje agota los
+intentos. El webhook `/.netlify/functions/webhook-correo?token=...` debe configurarse
+en el proveedor. `npm run correo:check -- --netlify` valida proveedor y remitente
+sin enviar correos.
+
+Si Brevo bloquea por IP, no alcanza con autorizar una IP individual: las funciones
+de Netlify usan salida dinámica. Desactivar la restricción de IP para la API o usar
+un proxy con IP fija. Mantener `EMAIL_ENABLED=false` mientras el diagnóstico falle.
+
+
+
 ## Flujo editorial con revisión
 
 La migración `202611100008_equipo_editorial.sql` agrega roles y estados:

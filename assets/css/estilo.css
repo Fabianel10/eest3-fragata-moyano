@@ -187,6 +187,12 @@ header.scrolled {
   flex-direction: column;
   line-height: 1.1;
 }
+.logo-texto .logo-titulo {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: inherit;
+}
 .logo-container span {
   font-size: 0.85rem;
   color: #b8d5e2;

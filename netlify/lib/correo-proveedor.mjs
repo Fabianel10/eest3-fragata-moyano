@@ -6,11 +6,16 @@ function limpiar(valor, max) {
   return typeof valor === 'string' ? valor.trim().slice(0, max) : '';
 }
 
-export function validarMensaje({ to, subject, text }) {
+export function validarMensaje({ to, subject, text, html, replyTo }) {
   if (!CORREO_RE.test(limpiar(to, 254))) throw new Error('Destinatario inválido.');
   if (!limpiar(subject, 200)) throw new Error('Asunto vacío.');
   if (!limpiar(text, 10000)) throw new Error('Mensaje vacío.');
-  return { to: limpiar(to, 254), subject: limpiar(subject, 200), text: limpiar(text, 10000) };
+  if (replyTo && !CORREO_RE.test(limpiar(replyTo, 254))) throw new Error('Reply-to inválido.');
+  const bodyHtml = limpiar(html, 60000);
+  return {
+    to: limpiar(to, 254), subject: limpiar(subject, 200), text: limpiar(text, 10000),
+    html: bodyHtml || null, replyTo: replyTo ? limpiar(replyTo, 254) : null
+  };
 }
 
 export function crearEnviador({ env = process.env, fetcher = fetch, smtpFactory } = {}) {
@@ -42,7 +47,7 @@ export function crearEnviador({ env = process.env, fetcher = fetch, smtpFactory 
     : null;
 
   return async (mensaje) => {
-    const { to, subject, text } = validarMensaje(mensaje);
+    const { to, subject, text, html, replyTo } = validarMensaje(mensaje);
     const signal = AbortSignal.timeout(10000);
     if (provider === 'brevo') {
       const response = await fetcher('https://api.brevo.com/v3/smtp/email', {
@@ -52,7 +57,9 @@ export function crearEnviador({ env = process.env, fetcher = fetch, smtpFactory 
           sender: { email: from, name: fromName },
           to: [{ email: to }],
           subject,
-          textContent: text
+          textContent: text,
+          ...(html ? { htmlContent: html } : {}),
+          ...(replyTo ? { replyTo: { email: replyTo } } : {})
         }),
         signal
       });
@@ -67,7 +74,8 @@ export function crearEnviador({ env = process.env, fetcher = fetch, smtpFactory 
       const response = await fetcher('https://api.resend.com/emails', {
         method: 'POST',
         headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ from: `${fromName} <${from}>`, to: [to], subject, text }),
+        body: JSON.stringify({ from: `${fromName} <${from}>`, to: [to], subject, text,
+          ...(html ? { html } : {}), ...(replyTo ? { reply_to: replyTo } : {}) }),
         signal
       });
       const data = await response.json().catch(() => ({}));
@@ -77,7 +85,8 @@ export function crearEnviador({ env = process.env, fetcher = fetch, smtpFactory 
       }
       return { id: limpiar(data.id, 300) || 'resend-ok' };
     }
-    const info = await smtp.sendMail({ from: `${fromName} <${from}>`, to, subject, text });
+    const info = await smtp.sendMail({ from: `${fromName} <${from}>`, to, subject, text,
+      ...(html ? { html } : {}), ...(replyTo ? { replyTo } : {}) });
     return { id: limpiar(info?.messageId, 300) || 'smtp-ok' };
   };
 }

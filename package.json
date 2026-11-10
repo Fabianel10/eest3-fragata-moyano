@@ -13,6 +13,7 @@
     "db:apply": "node --env-file-if-exists=.env tools/aplicar-migraciones.mjs",
     "db:apply:api": "node --env-file-if-exists=.env tools/aplicar-migraciones-api.mjs",
     "correo:check": "node --env-file-if-exists=.env tools/verificar-correo.mjs",
+    "auditoria:a11y": "node tools/auditoria-accesibilidad.mjs",
     "cms:catalog": "node tools/cms-catalog.mjs"
   },
   "devDependencies": {
