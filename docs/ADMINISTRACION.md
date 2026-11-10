@@ -71,10 +71,11 @@ persona consultante. El procesamiento:
 - incluye un enlace de baja con token para el equipo; la baja cancela pendientes
   y no afecta consultas ya recibidas.
 
-Variables necesarias en Netlify: `EMAIL_ENABLED`, `EMAIL_PROVIDER` (`brevo` o
-`resend`), `EMAIL_FROM`, `EMAIL_FROM_NAME`, la API key correspondiente y
-`EMAIL_QUEUE_SECRET`. El endpoint programado `procesar-correo.mjs` se ejecuta cada cinco minutos.
-El endpoint `procesar-correo-manual.mjs` permite un disparo manual autenticado. `baja.mjs` procesa
+Variables necesarias en Netlify: `EMAIL_ENABLED`, `EMAIL_PROVIDER` (`brevo`, `resend`
+o `smtp`), `EMAIL_FROM`, `EMAIL_FROM_NAME`, la API key correspondiente o las
+variables `EMAIL_SMTP_*`, y `EMAIL_QUEUE_SECRET`. El endpoint programado
+`procesar-correo.mjs` se ejecuta cada cinco minutos. El endpoint
+`procesar-correo-manual.mjs` permite un disparo manual autenticado. `baja.mjs` procesa
 el enlace público de baja. Ver `.env.example`.
 
 ## Métricas responsables

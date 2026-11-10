@@ -18,5 +18,8 @@
     "@electric-sql/pglite": "0.3.14",
     "parse5": "7.3.0",
     "pg": "^8.13.1"
+  },
+  "dependencies": {
+    "nodemailer": "^6.9.16"
   }
 }

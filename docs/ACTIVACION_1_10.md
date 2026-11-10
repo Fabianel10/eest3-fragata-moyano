@@ -78,12 +78,17 @@ Configurar en **Site configuration → Environment variables → Production**:
 
 ```text
 EMAIL_ENABLED=true
-EMAIL_PROVIDER=brevo          # o resend
+EMAIL_PROVIDER=brevo          # resend o smtp
 EMAIL_FROM=<remitente verificado>
 EMAIL_FROM_NAME=EEST N°3 Fragata Moyano
 BREVO_API_KEY=<clave>         # o RESEND_API_KEY
+# Para SMTP autenticado: EMAIL_SMTP_HOST, EMAIL_SMTP_PORT, EMAIL_SMTP_USER, EMAIL_SMTP_PASS
 EMAIL_QUEUE_SECRET=<secreto largo>
 ```
+
+La configuración SMTP interna de Supabase Auth no se reutiliza automáticamente:
+la API de Management devuelve un secreto que no sirve como contraseña SMTP.
+Usar una credencial de proveedor dedicada y verificar el remitente antes de activar.
 
 Mantener `EMAIL_ENABLED=false` hasta probar la cola con datos técnicos. El endpoint
 programado `/.netlify/functions/procesar-correo` se ejecuta cada cinco minutos.

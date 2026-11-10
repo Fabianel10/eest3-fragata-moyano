@@ -2,6 +2,18 @@
 
 Este proyecto utiliza [versionado semántico](https://semver.org/lang/es/).
 
+## [1.10.1] - 2026-11-10
+
+### Correo
+
+- Adaptador SMTP autenticado además de Brevo y Resend.
+- Endpoint manual `procesar-correo-manual.mjs` separado del programado.
+- Variables `EMAIL_SMTP_*` documentadas.
+- Verificación de producción: las migraciones 8 a 11 están aplicadas, la cola
+  encola avisos y comprobantes, y el procesamiento manual responde con la cola vacía.
+- `EMAIL_ENABLED=false` hasta cargar una credencial de proveedor válida; la
+  configuración SMTP de Supabase Auth no se reutiliza automáticamente.
+
 ## [1.10.0] - 2026-11-10
 
 ### Flujo editorial

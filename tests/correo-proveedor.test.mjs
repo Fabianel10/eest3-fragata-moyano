@@ -17,7 +17,8 @@ test('proveedor de correo: validación, Brevo, Resend y errores sin filtrar clav
   assert.throws(() => validarMensaje({ to: 'a@b.test', subject: '', text: 'Mensaje' }), /Asunto/);
   assert.throws(() => validarMensaje({ to: 'a@b.test', subject: 'Asunto', text: '' }), /Mensaje/);
   assert.throws(() => crearEnviador({ env: {}, fetcher: fetch }), /EMAIL_FROM/);
-  assert.throws(() => crearEnviador({ env: { ...base, EMAIL_PROVIDER: 'otro' }, fetcher: fetch }), /brevo o resend/);
+  assert.throws(() => crearEnviador({ env: { ...base, EMAIL_PROVIDER: 'otro' }, fetcher: fetch }), /brevo, resend o smtp/);
+  assert.throws(() => crearEnviador({ env: { ...base, EMAIL_PROVIDER: 'smtp' }, fetcher: fetch }), /EMAIL_SMTP_HOST/);
 
   let capturado;
   const brevo = crearEnviador({
@@ -50,6 +51,22 @@ test('proveedor de correo: validación, Brevo, Resend y errores sin filtrar clav
     fetcher: async () => new Response(JSON.stringify({ message: 'rechazado' }), { status: 500 })
   });
   await assert.rejects(falla({ to: 'persona@example.test', subject: 'Hola', text: 'Mensaje' }), /Brevo rechazó/);
+
+  let smtpMensaje;
+  let smtpConfig;
+  const smtp = crearEnviador({
+    env: { ...base, EMAIL_PROVIDER: 'smtp', EMAIL_SMTP_HOST: 'smtp.example.test',
+      EMAIL_SMTP_PORT: '587', EMAIL_SMTP_USER: 'usuario', EMAIL_SMTP_PASS: 'clave' },
+    smtpFactory: (config) => {
+      smtpConfig = config;
+      return { sendMail: async (mensaje) => { smtpMensaje = mensaje; return { messageId: 'smtp-1' }; } };
+    }
+  });
+  assert.deepEqual(await smtp({ to: 'persona@example.test', subject: 'Hola', text: 'Mensaje' }), { id: 'smtp-1' });
+  assert.equal(smtpConfig.port, 587);
+  assert.equal(smtpConfig.secure, false);
+  assert.equal(smtpMensaje.text, 'Mensaje');
+  assert.match(smtpMensaje.from, /EEST N°3/);
 });
 
 test('procesador de cola: deshabilitado, lote, envío y registro de fallos', async () => {

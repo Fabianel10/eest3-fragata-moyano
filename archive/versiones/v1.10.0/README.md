@@ -31,6 +31,7 @@ SEO y seguridad preparadas en el ciclo 1.9.0.
 - Reintentos exponenciales, recuperación de envíos interrumpidos y trazabilidad.
 - Bajas por token, cancelación de pendientes y reintento manual.
 - Adaptadores Brevo y Resend; endpoint programado y endpoint manual autenticado.
+  También admite SMTP autenticado (`EMAIL_PROVIDER=smtp`).
 
 ### Rendimiento, SEO y seguridad
 - Paquete público reducido de ~68 MB a ~16 MB sin romper el CMS.
