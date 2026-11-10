@@ -344,6 +344,9 @@ function editCalendar(event = null) {
   $('calendar-source').value = event?.source || '';
   $('calendar-responsible').value = event?.responsible || '';
   $('calendar-published').checked = Boolean(event?.published);
+  $('calendar-recurrence').value = event?.recurrence || 'none';
+  $('calendar-recurrence-until').value = event?.recurrence_until || '';
+  $('calendar-recurrence-until').disabled = (event?.recurrence || 'none') === 'none';
   $('calendar-delete').hidden = !event;
   $('calendar-editor-title').textContent = event ? `Editar evento · v${event.version}` : 'Nuevo evento';
   $('calendar-editor-status').textContent = event?.updated_at
@@ -360,7 +363,7 @@ async function loadCalendar() {
     const card = node('article', '', 'gestion-card');
     card.append(
       node('h3', event.title),
-      node('p', `${event.event_date} · ${CALENDAR_TYPES[event.type] || event.type} · ${event.published ? 'Publicado' : 'Borrador'} · v${event.version}`, 'gestion-meta'),
+      node('p', `${event.event_date} · ${CALENDAR_TYPES[event.type] || event.type} · ${event.published ? 'Publicado' : 'Borrador'} · ${event.recurrence === 'none' ? 'Sin repetición' : `Repite ${event.recurrence}${event.recurrence_until ? ` hasta ${event.recurrence_until}` : ''}`} · v${event.version}`, 'gestion-meta'),
       node('p', [event.source && `Fuente: ${event.source}`, event.responsible && `Responsable: ${event.responsible}`].filter(Boolean).join(' · ') || 'Sin fuente ni responsable registrados.', 'gestion-meta'),
       node('p', `Actualizado: ${new Date(event.updated_at).toLocaleString('es-AR')}`, 'gestion-meta'),
       button('Editar evento', () => editCalendar(event))
@@ -369,6 +372,7 @@ async function loadCalendar() {
   }
   $('calendar-status').textContent = `${rows.length} eventos cargados. Los borradores no aparecen en el sitio público.`;
 }
+$('calendar-recurrence').addEventListener('change', () => { $('calendar-recurrence-until').disabled = $('calendar-recurrence').value === 'none'; });
 $('calendar-new').addEventListener('click', () => editCalendar(null));
 $('calendar-refresh').addEventListener('click', () => operation(loadCalendar));
 $('backup-refresh').addEventListener('click', () => operation(loadBackups));
@@ -384,7 +388,9 @@ $('calendar-editor').addEventListener('submit', (event) => {
       description: $('calendar-description').value.trim(),
       source: $('calendar-source').value.trim(),
       responsible: $('calendar-responsible').value.trim(),
-      published: $('calendar-published').checked
+      published: $('calendar-published').checked,
+      recurrence: $('calendar-recurrence').value,
+      recurrence_until: $('calendar-recurrence').value === 'none' ? '' : $('calendar-recurrence-until').value
     };
     if (document.title.length < 3) { status('Ingresá un título de al menos 3 caracteres.', true); return; }
     if (document.published && (!document.source.trim() || !document.responsible.trim())) {

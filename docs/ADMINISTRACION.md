@@ -74,11 +74,13 @@ Gestión → Calendario permite crear y editar fechas con:
 - fecha, título, tipo, descripción;
 - fuente oficial y responsable;
 - borrador o publicado;
+- recurrencia semanal, mensual o anual y fecha límite;
 - versión y fecha de actualización automática.
 
 Solo las fechas publicadas aparecen en el calendario público y en `search_index`.
 La eliminación es definitiva y requiere confirmación. La fuente y el responsable
-son obligatorios para publicar. Los eventos también se exportan en `.ics`.
+son obligatorios para publicar. Los eventos recurrentes se expanden en el calendario
+público y en la suscripción `.ics`; la fecha límite acota la repetición.
 
 ## 2FA y sesiones
 

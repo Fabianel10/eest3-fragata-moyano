@@ -77,6 +77,8 @@
               <label>Fecha<input id="calendar-date" name="event_date" type="date" min="2000-01-01" max="2100-12-31" required /></label>
               <label>Título<input id="calendar-title" name="title" maxlength="300" required /></label>
               <label>Tipo<select id="calendar-type" name="type"><option value="feriado">Feriado</option><option value="local">Asueto local</option><option value="docente">Jornada docente</option><option value="turistico">Puente turístico</option><option value="efemeride">Efeméride</option><option value="tecnica">Formación técnica</option></select></label>
+              <label>Recurrencia<select id="calendar-recurrence" name="recurrence"><option value="none">No se repite</option><option value="weekly">Semanal</option><option value="monthly">Mensual</option><option value="yearly">Anual</option></select></label>
+              <label>Repetir hasta<input id="calendar-recurrence-until" name="recurrence_until" type="date" min="2000-01-01" max="2100-12-31" /></label>
               <label>Descripción<textarea id="calendar-description" name="description" maxlength="2000" rows="4"></textarea></label>
               <label>Fuente oficial<input id="calendar-source" name="source" maxlength="300" placeholder="Resolución, Secretaría, agenda oficial…" /></label>
               <label>Responsable<input id="calendar-responsible" name="responsible" maxlength="200" placeholder="Área o persona responsable" /></label>

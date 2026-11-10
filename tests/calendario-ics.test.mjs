@@ -13,4 +13,8 @@ test('suscripción ICS: evento de día completo, escape y fin exclusivo', () => 
   assert.match(ics, /SUMMARY:Jornada\\; técnica\\, con acentos/);
   assert.match(ics, /Fuente: Resolución 1 · Responsable: Equipo/);
   assert.match(ics, /END:VCALENDAR/);
+  const recurrente = generarIcs([{ event_date: '2026-11-01', title: 'Taller semanal',
+    recurrence: 'weekly', recurrence_until: '2026-11-30', description: '', source: '', responsible: '' }]);
+  assert.equal((recurrente.match(/BEGIN:VEVENT/g) || []).length, 5);
+  assert.match(recurrente, /DTSTART;VALUE=DATE:20261129/);
 });

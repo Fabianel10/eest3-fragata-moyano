@@ -30,7 +30,8 @@ test('calendario gestionado: publicación, fuente, responsable, RLS y búsqueda'
     '202610200006_notificaciones.sql', '202610200007_skynet.sql',
     '202611100008_equipo_editorial.sql', '202611100009_busqueda_global.sql',
     '202611100010_metricas.sql', '202611100011_correo_cola.sql',
-    '202611100012_correo_respuestas.sql', '202611100013_calendario_gestion.sql'];
+    '202611100012_correo_respuestas.sql', '202611100013_calendario_gestion.sql',
+    '202611100018_calendario_recurrente.sql'];
   for (const file of files) await db.exec(await readFile(new URL(`../supabase/migrations/${file}`, import.meta.url), 'utf8'));
   for (const id of [admin, student]) {
     await db.query('insert into auth.users values($1,$2,$3)', [id, `${id.slice(-4)}@example.test`, {
@@ -52,7 +53,7 @@ test('calendario gestionado: publicación, fuente, responsable, RLS y búsqueda'
   const document = {
     event_date: '2026-11-20', title: 'Jornada de educación técnica', type: 'tecnica',
     description: 'Actividad institucional con talleres y proyectos.', source: 'Resolución 123/26',
-    responsible: 'Equipo directivo', published: false
+    responsible: 'Equipo directivo', published: false, recurrence: 'weekly', recurrence_until: '2026-12-31'
   };
   const save = (uid, version, data = document) => as(uid, () => db.query(
     'select public.calendar_event_save($1,$2,$3) as event', [eventId, version, data]));
@@ -64,6 +65,8 @@ test('calendario gestionado: publicación, fuente, responsable, RLS y búsqueda'
       assert.equal(created.rows[0].event.source, 'Resolución 123/26');
       assert.equal(created.rows[0].event.responsible, 'Equipo directivo');
       assert.equal(created.rows[0].event.version, 1);
+      assert.equal(created.rows[0].event.recurrence, 'weekly');
+      assert.equal(created.rows[0].event.recurrence_until, '2026-12-31');
       assert.equal((await as(admin, () => db.query("select public.calendar_event_save($1,1,$2) as event",
         [eventId, { ...document, published: false }]))).rows[0].event.published, false);
     });

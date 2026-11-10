@@ -255,11 +255,25 @@ yearControls.append(yearLabel, changeYear, downloadCalendar, subscribeCalendar, 
 monthSelector.before(yearControls);
 updateYearLabel();
 
+function fechasRecurrentes(row) {
+  const inicio = new Date(`${row.event_date}T12:00:00`);
+  const fin = row.recurrence_until ? new Date(`${row.recurrence_until}T12:00:00`) : null;
+  if (!['weekly', 'monthly', 'yearly'].includes(row.recurrence)) return [row.event_date];
+  const fechas = [];
+  const cursor = new Date(inicio);
+  for (let i = 0; i < 200 && cursor <= (fin || new Date(`${row.event_date.slice(0, 4)}-12-31T12:00:00`)); i += 1) {
+    fechas.push(cursor.toISOString().slice(0, 10));
+    if (row.recurrence === 'weekly') cursor.setDate(cursor.getDate() + 7);
+    else if (row.recurrence === 'monthly') cursor.setMonth(cursor.getMonth() + 1);
+    else cursor.setFullYear(cursor.getFullYear() + 1);
+  }
+  return fechas;
+}
 async function cargarEventosGestionados() {
   const config = window.COMUNIDAD_CONFIG;
   if (!config?.supabaseUrl || !config?.supabasePublishableKey) return;
   try {
-    const response = await fetch(`${config.supabaseUrl.replace(/\/$/, '')}/rest/v1/calendar_events?select=id,event_date,title,type,description,source,responsible,updated_at&published=eq.true&order=event_date.asc`, {
+    const response = await fetch(`${config.supabaseUrl.replace(/\/$/, '')}/rest/v1/calendar_events?select=id,event_date,title,type,description,source,responsible,recurrence,recurrence_until,updated_at&published=eq.true&order=event_date.asc`, {
       headers: { apikey: config.supabasePublishableKey },
       signal: AbortSignal.timeout(10000)
     });
@@ -270,10 +284,12 @@ async function cargarEventosGestionados() {
       if (!/^\d{4}-\d{2}-\d{2}$/.test(row.event_date || '') ||
           !['feriado', 'local', 'docente', 'turistico', 'efemeride', 'tecnica'].includes(row.type) ||
           typeof row.title !== 'string' || !row.title.trim()) continue;
-      if (!calendarEvents.some(([date, title]) => date === row.event_date && title === row.title)) {
-        calendarEvents.push([row.event_date, row.title, row.type]);
+      for (const date of fechasRecurrentes(row)) {
+        if (!calendarEvents.some(([dia, title]) => dia === date && title === row.title)) {
+          calendarEvents.push([date, row.title, row.type]);
+        }
+        eventMetadata.set(date, row);
       }
-      eventMetadata.set(row.event_date, row);
     }
     renderCalendar(Number(calendarMonthNumber.textContent) - 1);
     updateYearLabel();

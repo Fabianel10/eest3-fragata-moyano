@@ -2,6 +2,26 @@
 
 Este proyecto utiliza [versionado semántico](https://semver.org/lang/es/).
 
+## [1.13.0] - 2026-11-10
+
+### Calendario recurrente
+
+- Recurrencia semanal, mensual o anual con fecha límite.
+- Expansión en el calendario público y en la suscripción `.ics`.
+- Validación de fecha límite y versión; el editor muestra la recurrencia.
+- Migración `202611100018_calendario_recurrente.sql`.
+
+### Correo verificado
+
+- La restricción de IP de la API de Brevo quedó desactivada y el envío real desde
+  Netlify terminó en `sent` con identificador del proveedor.
+- Se eliminó el registro técnico de la cola después de la prueba.
+
+### Pendientes institucionales
+
+- Preinscripción: no se activa hasta definir requisitos, retención y tratamiento de menores.
+- Auditoría manual con lector de pantalla, contraste medido y teléfonos reales.
+
 ## [1.12.1] - 2026-11-10
 
 ### PWA

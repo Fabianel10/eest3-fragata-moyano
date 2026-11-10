@@ -7,7 +7,7 @@ export default async () => {
   }
   try {
     const params = new URLSearchParams({
-      select: 'event_date,title,description,source,responsible',
+      select: 'event_date,title,description,source,responsible,recurrence,recurrence_until',
       published: 'eq.true',
       order: 'event_date.asc'
     });
