@@ -10,6 +10,7 @@ dist/
 build/
 node_modules/
 /assets/images/Madera/*.jpg
+/assets/images/MMO/originales/
 
 # Materiales fuente que no se publican en el sitio
 *.rar

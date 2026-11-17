@@ -16,3 +16,4 @@ Cada carpeta documenta una versión entregada del sitio. La fuente de verdad del
 | [1.12.0](v1.12.0/README.md) | 2026-11-10 | `v1.12.0` | Recuperación 2FA, monitoreo, PWA, RSS, respaldos y adjuntos |
 | [1.12.1](v1.12.1/README.md) | 2026-11-10 | `v1.12.1` | MIME de PWA y service worker |
 | [1.13.0](v1.13.0/README.md) | 2026-11-10 | `v1.13.0` | Calendario recurrente y correo verificado |
+| [1.14.0](v1.14.0/README.md) | 2026-11-17 | `v1.14.0` | Medios MMO, portadas de carreras e informe final |

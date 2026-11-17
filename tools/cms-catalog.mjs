@@ -49,6 +49,7 @@ const galeria = literal(gallerySource, 'galleryItems').map(({ type, file, title 
 }));
 const playlist = literal(homeSource, 'playlist').map(({ title, source }) => ({ title, src: source }));
 const maderaGallery = JSON.parse(await readFile(new URL('assets/cms/madera-galeria.json', root), 'utf8'));
+const obrasGallery = JSON.parse(await readFile(new URL('assets/cms/obras-galeria.json', root), 'utf8'));
 
 for (const [slug, filename] of Object.entries(ARCHIVOS)) {
   if (soloCarreras && !carreras.includes(slug)) continue;
@@ -58,7 +59,7 @@ for (const [slug, filename] of Object.entries(ARCHIVOS)) {
     version: 1, title: texto(encontrar(tree, 'title')), description: '',
     chrome: {}, blocks: [],
     modules: {
-      year: 2026, gallery: slug === 'madera' ? maderaGallery : slug === 'galeria' ? galeria : carreras.includes(slug) ? galeria.slice(0, 2) : [],
+      year: 2026, gallery: slug === 'madera' ? maderaGallery : slug === 'obras' ? obrasGallery : slug === 'galeria' ? galeria : carreras.includes(slug) ? galeria.slice(0, 2) : [],
       events: ['inicio', 'calendario'].includes(slug) ? eventos : [],
       playlist
     }

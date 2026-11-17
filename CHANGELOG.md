@@ -2,6 +2,22 @@
 
 Este proyecto utiliza [versionado semántico](https://semver.org/lang/es/).
 
+## [1.14.0] - 2026-11-17
+
+### Medios de Maestro Mayor de Obras
+
+- Incorporación de seis fotografías y un video del aula/taller de MMO.
+- Conversión a WebP optimizado y video MP4 reducido; originales con nombres
+  personales excluidos del repositorio y del paquete público.
+- Galería específica en `obras.html`, catálogo CMS y búsqueda.
+- Portadas específicas: aula de programación para Informática, taller para Madera
+  y aula de dibujo técnico para MMO.
+- Sincronización de la portada de Madera publicada en el CMS.
+
+### Informe
+
+- Informe técnico final generado en PDF en `informe final/`.
+
 ## [1.13.0] - 2026-11-10
 
 ### Calendario recurrente

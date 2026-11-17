@@ -6775,8 +6775,8 @@
             },
             "f101": {
               "kind": "image",
-              "value": "assets/images/IMG-20260917-WA0151.jpg",
-              "alt": "Imagen institucional de la escuela; no identifica un taller específico."
+              "value": "assets/images/imagenes%20nuevas/IMG_20260915_111543434_MFNR.jpg",
+              "alt": "Aula de programación de la escuela, con equipos y puestos de trabajo."
             }
           },
           "cards": []
@@ -7696,7 +7696,7 @@
             },
             "f301": {
               "kind": "text",
-              "value": "Recorrido institucional de referencia. Los proyectos específicos de esta carrera se incorporarán cuando estén identificados y autorizados para difusión."
+              "value": "Recorrido por el aula de programación y los espacios de formación informática."
             },
             "f302": {
               "kind": "text",
@@ -10105,8 +10105,8 @@
             },
             "f101": {
               "kind": "image",
-              "value": "assets/images/ecuela.jpg",
-              "alt": "Imagen institucional de la escuela; no identifica un taller específico."
+              "value": "assets/images/Madera/taller-01.webp",
+              "alt": "Taller de Madera y Mueble con bancos, herramientas y materiales."
             }
           },
           "cards": []
@@ -13330,8 +13330,8 @@
             },
             "f101": {
               "kind": "image",
-              "value": "assets/images/IMG-20260917-WA0151.jpg",
-              "alt": "Imagen institucional de la escuela; no identifica un taller específico."
+              "value": "assets/images/MMO/obras-02.webp",
+              "alt": "Aula de dibujo técnico de Maestro Mayor de Obras con plotter y planos."
             }
           },
           "cards": []
@@ -14243,7 +14243,7 @@
             },
             "f299": {
               "kind": "text",
-              "value": "Recorrido institucional de referencia. Los proyectos específicos de esta carrera se incorporarán cuando estén identificados y autorizados para difusión."
+              "value": "Recorrido por el aula y el taller de Maestro Mayor de Obras: materiales, dibujo técnico, plotter, maquetas y espacios de proyecto."
             },
             "f300": {
               "kind": "text",
@@ -14310,13 +14310,38 @@
         "gallery": [
           {
             "type": "video",
-            "src": "assets/images/imagenes%20nuevas/VID_20260915_113715685.mp4",
-            "title": "Recorrido por la escuela"
+            "src": "assets/images/MMO/obras-recorrido.mp4",
+            "title": "Recorrido por el aula y el taller de Maestro Mayor de Obras"
           },
           {
             "type": "image",
-            "src": "assets/images/imagenes%20nuevas/IMG_20260915_111543434_MFNR.jpg",
-            "title": "Comunidad educativa"
+            "src": "assets/images/MMO/obras-01.webp",
+            "title": "Taller de Maestro Mayor de Obras: materiales, caños, herramientas y maquetas"
+          },
+          {
+            "type": "image",
+            "src": "assets/images/MMO/obras-02.webp",
+            "title": "Aula de dibujo técnico con plotter, planos y pizarra"
+          },
+          {
+            "type": "image",
+            "src": "assets/images/MMO/obras-03.webp",
+            "title": "Plotter de gran formato para impresión de planos"
+          },
+          {
+            "type": "image",
+            "src": "assets/images/MMO/obras-04.webp",
+            "title": "Depósito de materiales, maquetas y equipos del taller"
+          },
+          {
+            "type": "image",
+            "src": "assets/images/MMO/obras-05.webp",
+            "title": "Aula de proyectos con equipos informáticos para documentación técnica"
+          },
+          {
+            "type": "image",
+            "src": "assets/images/MMO/obras-06.webp",
+            "title": "Puestos de trabajo del aula de proyectos"
           }
         ],
         "events": [],

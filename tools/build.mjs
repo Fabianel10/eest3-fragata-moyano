@@ -9,7 +9,8 @@ const output = resolve(root, 'dist');
 // publicarse: originales pesados de fotos y material sin referencias.
 const noPublicar = [
   resolve(root, 'assets/images/Madera/Foto de '),
-  resolve(root, 'assets/images/image.png')
+  resolve(root, 'assets/images/image.png'),
+  resolve(root, 'assets/images/MMO/originales/')
 ];
 
 await rm(output, { recursive: true, force: true });

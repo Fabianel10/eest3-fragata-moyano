@@ -21,7 +21,7 @@ test('Madera incluye las cinco fotos autorizadas, optimizadas y sin nombres pers
 });
 test('el paquete público excluye código de pruebas, fuentes y originales de fotos', async () => {
   execFileSync(process.execPath, ['tools/build.mjs'], { cwd: root });
-  for (const file of ['index.html','madera.html','admin.html','comunidad.html','gestion.html','novedades.html','notificaciones.html','buscador.html','assets/js/notificaciones.mjs','assets/js/skynet.mjs','assets/js/skynet-modelo.mjs','assets/js/buscador.mjs','assets/js/metricas.mjs','assets/css/buscador.css','assets/css/skynet.css','assets/js/calendario-export.mjs','assets/js/gestion-admin.mjs','assets/cms/catalogo.json','assets/images/Madera/taller-05.webp']) {
+  for (const file of ['index.html','madera.html','admin.html','comunidad.html','gestion.html','novedades.html','notificaciones.html','buscador.html','assets/js/notificaciones.mjs','assets/js/skynet.mjs','assets/js/skynet-modelo.mjs','assets/js/buscador.mjs','assets/js/metricas.mjs','assets/css/buscador.css','assets/css/skynet.css','assets/js/calendario-export.mjs','assets/js/gestion-admin.mjs','assets/cms/catalogo.json','assets/images/Madera/taller-05.webp','assets/images/MMO/obras-01.webp','assets/images/MMO/obras-recorrido.mp4']) {
     await access(new URL(`dist/${file}`, root));
   }
   for (const file of ['assets/images/skynet.png', 'assets/js/skynet-servicios.mjs']) {
@@ -31,6 +31,7 @@ test('el paquete público excluye código de pruebas, fuentes y originales de fo
     await access(new URL(`dist/${file}`, root));
   }
   await assert.rejects(access(new URL('dist/assets/images/image.png', root)), { code: 'ENOENT' });
+  await assert.rejects(access(new URL('dist/assets/images/MMO/originales', root)), { code: 'ENOENT' });
   for (const file of ['node_modules','tests','supabase','docs','netlify','.git','.netlify','.vscode','tools','package.json']) {
     await assert.rejects(access(new URL(`dist/${file}`, root)), { code: 'ENOENT' });
   }

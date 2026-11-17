@@ -1,0 +1,37 @@
+[
+  {
+    "type": "video",
+    "src": "assets/images/MMO/obras-recorrido.mp4",
+    "title": "Recorrido por el aula y el taller de Maestro Mayor de Obras"
+  },
+  {
+    "type": "image",
+    "src": "assets/images/MMO/obras-01.webp",
+    "title": "Taller de Maestro Mayor de Obras: materiales, caños, herramientas y maquetas"
+  },
+  {
+    "type": "image",
+    "src": "assets/images/MMO/obras-02.webp",
+    "title": "Aula de dibujo técnico con plotter, planos y pizarra"
+  },
+  {
+    "type": "image",
+    "src": "assets/images/MMO/obras-03.webp",
+    "title": "Plotter de gran formato para impresión de planos"
+  },
+  {
+    "type": "image",
+    "src": "assets/images/MMO/obras-04.webp",
+    "title": "Depósito de materiales, maquetas y equipos del taller"
+  },
+  {
+    "type": "image",
+    "src": "assets/images/MMO/obras-05.webp",
+    "title": "Aula de proyectos con equipos informáticos para documentación técnica"
+  },
+  {
+    "type": "image",
+    "src": "assets/images/MMO/obras-06.webp",
+    "title": "Puestos de trabajo del aula de proyectos"
+  }
+]
