@@ -12,6 +12,7 @@ La portada técnica del proyecto es el [README principal](../README.md).
 | Comunidad | [Cuentas y preferencias](COMUNIDAD.md), [Skynet](SKYNET.md) y [privacidad del sitio](https://eest3sf.netlify.app/privacidad.html) |
 | Administración | [Flujo editorial, consultas y notificaciones](ADMINISTRACION.md) |
 | Accesibilidad | [Auditoría y revisión manual](ACCESIBILIDAD.md) |
+| Informe final | [Informe técnico final 2026-11-17](../informe%20final/Informe-Tecnico-Final-EEST3-2026-11-17.pdf) |
 | Operación técnica | [Arquitectura](ARQUITECTURA.md), [activación v1.10](ACTIVACION_1_10.md), [configuración, migraciones y despliegue](DESPLIEGUE_COLABORADORES.md) |
 | Estudiantes y colaboradores | [Contribución](../CONTRIBUTING.md), [hoja de ruta](MEJORAS.md) y [entregas](../archive/versiones/README.md) |
 

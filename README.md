@@ -7,6 +7,7 @@
 [Visitar el sitio](https://eest3sf.netlify.app) ·
 [Documentación](docs/README.md) ·
 [Entrega v1.14.0](archive/versiones/v1.14.0/README.md) ·
+[Informe técnico final](informe%20final/Informe-Tecnico-Final-EEST3-2026-11-17.pdf) ·
 [Historial](CHANGELOG.md)
 
 Proyecto desarrollado por estudiantes, con revisión técnica y seguimiento docente.

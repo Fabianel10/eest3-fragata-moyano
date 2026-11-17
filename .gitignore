@@ -25,3 +25,12 @@ node_modules/
 
 # Local Netlify folder
 .netlify
+
+# Informe técnico final (documento entregable)
+!informe final/
+!informe final/**/*.pdf
+!informe final/**/*.html
+!informe final/**/*.svg
+!informe final/**/*.png
+!informe final/**/*.jpg
+!informe final/**/*.md

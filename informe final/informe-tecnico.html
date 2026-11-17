@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Informe técnico final — Portal EEST N°3 Fragata Moyano</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 17mm 15mm 18mm 15mm;
+      @bottom-center {
+        content: "EEST N.º 3 «Fragata Moyano» · Informe técnico final · " counter(page) " / " counter(pages);
+        font-family: "Liberation Sans", Arial, sans-serif;
+        font-size: 7.6pt;
+        color: #5d6b78;
+      }
+    }
+    @page:first { @bottom-center { content: none; } }
+    body { font-family: "Liberation Sans", Arial, sans-serif; color: #1f2d3a; font-size: 10.2pt; line-height: 1.42; }
+    h1, h2, h3 { color: #071a2b; margin: 0 0 8px; }
+    h2 { font-size: 16pt; border-bottom: 2px solid #087fa5; padding-bottom: 4px; margin-top: 22px; }
+    h3 { font-size: 12pt; color: #087fa5; margin-top: 14px; }
+    p { margin: 5px 0 8px; }
+    ul, ol { margin: 5px 0 10px 20px; padding: 0; }
+    li { margin: 3px 0; }
+    .cover-table { width: 100%; height: 242mm; border: 0; border-collapse: collapse; }
+    .cover-cell { background-color: #071a2b; color: #ffffff; padding: 22mm 18mm; vertical-align: top; }
+    .cover-cell p, .cover-cell h1, .cover-cell h2 { color: #ffffff; }
+    .cover-logo { width: 78px; height: 78px; }
+    .cover-kicker { font-size: 10pt; letter-spacing: 1.5px; color: #7fe0f5 !important; font-weight: bold; }
+    .cover-title { font-size: 30pt; line-height: 1.08; margin-top: 28mm !important; }
+    .cover-subtitle { font-size: 15pt; color: #b8d5e2 !important; margin-top: 8px !important; }
+    .cover-rule { border-top: 2px solid #087fa5; margin: 16px 0; width: 70%; }
+    .cover-meta { color: #d9e8f0 !important; font-size: 9.5pt; margin-top: 30mm !important; }
+    .tag { display: inline-block; background-color: #087fa5; color: #ffffff; padding: 4px 9px; border-radius: 4px; font-size: 9pt; }
+    .meta-table, .data { width: 100%; border-collapse: collapse; margin: 10px 0 14px; }
+    .meta-table td, .data th, .data td { border: 1px solid #c7d5df; padding: 6px 7px; vertical-align: top; }
+    .meta-table td { font-size: 9.4pt; }
+    .data th { background-color: #071a2b; color: #ffffff; text-align: left; font-size: 9pt; }
+    .data td { font-size: 9.2pt; }
+    .data tr:nth-child(even) td { background-color: #f4f7f9; }
+    .note { background-color: #e8f1f6; border-left: 4px solid #087fa5; padding: 8px 10px; margin: 10px 0; }
+    .warning { background-color: #fff4e0; border-left: 4px solid #d98b00; padding: 8px 10px; margin: 10px 0; }
+    .grid { width: 100%; border-collapse: collapse; }
+    .grid td { width: 33%; padding: 4px; vertical-align: top; }
+    .grid img { width: 100%; height: 105px; object-fit: cover; border: 1px solid #c7d5df; }
+    .grid-title { font-size: 8.5pt; color: #5d6b78; margin-top: 3px; }
+    .arch { width: 100%; border: 1px solid #c7d5df; margin: 8px 0; }
+    .page-break { page-break-before: always; }
+    .avoid { page-break-inside: avoid; }
+    .small { font-size: 8.8pt; color: #5d6b78; }
+    .center { text-align: center; }
+    .toc td { padding: 3px 0; border-bottom: 1px dotted #c7d5df; }
+    .toc td:last-child { text-align: right; color: #5d6b78; }
+    code, pre { font-family: "Liberation Mono", monospace; background-color: #f4f7f9; }
+    pre { padding: 8px; border: 1px solid #d8e2ea; font-size: 8.4pt; white-space: pre-wrap; }
+    .footer { font-size: 8pt; color: #5d6b78; text-align: center; margin-top: 18px; border-top: 1px solid #c7d5df; padding-top: 6px; }
+  </style>
+</head>
+<body>
+
+<table class="cover-table">
+  <tr>
+    <td class="cover-cell">
+      <img class="cover-logo" src="img/logo.png" alt="Escudo de la EEST N°3">
+      <p class="cover-kicker">EEST N.º 3 «FRAGATA MOYANO» · SAN FERNANDO</p>
+      <h1 class="cover-title">Informe técnico<br>final del portal</h1>
+      <p class="cover-subtitle">Arquitectura, funcionalidades, medios de las carreras, seguridad y operación</p>
+      <div class="cover-rule"></div>
+      <p class="cover-meta">
+        <strong>Versión del proyecto:</strong> 1.14.0<br>
+        <strong>Fecha:</strong> 17 de noviembre de 2026<br>
+        <strong>Base de contenidos:</strong> commit d0424b9<br>
+        <strong>Sitio publicado:</strong> https://eest3sf.netlify.app<br>
+        <strong>Documento:</strong> informe técnico institucional para revisión docente
+      </p>
+      <p><span class="tag">Frontend estático + Supabase + Netlify Functions</span></p>
+    </td>
+  </tr>
+</table>
+<p style="page-break-before: always; font-size:1pt;">&nbsp;</p>
+
+<h2>Control del documento</h2>
+<table class="meta-table">
+  <tr><td><strong>Proyecto</strong></td><td>Portal educativo e institucional de la EEST N.º 3 «Fragata Moyano»</td></tr>
+  <tr><td><strong>Tipo de documento</strong></td><td>Informe técnico final, con estado de implementación, verificación y pendientes</td></tr>
+  <tr><td><strong>Versión</strong></td><td>1.14.0 · 17/11/2026</td></tr>
+  <tr><td><strong>Base de código</strong></td><td>Commit <code>d0424b9</code> para la actualización de medios; release final <code>v1.14.0</code></td></tr>
+  <tr><td><strong>Producción</strong></td><td>https://eest3sf.netlify.app · Netlify + Supabase</td></tr>
+  <tr><td><strong>Calidad</strong></td><td>141 pruebas aprobadas · build correcto · auditoría automática de accesibilidad sin hallazgos</td></tr>
+  <tr><td><strong>Autoría</strong></td><td>Equipo del portal, estudiantes y docentes de la EEST N.º 3, con revisión técnica y docente</td></tr>
+  <tr><td><strong>Uso</strong></td><td>Documento de revisión institucional. No contiene claves, contraseñas ni datos personales.</td></tr>
+</table>
+
+<h2>Resumen ejecutivo</h2>
+<p>El portal de la EEST N.º 3 evolucionó desde un sitio informativo estático hacia una plataforma institucional con edición editorial controlada, cuentas de comunidad, publicación de comunicados y documentos, calendario, buscador global, notificaciones internas, métricas agregadas y un asistente guiado. La arquitectura mantiene un frontend estático publicado por Netlify y un backend gestionado en Supabase, con funciones serverless para las operaciones que no deben ejecutarse en el navegador.</p>
+<p>La entrega 1.14.0 incorpora la carpeta de medios de Maestro Mayor de Obras: seis fotografías y un video del aula y el taller, convertidos a formatos web optimizados, con nombres neutrales y sin exponer los originales que contienen nombres personales. También se actualizaron las portadas de las tres carreras con imágenes específicas: aula de programación para Informática, taller de bancos y herramientas para Madera y Mueble, y aula de dibujo técnico con plotter para Maestro Mayor de Obras.</p>
+<p>El sistema se encuentra desplegado, con migraciones 1 a 18 aplicadas, correo transaccional verificado, webhook de rebotes activo, respaldo de contenido probado y 141 pruebas automatizadas en verde. Las deudas pendientes son institucionales: preinscripción con tratamiento de menores, auditoría manual de accesibilidad y definición de responsables de secretos y recuperación de 2FA.</p>
+
+<p style="page-break-before: always; font-size:1pt;">&nbsp;</p>
+<h2>Índice</h2>
+<table class="toc">
+  <tr><td>1. Alcance y objetivos</td><td>4</td></tr>
+  <tr><td>2. Arquitectura y organización</td><td>4</td></tr>
+  <tr><td>3. Funcionalidades implementadas</td><td>6</td></tr>
+  <tr><td>4. Actualización de medios y portadas</td><td>7</td></tr>
+  <tr><td>5. Seguridad, privacidad y accesibilidad</td><td>8</td></tr>
+  <tr><td>6. Calidad y verificación</td><td>8</td></tr>
+  <tr><td>7. Producción, operación y respaldos</td><td>9</td></tr>
+  <tr><td>8. Pendientes y próximos pasos</td><td>9</td></tr>
+  <tr><td>9. Conclusiones</td><td>10</td></tr>
+  <tr><td>Anexos: comandos, migraciones y mapa de archivos</td><td>11</td></tr>
+</table>
+
+<p style="page-break-before: always; font-size:1pt;">&nbsp;</p>
+<h2>1. Alcance y objetivos</h2>
+<p>El informe documenta el estado del portal al 17 de noviembre de 2026 y la actualización de contenido de las carreras. El alcance incluye:</p>
+<ul>
+  <li>Arquitectura frontend/backend, flujos de datos y separación de responsabilidades.</li>
+  <li>Funcionalidades institucionales, editoriales, de comunidad y de comunicación.</li>
+  <li>Incorporación de los medios de Maestro Mayor de Obras y cambio de portadas de las tres carreras.</li>
+  <li>Medidas de seguridad, privacidad, accesibilidad y operación.</li>
+  <li>Evidencia de pruebas, despliegue, migraciones y respaldos.</li>
+</ul>
+<p>No forma parte del alcance la preinscripción formal, la matrícula, el tratamiento de documentación sensible de menores, las campañas masivas de correo ni la IA generativa. Skynet continúa siendo un asistente guiado con respuestas y fuentes locales.</p>
+
+<h3>Objetivos de la actualización 1.14.0</h3>
+<ol>
+  <li>Publicar la galería específica de Maestro Mayor de Obras con fotografías y video autorizados.</li>
+  <li>Evitar la publicación de nombres personales en archivos y rutas.</li>
+  <li>Optimizar los medios para reducir peso y mejorar la carga.</li>
+  <li>Reemplazar portadas genéricas por imágenes representativas de cada especialidad.</li>
+  <li>Sincronizar el catálogo CMS y la portada publicada de Madera.</li>
+  <li>Generar un informe técnico final verificable y actualizado.</li>
+</ol>
+
+<h2>2. Arquitectura y organización</h2>
+<img class="arch" src="img/arquitectura.png" alt="Diagrama de arquitectura del portal">
+<p>El navegador consume HTML, CSS y módulos ES sin framework de frontend. Netlify publica el paquete <code>dist/</code> y ejecuta funciones serverless. Supabase aporta Auth, PostgreSQL, PostgREST, RLS, RPC y Storage. Las migraciones son incrementales y se aplican una sola vez.</p>
+<table class="data">
+  <tr><th>Capa</th><th>Ubicación</th><th>Responsabilidad</th></tr>
+  <tr><td>Frontend</td><td><code>*.html</code>, <code>assets/</code>, <code>public/</code></td><td>Páginas, estilos, módulos, CMS público, PWA y recursos.</td></tr>
+  <tr><td>Backend</td><td><code>netlify/functions/</code>, <code>netlify/lib/</code></td><td>Contacto, correo, webhook, feed, ICS, respaldos.</td></tr>
+  <tr><td>Datos</td><td><code>supabase/migrations/</code></td><td>Esquema, RLS, RPC, auditoría, Storage y búsqueda.</td></tr>
+  <tr><td>Calidad</td><td><code>tests/</code>, <code>tools/</code>, <code>.github/</code></td><td>Pruebas, PGlite, build, auditoría y CI.</td></tr>
+  <tr><td>Publicación</td><td><code>dist/</code></td><td>HTML, assets optimizados y archivos de <code>public/</code>.</td></tr>
+</table>
+<div class="note">El HTML se mantiene en la raíz por compatibilidad con Netlify, los selectores del CMS y las pruebas. La separación se garantiza por responsabilidad de carpeta y por el paquete aislado <code>dist/</code>.</div>
+
+<div class="page-break"></div>
+<h2>3. Funcionalidades implementadas</h2>
+<table class="data">
+  <tr><th>Área</th><th>Funcionalidades</th></tr>
+  <tr><td>Institución</td><td>Inicio, historia, galería, calendario y páginas de las tres carreras con materias, referencias y recursos.</td></tr>
+  <tr><td>Comunidad</td><td>Registro, confirmación de correo, login, recuperación, perfil solicitado, aprobación institucional, preferencias e intereses.</td></tr>
+  <tr><td>CMS editorial</td><td>Edición por bloques, imágenes, medios, borradores, vista previa, publicación, historial, restauración y respaldos JSON.</td></tr>
+  <tr><td>Flujo editorial</td><td>Roles editor/revisor/administrador, estados, envío a revisión, aprobación/rechazo, atribución de publicación y auditoría.</td></tr>
+  <tr><td>Gestión</td><td>Consultas privadas, responsables, notas, hilo de respuestas, plantillas, adjuntos por enlace, auditoría y concurrencia.</td></tr>
+  <tr><td>Publicaciones</td><td>Comunicados, documentos PDF, proyectos y horarios con filtros, programación, vencimiento y adjuntos.</td></tr>
+  <tr><td>Buscador</td><td>Índice de páginas, carreras, publicaciones y calendario; filtros por tipo, carrera y fechas; sinónimos y resultados accesibles.</td></tr>
+  <tr><td>Calendario</td><td>Eventos gestionables con fuente y responsable; recurrencia semanal/mensual/anual; `.ics`, suscripción y exportación.</td></tr>
+  <tr><td>Notificaciones</td><td>Avisos internos por intereses, lecturas privadas y sincronización con publicaciones.</td></tr>
+  <tr><td>Correo</td><td>Cola persistente, HTML, reply-to, reintentos, alertas de fallo, bajas, rebotes y webhook de Brevo.</td></tr>
+  <tr><td>Métricas</td><td>Conteos agregados sin IP/cookies, panel, estado del servicio y exportación CSV.</td></tr>
+  <tr><td>Skynet</td><td>Asistente guiado, nombre opcional, contexto de carrera, búsqueda de publicaciones e historial privado consentido.</td></tr>
+  <tr><td>PWA y sindicación</td><td>Manifest, service worker, offline, RSS, JSON-LD y suscripción al calendario.</td></tr>
+  <tr><td>Seguridad</td><td>RLS, 2FA TOTP, exigencia AAL2, códigos de recuperación, revisión/cierre de sesiones y cabeceras CSP.</td></tr>
+</table>
+
+<h3>Flujo editorial</h3>
+<ol>
+  <li>Un editor guarda el borrador y lo envía a revisión con una nota.</li>
+  <li>Un revisor aprueba o rechaza; la página queda bloqueada durante la revisión.</li>
+  <li>Administración publica una versión aprobada.</li>
+  <li>Cada acción queda en <code>cms_revisions</code> con autor, rol, fecha y nota; la publicación registra quién aprobó y quién publicó.</li>
+</ol>
+
+<h3>Comunidad y 2FA</h3>
+<p>La cuenta puede activar TOTP, exigir AAL2 para administración, generar códigos de recuperación de un solo uso y revisar sus sesiones activas. La recuperación elimina los factores y desactiva temporalmente la exigencia; debe ser coordinada por la institución.</p>
+
+<div class="page-break"></div>
+<h2>4. Actualización de medios y portadas</h2>
+<p>Se incorporaron seis fotografías y un video del aula y el taller de Maestro Mayor de Obras. Los archivos originales contenían nombres personales; por privacidad se conservaron fuera del paquete público y se publicaron copias WebP/MP4 con nombres neutrales.</p>
+<table class="data">
+  <tr><th>Archivo</th><th>Tipo</th><th>Dimensiones</th><th>Peso</th><th>Descripción</th></tr>
+  <tr><td><code>obras-01.webp</code></td><td>Imagen</td><td>1600×1204</td><td>207 KB</td><td>Taller: materiales, caños, herramientas y maquetas.</td></tr>
+  <tr><td><code>obras-02.webp</code></td><td>Imagen</td><td>1600×1204</td><td>126 KB</td><td>Aula de dibujo técnico con plotter y planos.</td></tr>
+  <tr><td><code>obras-03.webp</code></td><td>Imagen</td><td>1600×1204</td><td>83 KB</td><td>Plotter de gran formato.</td></tr>
+  <tr><td><code>obras-04.webp</code></td><td>Imagen</td><td>1204×1599</td><td>112 KB</td><td>Depósito de materiales y maquetas.</td></tr>
+  <tr><td><code>obras-05.webp</code></td><td>Imagen</td><td>1600×1204</td><td>108 KB</td><td>Aula de proyectos con equipos informáticos.</td></tr>
+  <tr><td><code>obras-06.webp</code></td><td>Imagen</td><td>360×270</td><td>9 KB</td><td>Puestos de trabajo del aula.</td></tr>
+  <tr><td><code>obras-recorrido.mp4</code></td><td>Video</td><td>854×480 · 8 s</td><td>588 KB</td><td>Recorrido por el aula y el taller.</td></tr>
+</table>
+<div class="note">La galería se incorporó en <code>obras.html</code>, en el catálogo CMS y en la vista de búsqueda. Los archivos originales con nombres personales están en una carpeta ignorada y excluida del build.</div>
+
+<h3>Portadas de las carreras</h3>
+<table class="grid">
+  <tr>
+    <td><img src="img/informatica.jpg" alt="Aula de programación"><div class="grid-title"><strong>Informática</strong><br>Aula de programación con equipos.</div></td>
+    <td><img src="img/madera.jpg" alt="Taller de Madera"><div class="grid-title"><strong>Madera y Mueble</strong><br>Taller con bancos y herramientas.</div></td>
+    <td><img src="img/obras.jpg" alt="Aula de dibujo técnico"><div class="grid-title"><strong>Maestro Mayor de Obras</strong><br>Aula de dibujo técnico y plotter.</div></td>
+  </tr>
+</table>
+<p>Las portadas se actualizaron en el HTML y en el catálogo CMS. La portada publicada de Madera también se sincronizó en Supabase, conservando la revisión editorial y la fecha de actualización.</p>
+
+<h3>Galería MMO</h3>
+<table class="grid">
+  <tr>
+    <td><img src="img/mmo-01.jpg" alt="Materiales del taller"><div class="grid-title">Materiales y herramientas de obra.</div></td>
+    <td><img src="img/mmo-02.jpg" alt="Maquetas y depósito"><div class="grid-title">Maquetas y materiales para proyectos.</div></td>
+    <td><img src="img/mmo-03.jpg" alt="Plotter de planos"><div class="grid-title">Plotter para documentación técnica.</div></td>
+  </tr>
+</table>
+
+<div class="page-break"></div>
+<h2>5. Seguridad, privacidad y accesibilidad</h2>
+<h3>Controles de seguridad</h3>
+<ul>
+  <li>RLS en tablas privadas; permisos mínimos y RPC con <code>security definer</code> y <code>search_path=''</code>.</li>
+  <li>Contacto con validación de origen, tamaño, honeypot, idempotencia y límite por HMAC de IP.</li>
+  <li>Auth con confirmación de correo, recuperación y perfiles aprobados por administración.</li>
+  <li>2FA TOTP, exigencia AAL2 para administración y códigos de recuperación de un solo uso.</li>
+  <li>Webhook de correo con token, eventos de rebote y baja automática.</li>
+  <li>Cabeceras CSP, Permissions-Policy, X-Frame-Options y caché diferenciada.</li>
+</ul>
+<h3>Privacidad</h3>
+<ul>
+  <li>Métricas agregadas por día, sin IP, cookies, sesión, user-agent ni texto de búsqueda.</li>
+  <li>Respaldo de contenido sin consultas, perfiles, sesiones ni historial privado.</li>
+  <li>Originales de MMO con nombres personales excluidos del repositorio público y del build.</li>
+  <li>Skynet no es IA generativa; el historial requiere consentimiento y tiene retención de 90 días.</li>
+</ul>
+<h3>Accesibilidad</h3>
+<p>La auditoría automática <code>npm run auditoria:a11y</code> no encontró hallazgos: etiquetas, nombres accesibles, IDs, jerarquía de encabezados, ARIA, iframes y subtítulos. El video de la galería incluye una pista WebVTT descriptiva y una nota visible. La revisión manual con lector de pantalla, contraste medido y teléfono real sigue pendiente y está documentada en <code>docs/ACCESIBILIDAD.md</code>.</p>
+<div class="warning"><strong>Límite:</strong> la automatización no reemplaza una auditoría con personas usuarias. No se declara conformidad WCAG completa.</div>
+
+<h2>6. Calidad y verificación</h2>
+<table class="data">
+  <tr><th>Verificación</th><th>Resultado</th></tr>
+  <tr><td>Suite automatizada</td><td>141 pruebas aprobadas, 0 fallos.</td></tr>
+  <tr><td>Build público</td><td><code>dist/</code> generado correctamente; originales y pruebas excluidos.</td></tr>
+  <tr><td>PostgreSQL embebido</td><td>PGlite valida RLS, RPC, idempotencia, límites, versiones, roles, búsqueda, calendario, correo y 2FA.</td></tr>
+  <tr><td>Accesibilidad automática</td><td>Sin hallazgos en todas las páginas.</td></tr>
+  <tr><td>Producción</td><td>Páginas, búsqueda, RSS, ICS, manifest, service worker, webhook y cola verificados.</td></tr>
+  <tr><td>Correo real</td><td>Envío desde Netlify con estado <code>sent</code> y webhook de Brevo activo.</td></tr>
+  <tr><td>Respaldo</td><td>Snapshot de contenido generado y registrado en bucket privado.</td></tr>
+</table>
+<p>El paquete público quedó en aproximadamente 15 MB, con imágenes de galería optimizadas, video y audio reducidos, y sin originales pesados. La actualización MMO agregó 6 imágenes WebP y un video MP4 de 588 KB.</p>
+
+<div class="page-break"></div>
+<h2>7. Producción, operación y respaldos</h2>
+<table class="meta-table">
+  <tr><td><strong>Sitio</strong></td><td>https://eest3sf.netlify.app</td></tr>
+  <tr><td><strong>Repositorio</strong></td><td>github.com/Fabianel10/eest3-fragata-moyano</td></tr>
+  <tr><td><strong>Release</strong></td><td><code>v1.14.0</code> · 17/11/2026</td></tr>
+  <tr><td><strong>Base</strong></td><td>Supabase · proyecto <code>dzkcpsfmubwwguixtruu</code></td></tr>
+  <tr><td><strong>Migraciones</strong></td><td>1 a 18 aplicadas; <code>schema_migrations</code> conserva baseline y aplicadas.</td></tr>
+  <tr><td><strong>Funciones</strong></td><td>contacto, baja, procesar-correo, procesar-correo-manual, webhook-correo, feed, calendario, backup-diario.</td></tr>
+  <tr><td><strong>Correo</strong></td><td>Brevo API; remitente verificado; webhook ID 2672320; <code>EMAIL_ENABLED=true</code>.</td></tr>
+  <tr><td><strong>Respaldos</strong></td><td>Diario 03:00 UTC en <code>institutional-backups</code>; snapshot de contenido verificado.</td></tr>
+</table>
+<h3>Comandos principales</h3>
+<pre>npm run dev            # servidor local en http://localhost:4173
+npm test               # pruebas y PGlite
+npm run build          # genera dist/
+npm run check          # pruebas + build
+npm run auditoria:a11y # auditoría automática de accesibilidad
+npm run correo:check -- --netlify
+npm run db:apply:api -- --from &lt;migración&gt;</pre>
+<h3>Variables de entorno</h3>
+<p>Las claves se configuran en Netlify y Supabase; no se incluyen en este documento. Las variables públicas (URL y clave publishable) están en <code>assets/js/comunidad-config.js</code>. Las privadas (<code>SUPABASE_SERVICE_ROLE_KEY</code>, <code>BREVO_API_KEY</code>, <code>EMAIL_QUEUE_SECRET</code>, <code>EMAIL_WEBHOOK_SECRET</code>, <code>CONTACT_HASH_SECRET</code>) permanecen solo en el servidor.</p>
+
+<h3>Medidas operativas</h3>
+<ul>
+  <li>La cola tiene reintentos exponenciales, recuperación de mensajes interrumpidos y alertas por fallo definitivo.</li>
+  <li>El webhook de Brevo registra entrega, rebote, spam y baja.</li>
+  <li>El respaldo diario guarda contenido editorial, publicaciones, calendario, plantillas e índice de búsqueda.</li>
+  <li>La descarga y restauración de respaldos requiere un operador autorizado de Supabase.</li>
+</ul>
+
+<h2>8. Pendientes y próximos pasos</h2>
+<table class="data">
+  <tr><th>Prioridad</th><th>Tema</th><th>Estado / criterio</th></tr>
+  <tr><td>Alta</td><td>Preinscripción informativa</td><td>No activada. Requiere definir requisitos, retención, responsables y tratamiento de menores. No se deben recibir documentos sensibles por el formulario público.</td></tr>
+  <tr><td>Alta</td><td>Auditoría manual de accesibilidad</td><td>Pendiente con lector de pantalla, contraste medido, teclado, zoom 200 % y teléfonos reales.</td></tr>
+  <tr><td>Media</td><td>Rotación de secretos</td><td>Definir responsables y frecuencia para Brevo, cola, webhook y service_role.</td></tr>
+  <tr><td>Media</td><td>Recuperación de 2FA</td><td>Los códigos ya existen; falta un procedimiento institucional documentado y autorizado.</td></tr>
+  <tr><td>Media</td><td>Monitoreo externo</td><td>Evaluar alertas de disponibilidad, errores de funciones y cola detenida.</td></tr>
+  <tr><td>Baja</td><td>Más contenidos de carreras</td><td>Incorporar fotos y videos autorizados de Informática y Madera con el mismo criterio de privacidad y optimización.</td></tr>
+</table>
+
+<h2>9. Conclusiones</h2>
+<p>El portal se encuentra en un estado funcional y verificable: frontend estático accesible, backend con RLS y RPC, flujo editorial con revisión, comunidad con 2FA, correo transaccional operativo, búsqueda global, calendario gestionable, métricas responsables, PWA y respaldos. La actualización 1.14.0 mejora la representación de las carreras con medios específicos y portadas adecuadas, manteniendo la privacidad de los originales.</p>
+<p>La prioridad ya no es agregar más superficie técnica, sino consolidar el uso institucional: validar contenidos, completar la auditoría manual de accesibilidad, definir la política de preinscripción y asignar responsables de operación. Esas definiciones son condiciones necesarias para seguir ampliando el portal sin comprometer privacidad, accesibilidad o calidad.</p>
+
+<div class="page-break"></div>
+<h2>Anexo A. Migraciones aplicadas</h2>
+<table class="data">
+  <tr><th>Migración</th><th>Contenido</th></tr>
+  <tr><td>001–007</td><td>Comunidad, CMS editorial, catálogo, carreras, gestión, notificaciones y Skynet.</td></tr>
+  <tr><td>008</td><td>Roles editoriales, estados, aprobación y atribución.</td></tr>
+  <tr><td>009</td><td>Búsqueda global y vista <code>search_index</code>.</td></tr>
+  <tr><td>010</td><td>Métricas agregadas y RPC de resumen.</td></tr>
+  <tr><td>011</td><td>Cola de correo, eventos, bajas y alertas.</td></tr>
+  <tr><td>012</td><td>HTML, reply-to, rebotes, hilo y respuestas.</td></tr>
+  <tr><td>013</td><td>Calendario gestionable con fuente y responsable.</td></tr>
+  <tr><td>014</td><td>2FA exigible y sesiones activas.</td></tr>
+  <tr><td>015</td><td>Normalización de eventos camelCase de Brevo.</td></tr>
+  <tr><td>016</td><td>Códigos de recuperación, plantillas, adjuntos y estado del servicio.</td></tr>
+  <tr><td>017</td><td>Respaldo diario y bucket privado.</td></tr>
+  <tr><td>018</td><td>Calendario recurrente.</td></tr>
+</table>
+
+<h2>Anexo B. Mapa de archivos</h2>
+<table class="data">
+  <tr><th>Ruta</th><th>Uso</th></tr>
+  <tr><td><code>*.html</code></td><td>Páginas públicas y paneles privados.</td></tr>
+  <tr><td><code>assets/js/</code></td><td>Módulos de interfaz, CMS, comunidad, búsqueda, métricas y Skynet.</td></tr>
+  <tr><td><code>assets/css/</code></td><td>Estilos generales y de módulos.</td></tr>
+  <tr><td><code>assets/cms/</code></td><td>Catálogo y galerías editoriales.</td></tr>
+  <tr><td><code>assets/images/MMO/</code></td><td>Medios optimizados de Maestro Mayor de Obras; originales en carpeta ignorada.</td></tr>
+  <tr><td><code>netlify/functions/</code></td><td>Funciones serverless y tareas programadas.</td></tr>
+  <tr><td><code>supabase/migrations/</code></td><td>Esquema, RLS y RPC.</td></tr>
+  <tr><td><code>tests/</code></td><td>Pruebas de lógica, HTML, PGlite, accesibilidad y build.</td></tr>
+  <tr><td><code>informe final/</code></td><td>Este informe, su fuente HTML, diagrama e imágenes.</td></tr>
+</table>
+
+<h2>Anexo C. Historial reciente</h2>
+<table class="data">
+  <tr><th>Versión</th><th>Hito</th></tr>
+  <tr><td>1.10.0</td><td>Roles editoriales, búsqueda, métricas y cola de correo.</td></tr>
+  <tr><td>1.11.0</td><td>Correo avanzado, respuestas, calendario, accesibilidad y 2FA.</td></tr>
+  <tr><td>1.12.0</td><td>Recuperación 2FA, monitoreo, PWA, RSS, respaldos y adjuntos.</td></tr>
+  <tr><td>1.13.0</td><td>Calendario recurrente y correo verificado.</td></tr>
+  <tr><td>1.14.0</td><td>Medios MMO, portadas específicas de carreras e informe final.</td></tr>
+</table>
+
+<p class="footer">EEST N.º 3 «Fragata Moyano» · Informe técnico final · 17 de noviembre de 2026 · Documento sin claves ni datos personales.</p>
+
+</body>
+</html>
